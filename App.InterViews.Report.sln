@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32505.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.InterViews.Report", "App.InterViews.Report\App.InterViews.Report.csproj", "{AE52597A-D87D-461D-A452-39702C7A0AD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.InterViews.Report.Library", "App.InterViews.Report.Library\App.InterViews.Report.Library.csproj", "{3271480C-9B1B-4B58-A606-9843C4EDD4B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.InterViews.Report.CrossCutting", "App.InterViews.Report.CrossCutting\App.InterViews.Report.CrossCutting.csproj", "{6BB845A3-6F88-4DCE-A4A4-BAF6B4CC375C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.InterViews.Report.Impl.Service", "App.InterViews.Report.Impl.Service\App.InterViews.Report.Impl.Service.csproj", "{23FB0914-C56D-4E07-913E-8060569F3680}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.InterViews.Report.Contract.Service", "App.InterViews.Report.Contract.Service\App.InterViews.Report.Contract.Service.csproj", "{01BA8D30-C566-45B4-8B45-F1347C1A0350}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.InterViews.Report.Db.Infrastructure", "App.InterViews.Report.Db.Infrastructure\App.InterViews.Report.Db.Infrastructure.csproj", "{62CACFD8-B6F4-4342-9751-ADAC254ED49A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE52597A-D87D-461D-A452-39702C7A0AD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE52597A-D87D-461D-A452-39702C7A0AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE52597A-D87D-461D-A452-39702C7A0AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE52597A-D87D-461D-A452-39702C7A0AD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3271480C-9B1B-4B58-A606-9843C4EDD4B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3271480C-9B1B-4B58-A606-9843C4EDD4B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3271480C-9B1B-4B58-A606-9843C4EDD4B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3271480C-9B1B-4B58-A606-9843C4EDD4B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BB845A3-6F88-4DCE-A4A4-BAF6B4CC375C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BB845A3-6F88-4DCE-A4A4-BAF6B4CC375C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BB845A3-6F88-4DCE-A4A4-BAF6B4CC375C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BB845A3-6F88-4DCE-A4A4-BAF6B4CC375C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23FB0914-C56D-4E07-913E-8060569F3680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23FB0914-C56D-4E07-913E-8060569F3680}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23FB0914-C56D-4E07-913E-8060569F3680}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23FB0914-C56D-4E07-913E-8060569F3680}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01BA8D30-C566-45B4-8B45-F1347C1A0350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01BA8D30-C566-45B4-8B45-F1347C1A0350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01BA8D30-C566-45B4-8B45-F1347C1A0350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01BA8D30-C566-45B4-8B45-F1347C1A0350}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62CACFD8-B6F4-4342-9751-ADAC254ED49A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62CACFD8-B6F4-4342-9751-ADAC254ED49A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62CACFD8-B6F4-4342-9751-ADAC254ED49A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62CACFD8-B6F4-4342-9751-ADAC254ED49A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DD93CE18-ECC7-4EFC-AD32-BCCA2D5F6759}
+	EndGlobalSection
+EndGlobal

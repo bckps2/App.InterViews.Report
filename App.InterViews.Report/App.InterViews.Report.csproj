@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>72f9e08c-6112-40ff-bb50-38ccf831fa4c</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.7.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\App.InterViews.Report.Contract.Service\App.InterViews.Report.Contract.Service.csproj" />
+    <ProjectReference Include="..\App.InterViews.Report.CrossCutting\App.InterViews.Report.CrossCutting.csproj" />
+    <ProjectReference Include="..\App.InterViews.Report.Db.Infrastructure\App.InterViews.Report.Db.Infrastructure.csproj" />
+    <ProjectReference Include="..\App.InterViews.Report.Impl.Service\App.InterViews.Report.Impl.Service.csproj" />
+  </ItemGroup>
+
+</Project>
