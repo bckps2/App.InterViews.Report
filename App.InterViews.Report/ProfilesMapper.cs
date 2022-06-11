@@ -10,6 +10,7 @@ namespace App.InterViews.Report
         {
             CreateMap<InterviewModel, InterView>().ReverseMap();
             CreateMap<InformationInterViewModel, InformationInterView>().ReverseMap();
+            CreateMap<CompanyModel, Company>().ReverseMap();
         }
     }
 }

@@ -10,8 +10,6 @@ namespace App.InterViews.Report.Models
     {
         public int IdInterView { get; set; }
         [Required]
-        public string Company { get; set; }
-        [Required]
         public List<InformationInterViewModel> InformationInterViews { get; set; } = new List<InformationInterViewModel>();
         public string RangeSalarial { get; set; }
         [JsonIgnore]

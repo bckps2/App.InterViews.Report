@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace App.InterViews.Report.Contract.Service.ServiceInterviewReport
 {
-    public interface IRepositoryInterView : IRepositoryBase<InterView>
+    public interface IRepositoryCompany : IRepositoryBase<Company>
     {
-        List<InterView> GetAll();
+        List<Company> GetAll();
     }
 }

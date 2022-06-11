@@ -8,9 +8,11 @@ namespace App.InterViews.Report.Library.Entities
     {
         [Key]
         public int IdInterView { get; set; }
-        public string Company { get; set; }
         public string RangeSalarial { get; set; }
         public DateTime DateCreated { get; set; }
+        public int CompanyIdCompany { get; set; }
+
+        public virtual Company Company { get; set; }
         public virtual List<InformationInterView> InformationInterViews { get; set; }
     }
 }

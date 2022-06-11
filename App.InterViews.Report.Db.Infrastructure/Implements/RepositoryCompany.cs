@@ -5,17 +5,19 @@ using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 
 namespace App.InterViews.Report.Db.Infrastructure.Implements
 {
-    public class RepositoryInterView : RepositoryBase<InterView>, IRepositoryInterView
+    public class RepositoryCompany : RepositoryBase<Company>, IRepositoryCompany
     {
         public DbDataContext _context;
-        public RepositoryInterView(DbDataContext context) : base(context)
+        public RepositoryCompany(DbDataContext context) : base(context)
         {
             _context = context;
         }
 
-        public List<InterView> GetAll() 
+        public List<Company> GetAll() 
         { 
-            return _context.InterViews.Include(c => c.InformationInterViews).ToList();
+            return _context.Companies
+                .Include(company => company.InterViews)
+                .ThenInclude(interview => interview.InformationInterViews).ToList();
         }
     }
 }

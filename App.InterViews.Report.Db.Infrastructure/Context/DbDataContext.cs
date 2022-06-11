@@ -15,5 +15,6 @@ namespace App.InterViews.Report.Db.Infrastructure.Context
 
         public DbSet<InterView> InterViews {get;set;}
         public DbSet<InformationInterView> InformationInterViews {get;set;}
+        public DbSet<Company> Companies {get;set;}
     }
 }

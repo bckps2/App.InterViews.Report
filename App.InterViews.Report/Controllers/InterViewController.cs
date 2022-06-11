@@ -28,10 +28,10 @@ namespace App.InterViews.Report.Controllers
         }
 
         [HttpPost("AddInterView")]
-        public IActionResult AddInterView(InterviewModel interViewModel)
+        public IActionResult AddInterView(CompanyModel companyModel)
         {
-            var interView = _mapper.Map<InterView>(interViewModel);
-            return Ok(_iInterViewReport.AddInterView(interView));
+            var company = _mapper.Map<Company>(companyModel);
+            return Ok(_iInterViewReport.AddInterView(company));
         }
 
         [HttpPut("UpdateInterViewInformation")]

@@ -6,30 +6,42 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 {
     public class InterViewReportService : IInterViewReportService
     {
-        private readonly IRepositoryInterView _iRepositoryInterView;
+        private readonly IRepositoryCompany _iRepositoryInterView;
         private readonly IRepositoryBase<InformationInterView> _iRepositoryBaseInformation;
 
-        public InterViewReportService(IRepositoryInterView iRepositoryInterView, IRepositoryBase<InformationInterView> iRepositoryBaseInformation)
+        public InterViewReportService(IRepositoryCompany iRepositoryInterView, IRepositoryBase<InformationInterView> iRepositoryBaseInformation)
         {
             _iRepositoryInterView = iRepositoryInterView;
             _iRepositoryBaseInformation = iRepositoryBaseInformation;
         }
 
-        public List<InterView> GetAllInterViews()
+        public List<Company> GetAllInterViews()
         {
-            return _iRepositoryInterView.GetAll();
+            var companies = _iRepositoryInterView.GetAll();
+
+            foreach (var item in companies)
+            {
+               
+                foreach (var interview in item.InterViews)
+                {
+                    interview.InformationInterViews.ForEach(c => c.SetListInterViewers());
+                }
+            }
+
+            return companies;
         }
 
-        public bool AddInterView(InterView interView)
+        public bool AddInterView(Company company)
         {
             try
             {
-                var informationInterView = interView.InformationInterViews.FirstOrDefault();
+                var interview = company.InterViews.FirstOrDefault();
                
-                if (informationInterView != null)
+                if (interview != null)
                 {
-                    informationInterView.SetNameInterViewers();
-                    var response = _iRepositoryInterView.Add(interView);
+
+                    interview.InformationInterViews.ForEach(c => c.SetNameInterViewers());
+                    var response = _iRepositoryInterView.Add(company);
                     return true;
                 }
 

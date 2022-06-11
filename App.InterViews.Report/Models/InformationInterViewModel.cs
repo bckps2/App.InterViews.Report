@@ -15,8 +15,8 @@ namespace App.InterViews.Report.Models
         public DateTime DateInterView { get; set; }
         [Required]
         public string Email { get; set; }
-
-        [JsonIgnore]
+        [Required]
+        public string Observations { get; set; }
         public DateTime DateCreated { get; } = DateTime.Now;
     }
 }

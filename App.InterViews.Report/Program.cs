@@ -22,7 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IInterViewReportService, InterViewReportService>();
-builder.Services.AddScoped<IRepositoryInterView, RepositoryInterView>();
+builder.Services.AddScoped<IRepositoryCompany, RepositoryCompany>();
 builder.Services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 
 var appSettings = new ConfigurationBuilder()

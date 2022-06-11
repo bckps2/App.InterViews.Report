@@ -4,8 +4,8 @@ namespace App.InterViews.Report.Contract.Service.ServiceInterviewReport
 {
     public interface IInterViewReportService
     {
-        List<InterView> GetAllInterViews();
-        bool AddInterView(InterView interView);
+        List<Company> GetAllInterViews();
+        bool AddInterView(Company interView);
         bool UpdateInterViewInformation(InformationInterView informationInterView);
     }
 }
