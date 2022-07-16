@@ -1,8 +1,7 @@
-﻿using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
-using App.InterViews.Report.Library.Entities;
+﻿using App.InterViews.Report.Contract.Service.Models;
+using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using App.InterViews.Report.Models;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.InterViews.Report.Controllers
@@ -30,21 +29,21 @@ namespace App.InterViews.Report.Controllers
         [HttpPost("AddInterView")]
         public IActionResult AddInterView(CompanyModel companyModel)
         {
-            var company = _mapper.Map<Company>(companyModel);
+            var company = _mapper.Map<ServiceCompanyModel>(companyModel);
             return Ok(_iInterViewReport.AddInterView(company));
         }
 
         [HttpPut("AddInterViewCompany")]
-        public IActionResult AddInterViewCompany(InterviewModel interview)
+        public IActionResult AddInterViewCompany(InterviewModel interviewModel)
         {
-            var interView = _mapper.Map<InterView>(interview);
-            return Ok(_iInterViewReport.AddInterViewOfCompany(interView));
+            var interview = _mapper.Map<ServiceInterviewModel>(interviewModel);
+            return Ok(_iInterViewReport.AddInterViewOfCompany(interview));
         }
 
         [HttpPut("UpdateInterViewInformation")]
         public IActionResult UpdateInterViewInformation(InformationInterViewModel interViewModel)
         {
-            var informationInterView = _mapper.Map<InformationInterView>(interViewModel);
+            var informationInterView = _mapper.Map<ServiceInformationModel>(interViewModel);
             return Ok(_iInterViewReport.UpdateInterViewInformation(informationInterView));
         }
     }

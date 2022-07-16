@@ -1,4 +1,5 @@
-﻿using App.InterViews.Report.Library.Entities;
+﻿using App.InterViews.Report.Contract.Service.Models;
+using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Models;
 using AutoMapper;
 
@@ -8,9 +9,9 @@ namespace App.InterViews.Report
     {
         public ProfilesMapper() 
         {
-            CreateMap<InterviewModel, InterView>().ReverseMap();
-            CreateMap<InformationInterViewModel, InformationInterView>().ReverseMap();
-            CreateMap<CompanyModel, Company>().ReverseMap();
+            CreateMap<InterviewModel, ServiceInterviewModel>().ReverseMap();
+            CreateMap<InformationInterViewModel, ServiceInformationModel>().ReverseMap();
+            CreateMap<CompanyModel, ServiceCompanyModel>().ReverseMap();
         }
     }
 }

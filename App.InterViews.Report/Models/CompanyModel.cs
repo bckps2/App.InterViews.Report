@@ -4,6 +4,6 @@
     {
         public string CompanyName { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
-        public List<InterviewModel> InterViews { get; set; }
+        public InterviewModel Interview { get; set; }
     }
 }
