@@ -22,7 +22,7 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 
             foreach (var item in companies)
             {
-               
+
                 foreach (var interview in item.InterViews)
                 {
                     interview.InformationInterViews.ForEach(c => c.SetListInterViewers());
@@ -37,7 +37,7 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             try
             {
                 var interview = company.InterViews.FirstOrDefault();
-               
+
                 if (interview != null)
                 {
 
@@ -59,12 +59,12 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             try
             {
                 var interView = _iRepositoryInterview.GetById(informationInterView.InterViewIdInterView).Result.Value;
-                if(interView != null) 
+                if (interView != null)
                 {
                     informationInterView.SetNameInterViewers();
                     return _iRepositoryBaseInformation.Update(informationInterView).Value;
                 }
-                
+
                 return null;
             }
             catch (Exception)
