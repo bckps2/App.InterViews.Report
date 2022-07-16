@@ -6,18 +6,19 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 {
     public class InterViewReportService : IInterViewReportService
     {
-        private readonly IRepositoryCompany _iRepositoryInterView;
+        private readonly IRepositoryCompany _iRepositoryInterCompany;
         private readonly IRepositoryBase<InformationInterView> _iRepositoryBaseInformation;
-
-        public InterViewReportService(IRepositoryCompany iRepositoryInterView, IRepositoryBase<InformationInterView> iRepositoryBaseInformation)
+        private readonly IRepositoryBase<InterView> _iRepositoryInterview;
+        public InterViewReportService(IRepositoryCompany iRepositoryInterCompany, IRepositoryBase<InformationInterView> iRepositoryBaseInformation, IRepositoryBase<InterView> iRepositoryInterview)
         {
-            _iRepositoryInterView = iRepositoryInterView;
+            _iRepositoryInterCompany = iRepositoryInterCompany;
             _iRepositoryBaseInformation = iRepositoryBaseInformation;
+            _iRepositoryInterview = iRepositoryInterview;
         }
 
         public List<Company> GetAllInterViews()
         {
-            var companies = _iRepositoryInterView.GetAll();
+            var companies = _iRepositoryInterCompany.GetAll();
 
             foreach (var item in companies)
             {
@@ -31,7 +32,7 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             return companies;
         }
 
-        public bool AddInterView(Company company)
+        public Company? AddInterView(Company company)
         {
             try
             {
@@ -41,36 +42,56 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
                 {
 
                     interview.InformationInterViews.ForEach(c => c.SetNameInterViewers());
-                    var response = _iRepositoryInterView.Add(company);
-                    return true;
+                    return _iRepositoryInterCompany.Add(company).Value;
                 }
 
-                return false;
+                return null;
             }
             catch (Exception)
             {
 
-                return false;
+                return null;
             }
         }
 
-        public bool UpdateInterViewInformation(InformationInterView informationInterView)
+        public InformationInterView? UpdateInterViewInformation(InformationInterView informationInterView)
         {
             try
             {
-                var interView = _iRepositoryInterView.GetById(informationInterView.InterViewIdInterView).Result.Value;
+                var interView = _iRepositoryInterview.GetById(informationInterView.InterViewIdInterView).Result.Value;
                 if(interView != null) 
                 {
                     informationInterView.SetNameInterViewers();
-                    _iRepositoryBaseInformation.Update(informationInterView);
-                    return true;
+                    return _iRepositoryBaseInformation.Update(informationInterView).Value;
                 }
                 
-                return false;
+                return null;
             }
             catch (Exception)
             {
-                return false;
+                return null;
+            }
+        }
+
+        public InterView? AddInterViewOfCompany(InterView interView)
+        {
+            try
+            {
+                var company = _iRepositoryInterview.GetById(interView.CompanyIdCompany).Result.Value;
+                if (company != null)
+                {
+                    foreach (var item in interView.InformationInterViews)
+                    {
+                        item.SetNameInterViewers();
+                    }
+                    return _iRepositoryInterview.Add(interView).Value;
+                }
+
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
     }

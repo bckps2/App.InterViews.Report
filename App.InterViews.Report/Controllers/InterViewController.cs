@@ -34,6 +34,13 @@ namespace App.InterViews.Report.Controllers
             return Ok(_iInterViewReport.AddInterView(company));
         }
 
+        [HttpPut("AddInterViewCompany")]
+        public IActionResult AddInterViewCompany(InterviewModel interview)
+        {
+            var interView = _mapper.Map<InterView>(interview);
+            return Ok(_iInterViewReport.AddInterViewOfCompany(interView));
+        }
+
         [HttpPut("UpdateInterViewInformation")]
         public IActionResult UpdateInterViewInformation(InformationInterViewModel interViewModel)
         {

@@ -9,6 +9,7 @@ namespace App.InterViews.Report.Models
     public class InterviewModel
     {
         public int IdInterView { get; set; }
+        public int CompanyIdCompany { get; set; }
         [Required]
         public List<InformationInterViewModel> InformationInterViews { get; set; } = new List<InformationInterViewModel>();
         public string RangeSalarial { get; set; }
@@ -16,3 +17,4 @@ namespace App.InterViews.Report.Models
         public DateTime DateCreated { get;  } = DateTime.Now;
     }
 }
+
