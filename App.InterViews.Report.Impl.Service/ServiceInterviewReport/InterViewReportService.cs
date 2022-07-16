@@ -77,7 +77,7 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
         {
             try
             {
-                var company = _iRepositoryInterview.GetById(interView.CompanyIdCompany).Result.Value;
+                var company = _iRepositoryInterCompany.GetById(interView.CompanyIdCompany).Result.Value;
                 if (company != null)
                 {
                     foreach (var item in interView.InformationInterViews)
