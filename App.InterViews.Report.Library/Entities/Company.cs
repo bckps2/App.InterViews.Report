@@ -11,6 +11,5 @@ namespace App.InterViews.Report.Library.Entities
         public string CompanyName { get; set; }
         public DateTime DateCreated { get; set; }
         public virtual List<InterView> InterViews { get; set; }
-        public string TestName { get; set; }
     }
 }
