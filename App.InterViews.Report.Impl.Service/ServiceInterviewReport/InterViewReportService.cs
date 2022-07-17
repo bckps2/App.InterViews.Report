@@ -25,15 +25,16 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             var companies = _iRepositoryInterCompany.GetAll();
 
             foreach (var item in companies)
-            {
 
+
+            {
                 foreach (var interview in item.InterViews)
                 {
                     interview.InformationInterViews.ForEach(c => c.SetListInterViewers());
                 }
             }
 
-            return companies;
+            return companies.ToList();
         }
 
         public Company? AddInterView(ServiceCompanyModel companyModel)

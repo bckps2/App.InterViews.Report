@@ -10,6 +10,5 @@ namespace App.InterViews.Report.Contract.Service.ServiceInterviewReport
 {
     public interface IRepositoryCompany : IRepositoryBase<Company>
     {
-        List<Company> GetAll();
     }
 }

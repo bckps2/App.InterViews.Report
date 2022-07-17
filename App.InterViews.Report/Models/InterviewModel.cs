@@ -9,6 +9,7 @@ namespace App.InterViews.Report.Models
     public class InterviewModel
     {
         public int IdInterView { get; set; }
+        public string ExternalCompany { get; set; }
         public int CompanyIdCompany { get; set; }
         [Required]
         public InformationInterViewModel InformationInterview { get; set; } = new InformationInterViewModel();

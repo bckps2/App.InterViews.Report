@@ -13,11 +13,11 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             _context = context;
         }
 
-        public List<Company> GetAll() 
+        public override IEnumerable<Company> GetAll() 
         { 
             return _context.Companies
                 .Include(company => company.InterViews)
-                .ThenInclude(interview => interview.InformationInterViews).ToList();
+                .ThenInclude(interview => interview.InformationInterViews).AsEnumerable();
         }
     }
 }

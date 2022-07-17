@@ -12,6 +12,7 @@ namespace App.InterViews.Report.Contract.Service.Models
     {
         public int IdInterView { get; set; }
         public int CompanyIdCompany { get; set; }
+        public string ExternalCompany { get; set; }
         [Required]
         public ServiceInformationModel InformationInterview { get; set; } = new ServiceInformationModel();
         [Required]

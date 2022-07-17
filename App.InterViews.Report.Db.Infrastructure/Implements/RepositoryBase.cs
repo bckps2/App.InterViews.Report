@@ -22,9 +22,9 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             return await _set.FindAsync(id);
         }
 
-        public async Task<ActionResult<IEnumerable<T>>> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
-            return await _set.ToListAsync();
+            return _set.AsEnumerable();
         }
 
         public ActionResult<T> Update(T item)

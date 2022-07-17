@@ -1,7 +1,6 @@
 using Serilog;
 using System.Data;
 using Serilog.Sinks.MSSqlServer;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using App.InterViews.Report.Library.Contracts;
 using App.InterViews.Report.Db.Infrastructure.Context;
@@ -9,6 +8,7 @@ using App.InterViews.Report.Db.Infrastructure.Implements;
 using App.InterViews.Report.Impl.Service.ServiceInterviewReport;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,7 +70,8 @@ builder.Services.AddHealthChecks();
 
 builder.Services.AddDbContext<DbDataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DbInterviews"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DbInterviews"),
+        x => x.MigrationsAssembly("App.InterViews.Report.Migrations"));
 });
 
 var app = builder.Build();
