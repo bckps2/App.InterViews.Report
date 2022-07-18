@@ -9,6 +9,7 @@ using App.InterViews.Report.Impl.Service.ServiceInterviewReport;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using App.InterViews.Report.StartApp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,62 +18,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+ConfigurationApp.configurationManager = builder.Configuration;
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<IInterViewReportService, InterViewReportService>();
-builder.Services.AddScoped<IRepositoryCompany, RepositoryCompany>();
-builder.Services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 
-var appSettings = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json")
-    .Build();
-
-var logDB = builder.Configuration.GetSection("ConnectionStrings:DbInterviews").Value;
-var sinkOpts = new MSSqlServerSinkOptions { TableName = "LogRecords", AutoCreateSqlTable = true };
-
-var columnOptions = new ColumnOptions
-{
-    AdditionalColumns = new Collection<SqlColumn>
-    {
-        new SqlColumn("IdType", SqlDbType.Int),
-        new SqlColumn("CustomType", SqlDbType.NVarChar)
-    }
-};
-
-var logger = new LoggerConfiguration()
-    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
-    .WriteTo.MSSqlServer(
-        connectionString: logDB,
-        sinkOptions: sinkOpts,
-        columnOptions: columnOptions,
-        appConfiguration: appSettings
-    ).CreateLogger();
-
-builder.Logging.AddSerilog(logger);
-
-Log.Logger = logger;
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigin",
-           builder =>
-           {
-               builder.WithOrigins("*")
-               .WithHeaders("*")
-               .WithMethods("*");
-           });
-});
+builder.Services.StartConfiguration();
+Log.Logger = ConfigurationApp.ConfigurationSerilog();
+builder.Logging.AddSerilog(Log.Logger);
 
 builder.Services.AddHealthChecks();
-
-builder.Services.AddDbContext<DbDataContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DbInterviews"),
-        x => x.MigrationsAssembly("App.InterViews.Report.Migrations"));
-});
 
 var app = builder.Build();
 
