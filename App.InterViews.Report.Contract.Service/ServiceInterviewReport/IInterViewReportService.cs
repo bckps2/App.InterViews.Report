@@ -5,13 +5,8 @@ namespace App.InterViews.Report.Contract.Service.ServiceInterviewReport
 {
     public interface IInterViewReportService
     {
-        List<Company> GetAllInterViews();
-        Company? AddInterView(ServiceCompanyModel companyModel);
-        InformationInterView? AddInterViewInformation(ServiceInformationModel informationModel);
-        InterView? AddInterViewOfCompany(ServiceInterviewModel interviewModel);
-        InformationInterView? DeleteInformation(int idInformation);
-        InterView? DeleteInterview(int idInterview);
-        InformationInterView? UpdateInterViewInformation(ServiceInformationModel informationModel);
-        Company? DeleteCompany(int idcompany);
+        public List<InterView> GetAllInterViews();
+        public InterView? AddInterview(ServiceInterviewModel interviewModel);
+        public InterView? DeleteInterview(int idInterview);
     }
 }

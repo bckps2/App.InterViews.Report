@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace App.InterViews.Report.Models
 {
-    public class InformationInterViewModel
+    public class InformationInterviewModel
     {
         public int IdInformation { get; set; }
         [Required]

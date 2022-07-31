@@ -19,9 +19,11 @@ namespace App.InterViews.Report.StartApp
         public static void StartConfiguration(this IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<ICompanyReportservice, CompanyReportService>();
             services.AddScoped<IInterViewReportService, InterViewReportService>();
-            services.AddScoped<IRepositoryCompany, RepositoryCompany>();
             services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+            services.AddScoped<IInfomationInterviewReportService, InterviewInformationReportService>();
+
             ConfgiurationDb(services);
             ConfigurationCors(services);
         }

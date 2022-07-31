@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.Library.Contracts;
 using App.InterViews.Report.Db.Infrastructure.Context;
+using App.InterViews.Report.Library.Entities;
 
 namespace App.InterViews.Report.Db.Infrastructure.Implements
 {
