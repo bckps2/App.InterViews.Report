@@ -12,6 +12,7 @@ namespace App.InterViews.Report.Contract.Service.Models
     {
         [Required]
         public int InterViewIdInterView { get; set; }
+        public int IdInformation { get; set; }
         [Required]
         public TypeInterview TypeInterView { get; set; }
         [Required]

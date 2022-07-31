@@ -33,18 +33,45 @@ namespace App.InterViews.Report.Controllers
             return Ok(_iInterViewReport.AddInterView(company));
         }
 
-        [HttpPut("AddInterViewCompany")]
+        [HttpPost("AddInterViewCompany")]
         public IActionResult AddInterViewCompany(InterviewModel interviewModel)
         {
             var interview = _mapper.Map<ServiceInterviewModel>(interviewModel);
             return Ok(_iInterViewReport.AddInterViewOfCompany(interview));
         }
 
+        [HttpPost("AddInterViewInformation")]
+        public IActionResult AddInterViewInformation(InformationInterViewModel interViewModel)
+        {
+            var informationInterView = _mapper.Map<ServiceInformationModel>(interViewModel);
+            return Ok(_iInterViewReport.AddInterViewInformation(informationInterView));
+        }
+
+
         [HttpPut("UpdateInterViewInformation")]
         public IActionResult UpdateInterViewInformation(InformationInterViewModel interViewModel)
         {
             var informationInterView = _mapper.Map<ServiceInformationModel>(interViewModel);
             return Ok(_iInterViewReport.UpdateInterViewInformation(informationInterView));
+        }
+
+        [HttpDelete("DeleteInformationInterview/{idInformation}")]
+        public IActionResult DeleteInformationInterview(int idInformation) 
+        {
+            return Ok(_iInterViewReport.DeleteInformation(idInformation));
+        }
+
+        [HttpDelete("DeleteInterview/{idInterview}")]
+        public IActionResult DeleteInterview(int idInterview) 
+        {
+            return Ok(_iInterViewReport.DeleteInterview(idInterview));
+        }
+
+
+        [HttpDelete("DeleteCompany/{idCompany}")]
+        public IActionResult DeleteCompany(int idCompany)
+        {
+            return Ok(_iInterViewReport.DeleteCompany(idCompany));
         }
     }
 }

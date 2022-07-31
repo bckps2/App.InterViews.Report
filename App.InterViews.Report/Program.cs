@@ -10,6 +10,7 @@ using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.StartApp;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +43,6 @@ if (app.Environment.IsDevelopment())
 app.UseHealthChecks("/health");
 
 app.UseCors("AllowSpecificOrigin");
-
 
 app.UseHttpsRedirection();
 

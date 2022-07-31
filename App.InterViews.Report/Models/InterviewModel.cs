@@ -8,6 +8,7 @@ namespace App.InterViews.Report.Models
 {
     public class InterviewModel
     {
+        public string JobPosition { get; set; }
         public int IdInterView { get; set; }
         public string ExternalCompany { get; set; }
         public int CompanyIdCompany { get; set; }

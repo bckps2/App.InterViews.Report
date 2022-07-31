@@ -17,9 +17,9 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             _set = context.Set<T>();
         }
 
-        public async Task<ActionResult<T?>> GetById(int id)
+        public T? GetById(int id)
         {
-            return await _set.FindAsync(id);
+            return  _set.Find(id);
         }
 
         public virtual IEnumerable<T> GetAll()
@@ -49,6 +49,23 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             try
             {
                 var response = _set.Add(item);
+                var id = (item.GetType().Name);
+                Log.Information("{Message}-{IdType}-{CustomType}", $"Processing Data in Repository Base {item.GetType().Name} and Item: {item}", id, item.GetType().Name);
+                _context.SaveChanges();
+                return response.Entity;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"On Add Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
+                throw;
+            }
+        }
+
+        public T Delete(T item) 
+        {
+            try
+            {
+                var response = _set.Remove(item);
                 var id = (item.GetType().Name);
                 Log.Information("{Message}-{IdType}-{CustomType}", $"Processing Data in Repository Base {item.GetType().Name} and Item: {item}", id, item.GetType().Name);
                 _context.SaveChanges();

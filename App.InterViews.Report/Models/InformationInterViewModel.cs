@@ -6,6 +6,7 @@ namespace App.InterViews.Report.Models
 {
     public class InformationInterViewModel
     {
+        public int IdInformation { get; set; }
         [Required]
         public int InterViewIdInterView { get; set; }
         [Required]

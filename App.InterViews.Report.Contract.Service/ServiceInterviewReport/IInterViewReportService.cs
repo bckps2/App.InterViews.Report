@@ -7,7 +7,11 @@ namespace App.InterViews.Report.Contract.Service.ServiceInterviewReport
     {
         List<Company> GetAllInterViews();
         Company? AddInterView(ServiceCompanyModel companyModel);
-        InformationInterView? UpdateInterViewInformation(ServiceInformationModel informationModel);
+        InformationInterView? AddInterViewInformation(ServiceInformationModel informationModel);
         InterView? AddInterViewOfCompany(ServiceInterviewModel interviewModel);
+        InformationInterView? DeleteInformation(int idInformation);
+        InterView? DeleteInterview(int idInterview);
+        InformationInterView? UpdateInterViewInformation(ServiceInformationModel informationModel);
+        Company? DeleteCompany(int idcompany);
     }
 }
