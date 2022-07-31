@@ -10,7 +10,6 @@ namespace App.InterViews.Report.Controllers
     [ApiController]
     public class InformationInterviewController : Controller
     {
-
         private readonly IMapper _mapper;
         private readonly IInfomationInterviewReportService _iInformationService;
 
@@ -24,6 +23,12 @@ namespace App.InterViews.Report.Controllers
         public IActionResult GetAllInformations()
         {
             return Ok(_iInformationService.GetAll());
+        }
+
+        [HttpGet("GetAllInformationsByInterviewId/{idInterview}")]
+        public IActionResult GetAllInformationsByIdInterview(int idInterview)
+        {
+            return Ok(_iInformationService.GetAllByIdInterview(idInterview));
         }
 
         [HttpPost("AddInterviewInformation")]

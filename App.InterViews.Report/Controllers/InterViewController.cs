@@ -10,8 +10,8 @@ namespace App.InterViews.Report.Controllers
     [ApiController]
     public class InterviewController : ControllerBase
     {
-        private readonly IInterViewReportService _iInterViewReport;
         private readonly IMapper _mapper;
+        private readonly IInterViewReportService _iInterViewReport;
 
         public InterviewController(IInterViewReportService iInterViewReport, IMapper mapper)
         {
@@ -23,6 +23,12 @@ namespace App.InterViews.Report.Controllers
         public IActionResult GetAllInterviews()
         {
             return Ok(_iInterViewReport.GetAllInterViews());
+        }
+
+        [HttpGet("GetAllInterviewsByIdCompany/{idCompany}")]
+        public IActionResult GetAllInterviewsByIdCompany(int idCompany)
+        {
+            return Ok(_iInterViewReport.GetAllInterViewsByIdCompany(idCompany));
         }
 
         [HttpPost("AddInterview")]

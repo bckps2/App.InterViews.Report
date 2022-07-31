@@ -18,12 +18,7 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 
         public List<InterView> GetAllInterViewsByIdCompany(int idCompany)
         {
-            var interviews = _iRepositoryInterview.GetAll().Where(c => c.CompanyIdCompany == idCompany);
-            foreach (var interview in interviews)
-            {
-                interview.InformationInterViews.ForEach(c => c.SetListInterViewers());
-            }
-            return interviews.ToList();
+            return _iRepositoryInterview.GetAll().Where(c => c.CompanyIdCompany == idCompany).ToList();
         }
 
         public List<InterView> GetAllInterViews()

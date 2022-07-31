@@ -10,8 +10,8 @@ namespace App.InterViews.Report.Controllers
     [ApiController]
     public class CompanyController : Controller
     {
-        private readonly ICompanyReportservice _iServiceCompany;
         private readonly IMapper _mapper;
+        private readonly ICompanyReportservice _iServiceCompany;
 
         public CompanyController(ICompanyReportservice iServiceCompany, IMapper mapper)
         {
