@@ -24,7 +24,9 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 
         public List<InformationInterView>? GetAllByIdInterview(int idInterview)
         {
-            return _iRepositoryBaseInformation.GetAll().Where(c => c.InterViewIdInterView == idInterview).ToList();
+            var result = _iRepositoryBaseInformation.GetAll().Where(c => c.InterViewIdInterView == idInterview).ToList();
+            result.ForEach(c => c.SetListInterViewers());
+            return result;
         }
 
         public InformationInterView? AddInterViewInformation(ServiceInformationModel informationModel)
