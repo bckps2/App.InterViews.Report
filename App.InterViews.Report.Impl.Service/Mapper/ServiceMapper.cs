@@ -9,7 +9,7 @@ namespace App.InterViews.Report.Impl.Service.Mapper
         public ServiceMapper()
         {
             CreateMap<ServiceInterviewModel, InterView>().ReverseMap();
-            CreateMap<ServiceInformationModel, InformationInterView>().ReverseMap();
+            CreateMap<ServiceProcessModel, Process>().ReverseMap();
         }
     }
 }

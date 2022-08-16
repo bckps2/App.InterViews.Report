@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.InterViews.Report.Migrations.Migrations
 {
     [DbContext(typeof(DbDataContext))]
-    [Migration("20220717225728_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220816024314_updateVariables")]
+    partial class updateVariables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,13 +48,13 @@ namespace App.InterViews.Report.Migrations.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("App.InterViews.Report.Library.Entities.InformationInterView", b =>
+            modelBuilder.Entity("App.InterViews.Report.Library.Entities.InterView", b =>
                 {
-                    b.Property<int>("IdInformation")
+                    b.Property<int>("IdInterview")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdInformation"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdInterview"), 1L, 1);
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -66,7 +66,7 @@ namespace App.InterViews.Report.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("InterViewIdInterView")
+                    b.Property<int>("IdProcess")
                         .HasColumnType("int");
 
                     b.Property<string>("InterViewersName")
@@ -77,72 +77,78 @@ namespace App.InterViews.Report.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProcessIdProcess")
+                        .HasColumnType("int");
+
                     b.Property<string>("TypeInterView")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("IdInformation");
+                    b.HasKey("IdInterview");
 
-                    b.HasIndex("InterViewIdInterView");
+                    b.HasIndex("ProcessIdProcess");
 
-                    b.ToTable("InformationInterViews");
+                    b.ToTable("InterViews");
                 });
 
-            modelBuilder.Entity("App.InterViews.Report.Library.Entities.InterView", b =>
+            modelBuilder.Entity("App.InterViews.Report.Library.Entities.Process", b =>
                 {
-                    b.Property<int>("IdInterView")
+                    b.Property<int>("IdProcess")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdInterView"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProcess"), 1L, 1);
 
-                    b.Property<int>("CompanyIdCompany")
+                    b.Property<int?>("CompanyIdCompany")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ExternalCompany")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdCompany")
+                        .HasColumnType("int");
+
+                    b.Property<string>("JobPosition")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RangeSalarial")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdInterView");
+                    b.HasKey("IdProcess");
 
                     b.HasIndex("CompanyIdCompany");
 
-                    b.ToTable("InterViews");
-                });
-
-            modelBuilder.Entity("App.InterViews.Report.Library.Entities.InformationInterView", b =>
-                {
-                    b.HasOne("App.InterViews.Report.Library.Entities.InterView", "InterView")
-                        .WithMany("InformationInterViews")
-                        .HasForeignKey("InterViewIdInterView")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("InterView");
+                    b.ToTable("Process");
                 });
 
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.InterView", b =>
                 {
-                    b.HasOne("App.InterViews.Report.Library.Entities.Company", "Company")
-                        .WithMany("InterViews")
-                        .HasForeignKey("CompanyIdCompany")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("App.InterViews.Report.Library.Entities.Process", null)
+                        .WithMany("Interviews")
+                        .HasForeignKey("ProcessIdProcess");
+                });
 
-                    b.Navigation("Company");
+            modelBuilder.Entity("App.InterViews.Report.Library.Entities.Process", b =>
+                {
+                    b.HasOne("App.InterViews.Report.Library.Entities.Company", null)
+                        .WithMany("Process")
+                        .HasForeignKey("CompanyIdCompany");
                 });
 
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.Company", b =>
                 {
-                    b.Navigation("InterViews");
+                    b.Navigation("Process");
                 });
 
-            modelBuilder.Entity("App.InterViews.Report.Library.Entities.InterView", b =>
+            modelBuilder.Entity("App.InterViews.Report.Library.Entities.Process", b =>
                 {
-                    b.Navigation("InformationInterViews");
+                    b.Navigation("Interviews");
                 });
 #pragma warning restore 612, 618
         }

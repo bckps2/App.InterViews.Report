@@ -1,19 +1,23 @@
 ﻿using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using App.InterViews.Report.CrossCutting.Enums;
 
 namespace App.InterViews.Report.Contract.Service.Models
 {
     public class ServiceInterviewModel
     {
-        public string JobPosition { get; set; }
-        public int IdInterView { get; set; }
-        public int CompanyIdCompany { get; set; }
-        public string ExternalCompany { get; set; }
         [Required]
-        public ServiceInformationModel InformationInterview { get; set; } = new ServiceInformationModel();
+        public int InterViewIdInterView { get; set; }
+        public int IdInterview { get; set; }
         [Required]
-        public string RangeSalarial { get; set; }
-        [JsonIgnore]
+        public TypeInterview TypeInterView { get; set; }
+        [Required]
+        public List<string> NameInterViewers { get; set; }
+        public DateTime DateInterView { get; set; }
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public string Observations { get; set; }
         public DateTime DateCreated { get; } = DateTime.Now;
     }
 }

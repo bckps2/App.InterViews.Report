@@ -16,9 +16,9 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             _mapper = mapper;
         }
 
-        public List<InterView> GetAllInterViewsByIdCompany(int idCompany)
+        public List<InterView> GetAllInterViewsByIdProcess(int idProcess)
         {
-            return _iRepositoryInterview.GetAll().Where(c => c.CompanyIdCompany == idCompany).ToList();
+            return _iRepositoryInterview.GetAll().Where(c => c.IdProcess == idProcess).ToList();
         }
 
         public List<InterView> GetAllInterViews()
@@ -49,5 +49,32 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             }
             return null;
         }
+
+        public InterView? UpdateInterview(ServiceInterviewModel informationModel)
+        {
+            try
+            {
+                var interviewDb = _iRepositoryInterview.GetById(informationModel.IdInterview);
+                if (interviewDb != null)
+                {
+                    var interview = _mapper.Map<InterView>(informationModel);
+                    interview.SetNameInterViewers();
+                    interviewDb.InterViewersName = interview.InterViewersName;
+                    interviewDb.Email = interview.Email;
+                    interviewDb.Observations = interview.Observations;
+                    interviewDb.DateInterView = interview.DateInterView;
+                    interviewDb.TypeInterView = interview.TypeInterView;
+                    var response = _iRepositoryInterview.Update(interviewDb).Value;
+                    response.SetListInterViewers();
+                    return response;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
     }
 }

@@ -10,6 +10,5 @@ namespace App.InterViews.Report.Contract.Service.Models
     {
         public string CompanyName { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
-        public ServiceInterviewModel Interview { get; set; }
     }
 }

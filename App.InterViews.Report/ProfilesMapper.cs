@@ -10,8 +10,9 @@ namespace App.InterViews.Report
         public ProfilesMapper() 
         {
             CreateMap<InterviewModel, ServiceInterviewModel>().ReverseMap();
-            CreateMap<InformationInterviewModel, ServiceInformationModel>().ReverseMap();
+            CreateMap<ProcessModel, ServiceProcessModel>().ReverseMap();
             CreateMap<CompanyModel, ServiceCompanyModel>().ReverseMap();
+            CreateMap<Company, ServiceCompanyModel>().ReverseMap();
         }
     }
 }

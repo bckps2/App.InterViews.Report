@@ -10,6 +10,6 @@ namespace App.InterViews.Report.Library.Entities
         public int IdCompany { get; set; }
         public string CompanyName { get; set; }
         public DateTime DateCreated { get; set; }
-        public virtual List<InterView> InterViews { get; set; }
+        public virtual List<Process> Process { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace App.InterViews.Report.StartApp
             services.AddScoped<ICompanyReportservice, CompanyReportService>();
             services.AddScoped<IInterViewReportService, InterViewReportService>();
             services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
-            services.AddScoped<IInfomationInterviewReportService, InterviewInformationReportService>();
+            services.AddScoped<IProcessReportService, ProcessReportService>();
 
             ConfgiurationDb(services);
             ConfigurationCors(services);
