@@ -18,8 +18,14 @@ namespace App.InterViews.Report.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("GetProcess")]
-        public IActionResult GetProcess()
+        [HttpGet("GetAllProcessWithInterviews")]
+        public IActionResult GetAllProcessWithInterviews()
+        {
+            return Ok(_iProcessService.GetAllWithInterviews());
+        }
+
+        [HttpGet("GetAllProcess")]
+        public IActionResult GetAllProcess()
         {
             return Ok(_iProcessService.GetAll());
         }

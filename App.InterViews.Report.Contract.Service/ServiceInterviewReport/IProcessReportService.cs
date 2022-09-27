@@ -6,6 +6,7 @@ namespace App.InterViews.Report.Contract.Service.ServiceInterviewReport
     public interface IProcessReportService
     {
         public List<Process>? GetAll();
+        List<Process>? GetAllWithInterviews();
         public Process? DeleteProcess(int idInformation);
         public List<Process>? GetAllByIdCompany(int idInterview);
         public Process? AddProcess(ServiceProcessModel informationModel);

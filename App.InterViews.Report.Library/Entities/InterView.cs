@@ -9,7 +9,6 @@ namespace App.InterViews.Report.Library.Entities
     {
         [Key]
         public int IdInterview { get; set; }
-        public int IdProcess { get; set; }
         [NotMapped]
         public List<string> NameInterViewers { get; set; }
         [JsonIgnore]
@@ -18,6 +17,15 @@ namespace App.InterViews.Report.Library.Entities
         public string Email { get; set; }
         public DateTime DateCreated { get; set; }
         public string Observations { get; set; }
+       
+        [Column(TypeName = "nvarchar(20)")]
+        public TypeInterview TypeInterView { get; set; }
+
+
+        [ForeignKey("Process")]
+        public int IdProcess { get; set; }
+        public Process Process { get; set; }
+
         public void SetNameInterViewers()
         {
             InterViewersName = string.Join(", ", NameInterViewers.FindAll(c => c.Length > 0));
@@ -28,7 +36,5 @@ namespace App.InterViews.Report.Library.Entities
             NameInterViewers = InterViewersName.Split(',').ToList();
         }
 
-        [Column(TypeName = "nvarchar(20)")]
-        public TypeInterview TypeInterView { get; set; }
     }
 }

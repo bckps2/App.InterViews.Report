@@ -7,7 +7,7 @@ namespace App.InterViews.Report.Contract.Service.Models
     public class ServiceInterviewModel
     {
         [Required]
-        public int InterViewIdInterView { get; set; }
+        public int IdProcess { get; set; }
         public int IdInterview { get; set; }
         [Required]
         public TypeInterview TypeInterView { get; set; }
@@ -18,6 +18,7 @@ namespace App.InterViews.Report.Contract.Service.Models
         public string Email { get; set; }
         [Required]
         public string Observations { get; set; }
+        public string InterViewersName { get; set; }
         public DateTime DateCreated { get; } = DateTime.Now;
     }
 }

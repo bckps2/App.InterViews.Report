@@ -3,6 +3,8 @@ using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Library.Contracts;
 using App.InterViews.Report.Contract.Service.Models;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
+using App.InterViews.Report.Db.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 {
@@ -10,17 +12,20 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryBase<Company> _iRepositoryBaseCompany;
+        private readonly DbDataContext _context;
 
-        public CompanyReportService(IRepositoryBase<Company> iRepositoryBaseCompany, IMapper mapper)
+        public CompanyReportService(IRepositoryBase<Company> iRepositoryBaseCompany, IMapper mapper, DbDataContext context)
         {
+            _context = context;
             _mapper = mapper;
             _iRepositoryBaseCompany = iRepositoryBaseCompany;
         }
 
         public List<Company> GetAllCompanies()
         {
-            var companies = _iRepositoryBaseCompany.GetAll();
-            return companies.ToList();
+            return _context.Companies.Include(c => c.Process).ToList();
+            //var companies = _iRepositoryBaseCompany.GetAll();
+            //return companies.ToList();
         }
 
         public Company? AddInterView(ServiceCompanyModel companyModel)

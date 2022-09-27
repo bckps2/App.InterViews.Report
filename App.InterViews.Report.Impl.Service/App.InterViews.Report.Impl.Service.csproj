@@ -12,10 +12,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\App.InterViews.Report.Contract.Service\App.InterViews.Report.Contract.Service.csproj" />
+    <ProjectReference Include="..\App.InterViews.Report.Db.Infrastructure\App.InterViews.Report.Db.Infrastructure.csproj" />
     <ProjectReference Include="..\App.InterViews.Report.Library\App.InterViews.Report.Library.csproj" />
   </ItemGroup>
 

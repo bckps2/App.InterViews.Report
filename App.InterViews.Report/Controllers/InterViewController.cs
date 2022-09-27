@@ -34,8 +34,8 @@ namespace App.InterViews.Report.Controllers
         [HttpPost("AddInterview")]
         public IActionResult AddInterview(InterviewModel interviewModel)
         {
-            var interview = _mapper.Map<ServiceInterviewModel>(interviewModel);
-            return Ok(_iInterviewService.AddInterview(interview));
+            var interviewServiceModel = _mapper.Map<ServiceInterviewModel>(interviewModel);
+            return Ok(_iInterviewService.AddInterview(interviewServiceModel));
         }
 
         [HttpPut("UpdateInterview")]

@@ -8,9 +8,9 @@ namespace App.InterViews.Report.Models
 {
     public class InterviewModel
     {
-        public int IdInformation { get; set; }
+        public int IdInterview { get; set; }
         [Required]
-        public int InterViewIdInterView { get; set; }
+        public int IdProcess { get; set; }
         [Required]
         public TypeInterview TypeInterView { get; set; }
         [Required]

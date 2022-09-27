@@ -18,12 +18,15 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 
         public List<InterView> GetAllInterViewsByIdProcess(int idProcess)
         {
-            return _iRepositoryInterview.GetAll().Where(c => c.IdProcess == idProcess).ToList();
+            var response = GetAllInterViews().Where(c => c.IdProcess == idProcess).ToList();
+            return response;
         }
 
         public List<InterView> GetAllInterViews()
         {
-            return _iRepositoryInterview.GetAll().ToList();
+            var response = _iRepositoryInterview.GetAll().ToList();
+            response.ForEach(interview => interview.SetListInterViewers());
+            return response;
         }
 
         public InterView? AddInterview(ServiceInterviewModel interviewModel)
@@ -31,7 +34,10 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             try
             {
                 var interview = _mapper.Map<InterView>(interviewModel);
-                return _iRepositoryInterview.Add(interview).Value;
+                interview.SetNameInterViewers();
+                var response = _iRepositoryInterview.Add(interview).Value;
+                response.SetListInterViewers(); 
+                return response;
             }
             catch (Exception)
             {

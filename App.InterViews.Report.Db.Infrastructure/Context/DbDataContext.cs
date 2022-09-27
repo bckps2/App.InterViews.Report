@@ -20,6 +20,10 @@ namespace App.InterViews.Report.Db.Infrastructure.Context
             modelBuilder.Entity<Company>()
                 .HasIndex(c => new { c.CompanyName})
                 .IsUnique();
+
+            modelBuilder.Entity<Process>()
+                .HasMany(p => p.Interviews)
+                .WithOne(i => i.Process);
         }
     }
 }

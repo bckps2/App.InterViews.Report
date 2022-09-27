@@ -75,16 +75,13 @@ namespace App.InterViews.Report.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProcessIdProcess")
-                        .HasColumnType("int");
-
                     b.Property<string>("TypeInterView")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
                     b.HasKey("IdInterview");
 
-                    b.HasIndex("ProcessIdProcess");
+                    b.HasIndex("IdProcess");
 
                     b.ToTable("InterViews");
                 });
@@ -96,9 +93,6 @@ namespace App.InterViews.Report.Migrations.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProcess"), 1L, 1);
-
-                    b.Property<int?>("CompanyIdCompany")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -120,23 +114,31 @@ namespace App.InterViews.Report.Migrations.Migrations
 
                     b.HasKey("IdProcess");
 
-                    b.HasIndex("CompanyIdCompany");
+                    b.HasIndex("IdCompany");
 
                     b.ToTable("Process");
                 });
 
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.InterView", b =>
                 {
-                    b.HasOne("App.InterViews.Report.Library.Entities.Process", null)
+                    b.HasOne("App.InterViews.Report.Library.Entities.Process", "Process")
                         .WithMany("Interviews")
-                        .HasForeignKey("ProcessIdProcess");
+                        .HasForeignKey("IdProcess")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Process");
                 });
 
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.Process", b =>
                 {
-                    b.HasOne("App.InterViews.Report.Library.Entities.Company", null)
+                    b.HasOne("App.InterViews.Report.Library.Entities.Company", "Company")
                         .WithMany("Process")
-                        .HasForeignKey("CompanyIdCompany");
+                        .HasForeignKey("IdCompany")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.Company", b =>
