@@ -21,11 +21,9 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             _iRepositoryBaseCompany = iRepositoryBaseCompany;
         }
 
-        public List<Company> GetAllCompanies()
+        public List<Company>? GetAllCompanies()
         {
-            return _context.Companies.Include(c => c.Process).ToList();
-            //var companies = _iRepositoryBaseCompany.GetAll();
-            //return companies.ToList();
+            return _context.Companies?.Include(c => c.Process).ToList();
         }
 
         public Company? AddInterView(ServiceCompanyModel companyModel)

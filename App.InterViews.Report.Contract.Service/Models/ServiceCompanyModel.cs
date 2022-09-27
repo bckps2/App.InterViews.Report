@@ -8,7 +8,7 @@ namespace App.InterViews.Report.Contract.Service.Models
 {
     public  class ServiceCompanyModel
     {
-        public string CompanyName { get; set; }
+        public string? CompanyName { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
     }
 }

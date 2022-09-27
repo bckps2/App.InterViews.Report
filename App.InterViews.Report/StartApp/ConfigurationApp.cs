@@ -14,7 +14,7 @@ namespace App.InterViews.Report.StartApp
 {
     public static class ConfigurationApp
     {
-        public static ConfigurationManager configurationManager;
+        public static ConfigurationManager? configurationManager;
 
         public static void StartConfiguration(this IServiceCollection services)
         {
@@ -35,7 +35,7 @@ namespace App.InterViews.Report.StartApp
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var logDB = configurationManager.GetSection("ConnectionStrings:DbInterviews").Value;
+            var logDB = configurationManager?.GetSection("ConnectionStrings:DbInterviews").Value;
             var sinkOpts = new MSSqlServerSinkOptions { TableName = "LogRecords", AutoCreateSqlTable = true };
 
             var columnOptions = new ColumnOptions

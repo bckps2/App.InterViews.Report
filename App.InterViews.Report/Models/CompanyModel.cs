@@ -2,7 +2,7 @@
 {
     public class CompanyModel
     {
-        public string CompanyName { get; set; }
+        public string? CompanyName { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
     }
 }

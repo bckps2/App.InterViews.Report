@@ -10,7 +10,7 @@ namespace App.InterViews.Report.Contract.Service.ServiceInterviewReport
 {
     public interface ICompanyReportservice
     {
-        List<Company> GetAllCompanies();
+        List<Company>? GetAllCompanies();
         Company? AddInterView(ServiceCompanyModel companyModel);
         Company? DeleteCompany(int idcompany);
     }

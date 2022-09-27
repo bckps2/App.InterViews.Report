@@ -2,6 +2,7 @@
 using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Library.Contracts;
 using App.InterViews.Report.Contract.Service.Models;
+using App.InterViews.Report.Library.Extensions;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 
 namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport

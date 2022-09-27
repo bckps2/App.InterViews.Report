@@ -11,11 +11,11 @@ namespace App.InterViews.Report.Contract.Service.Models
 {
     public class ServiceProcessModel
     {
-        public string JobPosition { get; set; }
+        public string? JobPosition { get; set; }
         public int IdCompany { get; set; }
-        public string ExternalCompany { get; set; }
+        public string? ExternalCompany { get; set; }
         [Required]
-        public string RangeSalarial { get; set; }
+        public string? RangeSalarial { get; set; }
         [JsonIgnore]
         public DateTime DateCreated { get; } = DateTime.Now;
     }

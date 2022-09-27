@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Library.Contracts;
 using App.InterViews.Report.Contract.Service.Models;
-using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.Db.Infrastructure.Context;
+using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 
 namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 {
@@ -44,7 +43,7 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
                 var process = _mapper.Map<Process>(informationModel);
                 return _iRepositoryBaseInformation.Add(process).Value;
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return null;
             }

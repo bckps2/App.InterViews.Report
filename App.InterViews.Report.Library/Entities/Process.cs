@@ -10,14 +10,14 @@ namespace App.InterViews.Report.Library.Entities
     {
         [Key]
         public int IdProcess { get; set; }
-        public string RangeSalarial { get; set; }
+        public string? RangeSalarial { get; set; }
         public DateTime DateCreated { get; set; }
-        public string ExternalCompany { get; set; }
-        public string JobPosition { get; set; }
-        public ICollection<InterView> Interviews { get; set; }
+        public string? ExternalCompany { get; set; }
+        public string? JobPosition { get; set; }
+        public ICollection<InterView>? Interviews { get; set; }
 
         [ForeignKey("Company")]
         public int IdCompany { get; set; }
-        public Company Company { get; set; }
+        public Company? Company { get; set; }
     }
 }
