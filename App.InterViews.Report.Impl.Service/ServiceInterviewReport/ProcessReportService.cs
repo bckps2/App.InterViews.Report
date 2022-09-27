@@ -34,8 +34,7 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 
         public List<Process>? GetAllByIdCompany(int idInterview)
         {
-            var result = _context.Process?.Include(c => c.Interviews).Where(c => c.IdCompany == idInterview).ToList();
-            return result;
+            return _context.Process?.Include(c => c.Interviews).Where(c => c.IdCompany == idInterview).ToList();
         }
 
         public Process? AddProcess(ServiceProcessModel informationModel)
