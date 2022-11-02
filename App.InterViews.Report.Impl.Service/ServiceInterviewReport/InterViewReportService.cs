@@ -26,7 +26,7 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
         public List<InterView> GetAllInterViews()
         {
             var response = _iRepositoryInterview.GetAll().ToList();
-            response.ForEach(interview => interview.SetListInterViewers());
+            response.ForEach(interview => interview.SetNameInterViewers());
             return response;
         }
 
@@ -35,9 +35,9 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             try
             {
                 var interview = _mapper.Map<InterView>(interviewModel);
-                interview.SetNameInterViewers();
+                interview.SetInterViewersName();
                 var response = _iRepositoryInterview.Add(interview).Value;
-                response.SetListInterViewers(); 
+                response.SetNameInterViewers(); 
                 return response;
             }
             catch (Exception)
@@ -65,14 +65,14 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
                 if (interviewDb != null)
                 {
                     var interview = _mapper.Map<InterView>(informationModel);
-                    interview.SetNameInterViewers();
+                    interview.SetInterViewersName();
                     interviewDb.InterViewersName = interview.InterViewersName;
                     interviewDb.Email = interview.Email;
                     interviewDb.Observations = interview.Observations;
                     interviewDb.DateInterView = interview.DateInterView;
                     interviewDb.TypeInterView = interview.TypeInterView;
                     var response = _iRepositoryInterview.Update(interviewDb).Value;
-                    response.SetListInterViewers();
+                    response.SetNameInterViewers();
                     return response;
                 }
                 return null;

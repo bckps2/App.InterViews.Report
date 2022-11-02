@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Library.Contracts;
+using App.InterViews.Report.Library.Extensions;
 using App.InterViews.Report.Contract.Service.Models;
 using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
@@ -23,7 +24,9 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 
         public List<Process>? GetAllWithInterviews() 
         {
-            return _context.Process?.Include(c => c.Interviews).ToList();
+            var processes = _context.Process?.Include(c => c.Interviews).ToList();
+            processes?.ForEach(process => process.Interviews?.ToList().ForEach(interview => interview.SetNameInterViewers()));
+            return processes;
         }
 
         public List<Process>? GetAll()
@@ -33,7 +36,9 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 
         public List<Process>? GetAllByIdCompany(int idInterview)
         {
-            return _context.Process?.Include(c => c.Interviews).Where(c => c.IdCompany == idInterview).ToList();
+            var processes = _context.Process?.Include(c => c.Interviews).Where(c => c.IdCompany == idInterview).ToList();
+            processes?.ForEach(process => process.Interviews?.ToList().ForEach(interview => interview.SetNameInterViewers()));
+            return processes;
         }
 
         public Process? AddProcess(ServiceProcessModel informationModel)

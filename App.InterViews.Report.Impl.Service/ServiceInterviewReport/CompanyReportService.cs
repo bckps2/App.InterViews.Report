@@ -5,6 +5,7 @@ using App.InterViews.Report.Contract.Service.Models;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using App.InterViews.Report.Db.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using App.InterViews.Report.Library.Extensions;
 
 namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 {
@@ -23,7 +24,17 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 
         public List<Company>? GetAllCompanies()
         {
-            return _context.Companies?.Include(c => c.Process).ToList();
+            var companies = _context.Companies?.Include(c => c.Process).ThenInclude(c => c.Interviews).ToList();
+            
+            foreach (var company in companies)
+            {
+                foreach (var process in company.Process)
+                {
+                    process.Interviews.ToList().ForEach(c => c.SetNameInterViewers());
+                }
+            }
+
+            return _context.Companies?.Include(c => c.Process).ThenInclude(c => c.Interviews).ToList();
         }
 
         public Company? AddInterView(ServiceCompanyModel companyModel)

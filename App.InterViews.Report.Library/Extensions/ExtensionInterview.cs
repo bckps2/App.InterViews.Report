@@ -9,7 +9,7 @@ namespace App.InterViews.Report.Library.Extensions
 {
     public static class ExtensionInterview
     {
-        public static void SetNameInterViewers(this InterView interView)
+        public static void SetInterViewersName(this InterView interView)
         {
             if(interView.NameInterViewers != null) 
             {
@@ -17,7 +17,7 @@ namespace App.InterViews.Report.Library.Extensions
             }
         }
 
-        public static void SetListInterViewers(this InterView interView)
+        public static void SetNameInterViewers(this InterView interView)
         {
             interView.NameInterViewers = interView.InterViewersName?.Split(',').ToList();
         }
