@@ -8,7 +8,7 @@
       "sslPort": 44378
     },
     "iis": {
-      "applicationUrl": "http://interview.apireport.com/",
+      "applicationUrl": "https://interview.apireport.com/",
       "sslPort": 443
     }
   },
