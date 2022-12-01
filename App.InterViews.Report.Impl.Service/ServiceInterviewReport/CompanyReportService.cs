@@ -22,6 +22,21 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             _iRepositoryBaseCompany = iRepositoryBaseCompany;
         }
 
+        public Company? GetCompanyById(int idCompany)
+        {
+            var companies = GetAllCompanies();
+
+            foreach (var company in companies)
+            {
+                foreach (var process in company.Process)
+                {
+                    process.Interviews.ToList().ForEach(c => c.SetNameInterViewers());
+                }
+            }
+
+            return companies.FirstOrDefault(c => c.IdCompany == idCompany);
+        }
+
         public List<Company>? GetAllCompanies()
         {
             var companies = _context.Companies?.Include(c => c.Process).ThenInclude(c => c.Interviews).ToList();
@@ -34,7 +49,7 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
                 }
             }
 
-            return _context.Companies?.Include(c => c.Process).ThenInclude(c => c.Interviews).ToList();
+            return companies;
         }
 
         public Company? AddInterView(ServiceCompanyModel companyModel)

@@ -15,6 +15,8 @@ namespace App.InterViews.Report.Models
         public TypeInterview TypeInterView { get; set; }
         [Required]
         public List<string>? NameInterViewers { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime DateInterView { get; set; }
         [Required]
         public string? Email { get; set; }

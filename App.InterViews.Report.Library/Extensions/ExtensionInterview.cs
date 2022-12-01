@@ -13,7 +13,8 @@ namespace App.InterViews.Report.Library.Extensions
         {
             if(interView.NameInterViewers != null) 
             {
-                interView.InterViewersName = string.Join(", ", interView.NameInterViewers.FindAll(c => c.Length > 0));
+                interView.NameInterViewers.ForEach(c => c.Trim());
+                interView.InterViewersName = string.Join(",", interView.NameInterViewers.FindAll(c => c.Length > 0));
             }
         }
 

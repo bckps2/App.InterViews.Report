@@ -19,6 +19,12 @@ namespace App.InterViews.Report.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("GetCompanyById/{idCompany}")]
+        public IActionResult GetCompanyById(int idCompany)
+        {
+            return Ok(_iServiceCompany.GetCompanyById(idCompany));
+        }
+
         [HttpGet("GetAllCompanies")]
         public IActionResult GetAllCompanies()
         {

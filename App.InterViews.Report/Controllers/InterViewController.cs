@@ -45,10 +45,10 @@ namespace App.InterViews.Report.Controllers
             return Ok(_iInterviewService.UpdateInterview(interview));
         }
 
-        [HttpDelete("DeleteInterview/{idInformation}")]
-        public IActionResult DeleteInterview(int idProcess)
+        [HttpDelete("DeleteInterview/{idInterview}")]
+        public IActionResult DeleteInterview(int idInterview)
         {
-            return Ok(_iInterviewService.DeleteInterview(idProcess));
+            return Ok(_iInterviewService.DeleteInterview(idInterview));
         }
     }
 }

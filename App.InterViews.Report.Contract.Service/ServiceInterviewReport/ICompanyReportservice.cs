@@ -11,6 +11,7 @@ namespace App.InterViews.Report.Contract.Service.ServiceInterviewReport
     public interface ICompanyReportservice
     {
         List<Company>? GetAllCompanies();
+        Company? GetCompanyById(int idCompany);
         Company? AddInterView(ServiceCompanyModel companyModel);
         Company? DeleteCompany(int idcompany);
     }
