@@ -2,6 +2,7 @@
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using App.InterViews.Report.Models;
 using AutoMapper;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.InterViews.Report.Controllers
@@ -11,8 +12,8 @@ namespace App.InterViews.Report.Controllers
     public class ProcessController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IProcessReportService _iProcessService;
-        public ProcessController(IProcessReportService iProcessService, IMapper mapper)
+        private readonly IProcessReportService<ValidationResult> _iProcessService;
+        public ProcessController(IProcessReportService<ValidationResult> iProcessService, IMapper mapper)
         {
             _iProcessService = iProcessService;
             _mapper = mapper;

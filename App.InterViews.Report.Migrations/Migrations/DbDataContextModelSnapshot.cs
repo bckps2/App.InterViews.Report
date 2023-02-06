@@ -32,7 +32,6 @@ namespace App.InterViews.Report.Migrations.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCompany"), 1L, 1);
 
                     b.Property<string>("CompanyName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateCreated")
@@ -41,7 +40,8 @@ namespace App.InterViews.Report.Migrations.Migrations
                     b.HasKey("IdCompany");
 
                     b.HasIndex("CompanyName")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[CompanyName] IS NOT NULL");
 
                     b.ToTable("Companies");
                 });
@@ -61,18 +61,15 @@ namespace App.InterViews.Report.Migrations.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdProcess")
                         .HasColumnType("int");
 
                     b.Property<string>("InterViewersName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Observations")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TypeInterView")
@@ -98,18 +95,15 @@ namespace App.InterViews.Report.Migrations.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ExternalCompany")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdCompany")
                         .HasColumnType("int");
 
                     b.Property<string>("JobPosition")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RangeSalarial")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdProcess");

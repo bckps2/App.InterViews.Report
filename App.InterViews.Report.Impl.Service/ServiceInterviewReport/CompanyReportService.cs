@@ -3,43 +3,40 @@ using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Library.Contracts;
 using App.InterViews.Report.Contract.Service.Models;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
-using App.InterViews.Report.Db.Infrastructure.Context;
-using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.Library.Extensions;
+using FluentValidation;
+using FluentValidation.Results;
+using CSharpFunctionalExtensions;
+using App.InterViews.Report.Db.Infrastructure;
 
 namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 {
-    public class CompanyReportService : ICompanyReportservice
+    public class CompanyReportService<TValidation> : ICompanyReportservice<TValidation> where TValidation : ValidationResult
     {
         private readonly IMapper _mapper;
-        private readonly IRepositoryBase<Company> _iRepositoryBaseCompany;
-        private readonly DbDataContext _context;
+        private readonly IRepositoryBase<Company?, TValidation> _iRepositoryBaseCompany;
 
-        public CompanyReportService(IRepositoryBase<Company> iRepositoryBaseCompany, IMapper mapper, DbDataContext context)
+        public CompanyReportService(IRepositoryBase<Company?, TValidation> iRepositoryBaseCompany, IMapper mapper)
         {
-            _context = context;
             _mapper = mapper;
             _iRepositoryBaseCompany = iRepositoryBaseCompany;
         }
 
         public Company? GetCompanyById(int idCompany)
         {
-            var companies = GetAllCompanies();
+            var company = _iRepositoryBaseCompany.GetById(idCompany);
 
-            foreach (var company in companies)
+            foreach (var process in company.Process)
             {
-                foreach (var process in company.Process)
-                {
-                    process.Interviews.ToList().ForEach(c => c.SetNameInterViewers());
-                }
+                process.Interviews.ToList().ForEach(c => c.SetNameInterViewers());
             }
 
-            return companies.FirstOrDefault(c => c.IdCompany == idCompany);
+            return company;
         }
 
-        public List<Company>? GetAllCompanies()
+        public IEnumerable<Company>? GetAllCompanies()
         {
-            var companies = _context.Companies?.Include(c => c.Process).ThenInclude(c => c.Interviews).ToList();
+            var companies = _iRepositoryBaseCompany.GetAll();
             
             foreach (var company in companies)
             {
@@ -52,17 +49,10 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             return companies;
         }
 
-        public Company? AddInterView(ServiceCompanyModel companyModel)
+        public async Task<Result<Company?, TValidation>> AddCompany(ServiceCompanyModel companyModel)
         {
-            try
-            {
-                var company = _mapper.Map<Company>(companyModel);
-                return _iRepositoryBaseCompany.Add(company).Value;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            var company = _mapper.Map<Company?>(companyModel);
+            return await _iRepositoryBaseCompany.AddAsync(company);
         }
 
         public Company? DeleteCompany(int idcompany)

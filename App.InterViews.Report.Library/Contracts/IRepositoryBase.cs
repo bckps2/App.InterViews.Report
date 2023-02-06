@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace App.InterViews.Report.Library.Contracts
 {
-    public interface IRepositoryBase<T>
+    public interface IRepositoryBase<T, TDefaultValue>
     {
         T? GetById(int id);
         IEnumerable<T> GetAll();
-        ActionResult<T> Add(T item);
+        Task<Result<T, TDefaultValue>> AddAsync(T item);
         ActionResult<T> Update(T item);
         T Delete(T item);
     }

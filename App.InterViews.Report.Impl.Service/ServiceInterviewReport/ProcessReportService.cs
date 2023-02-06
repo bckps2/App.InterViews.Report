@@ -6,16 +6,19 @@ using App.InterViews.Report.Library.Extensions;
 using App.InterViews.Report.Contract.Service.Models;
 using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
+using FluentValidation.Results;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
+using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 {
-    public class ProcessReportService : IProcessReportService
+    public class ProcessReportService<TValidation> : IProcessReportService<TValidation> where TValidation : ValidationResult
     {
         private readonly IMapper _mapper;
-        private readonly IRepositoryBase<Process> _iRepositoryBaseInformation;
+        private readonly IRepositoryBase<Process, ValidationResult> _iRepositoryBaseInformation;
         private readonly DbDataContext _context;
 
-        public ProcessReportService(IRepositoryBase<Process> iRepositoryBaseInformation, IMapper mapper, DbDataContext context)
+        public ProcessReportService(IRepositoryBase<Process, ValidationResult> iRepositoryBaseInformation, IMapper mapper, DbDataContext context)
         {
             _context = context;
             _iRepositoryBaseInformation = iRepositoryBaseInformation;
@@ -41,17 +44,10 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             return processes;
         }
 
-        public Process? AddProcess(ServiceProcessModel informationModel)
+        public async Task<Result<Process?, TValidation>> AddProcess(ServiceProcessModel informationModel)
         {
-            try
-            {
-                var process = _mapper.Map<Process>(informationModel);
-                return _iRepositoryBaseInformation.Add(process).Value;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            var process = _mapper.Map<Process>(informationModel);
+            return (await _iRepositoryBaseInformation.AddAsync(process)).Value;
         }
 
         public Process? DeleteProcess(int processId)

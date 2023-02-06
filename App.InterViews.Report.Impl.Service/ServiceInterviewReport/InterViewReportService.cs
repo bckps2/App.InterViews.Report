@@ -4,14 +4,17 @@ using App.InterViews.Report.Library.Contracts;
 using App.InterViews.Report.Contract.Service.Models;
 using App.InterViews.Report.Library.Extensions;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
+using FluentValidation.Results;
+using CSharpFunctionalExtensions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 
 namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 {
-    public class InterViewReportService : IInterViewReportService
+    public class InterViewReportService<TValidation> : IInterViewReportService<TValidation>
     {
         private readonly IMapper _mapper;
-        private readonly IRepositoryBase<InterView> _iRepositoryInterview;
-        public InterViewReportService(IMapper mapper, IRepositoryBase<InterView> iRepositoryInterview)
+        private readonly IRepositoryBase<InterView, ValidationResult> _iRepositoryInterview;
+        public InterViewReportService(IMapper mapper, IRepositoryBase<InterView,ValidationResult> iRepositoryInterview)
         {
             _iRepositoryInterview = iRepositoryInterview;
             _mapper = mapper;
@@ -23,6 +26,12 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             return response;
         }
 
+        public InterView? GetInterviewById(int idInterview)
+        {
+            var response = _iRepositoryInterview.GetById(idInterview);
+            return response;
+        }
+
         public List<InterView> GetAllInterViews()
         {
             var response = _iRepositoryInterview.GetAll().ToList();
@@ -30,20 +39,10 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             return response;
         }
 
-        public InterView? AddInterview(ServiceInterviewModel interviewModel)
+        public async Task<Result<InterView?, TValidation>> AddInterview(ServiceInterviewModel interviewModel)
         {
-            try
-            {
-                var interview = _mapper.Map<InterView>(interviewModel);
-                interview.SetInterViewersName();
-                var response = _iRepositoryInterview.Add(interview).Value;
-                response.SetNameInterViewers(); 
-                return response;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            var company = _mapper.Map<InterView>(interviewModel);
+            return (await _iRepositoryInterview.AddAsync(company)).Value;
         }
 
         public InterView? DeleteInterview(int idInterview)

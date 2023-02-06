@@ -26,7 +26,6 @@ namespace App.InterViews.Report.Library.Entities
         [Column(TypeName = "nvarchar(20)")]
         public TypeInterview TypeInterView { get; set; }
 
-
         [ForeignKey("Process")]
         public int IdProcess { get; set; }
         public Process? Process { get; set; }

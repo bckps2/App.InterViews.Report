@@ -4,18 +4,26 @@ using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.Library.Contracts;
 using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Library.Entities;
+using App.InterViews.Report.Contract.Service;
+using CSharpFunctionalExtensions;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace App.InterViews.Report.Db.Infrastructure.Implements
 {
-    public class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public class RepositoryBase<T, DefaultValue> : IRepositoryBase<T, DefaultValue> where T : class where DefaultValue : ValidationResult
     {
         private readonly DbDataContext _context;
         private readonly DbSet<T> _set;
+        private readonly IValidator<T> _iValidator;
+        private readonly IResultDefault<T, DefaultValue> _iResultDefault;
 
-        public RepositoryBase(DbDataContext context)
+        public RepositoryBase(DbDataContext context, IValidator<T> iValidator, IResultDefault<T, DefaultValue> iResultDefault)
         {
             _context = context;
             _set = context.Set<T>();
+            _iValidator = iValidator;
+            _iResultDefault = iResultDefault;
         }
 
         public T? GetById(int id)
@@ -34,8 +42,8 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             {
                 var response = _set.Update(item);
                 var id = (item.GetType().Name);
-                _context.SaveChanges();
                 Log.Information("{Message}-{IdType}-{CustomType}", $"Processing Data in Repository Base {item.GetType().Name} and Item: {item}", id, item.GetType().Name);
+                _context.SaveChanges();                
                 return response.Entity;
             }
             catch (Exception ex)
@@ -45,21 +53,17 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             }
         }
 
-        public ActionResult<T> Add(T item)
+        public async Task<Result<T, DefaultValue>> AddAsync(T item)
         {
-            try
-            {
-                var response = _set.Add(item);
-                var id = (item.GetType().Name);
-                Log.Information("{Message}-{IdType}-{CustomType}", $"Processing Data in Repository Base {item.GetType().Name} and Item: {item}", id, item.GetType().Name);
-                _context.SaveChanges();
-                return response.Entity;
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"On Add Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
-                throw;
-            }
+            var validator = await _iValidator.ValidateAsync(item);
+
+            if (!validator.IsValid)
+                return _iResultDefault.ResultError((DefaultValue)validator);
+
+            var response = await _set.AddAsync(item);
+            await _context.SaveChangesAsync();
+
+            return _iResultDefault.ResultValue(response.Entity, (DefaultValue)validator);
         }
 
         public T Delete(T item) 

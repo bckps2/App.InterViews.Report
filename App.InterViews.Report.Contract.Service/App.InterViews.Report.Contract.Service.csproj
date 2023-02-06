@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.37.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\App.InterViews.Report.Library\App.InterViews.Report.Library.csproj" />
   </ItemGroup>
 

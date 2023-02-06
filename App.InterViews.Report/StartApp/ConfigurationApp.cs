@@ -1,8 +1,13 @@
-﻿using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
+﻿using App.InterViews.Report.Contract.Service;
+using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
+using App.InterViews.Report.Db.Infrastructure;
 using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Db.Infrastructure.Implements;
 using App.InterViews.Report.Impl.Service.ServiceInterviewReport;
 using App.InterViews.Report.Library.Contracts;
+using App.InterViews.Report.Library.Entities;
+using App.InterViews.Report.Validations;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Core;
@@ -10,75 +15,75 @@ using Serilog.Sinks.MSSqlServer;
 using System.Collections.ObjectModel;
 using System.Data;
 
-namespace App.InterViews.Report.StartApp
+namespace App.InterViews.Report.StartApp;
+
+public static class ConfigurationApp
 {
-    public static class ConfigurationApp
+    public static ConfigurationManager? configurationManager;
+
+    public static void StartConfiguration(this IServiceCollection services)
     {
-        public static ConfigurationManager? configurationManager;
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        services.AddTransient(typeof(ICompanyReportservice<>), typeof(CompanyReportService<>));
+        services.AddTransient(typeof(IInterViewReportService<>), typeof(InterViewReportService<>));
+        services.AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>));
+        services.AddTransient(typeof(IProcessReportService<>), typeof(ProcessReportService<>));
+        services.AddTransient<IValidator<Company>, CompanyValidator>();
+        services.AddTransient(typeof(IResultDefault<,>), typeof(ResultDefault<,>));
 
-        public static void StartConfiguration(this IServiceCollection services)
+        ConfgiurationDb(services);
+        ConfigurationCors(services);
+    }
+
+    public static Logger ConfigurationSerilog()
+    {
+        var appSettings = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+        var logDB = configurationManager?.GetSection("ConnectionStrings:DbInterviews").Value;
+        var sinkOpts = new MSSqlServerSinkOptions { TableName = "LogRecords", AutoCreateSqlTable = true };
+
+        var columnOptions = new ColumnOptions
         {
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddScoped<ICompanyReportservice, CompanyReportService>();
-            services.AddScoped<IInterViewReportService, InterViewReportService>();
-            services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
-            services.AddScoped<IProcessReportService, ProcessReportService>();
-
-            ConfgiurationDb(services);
-            ConfigurationCors(services);
-        }
-
-        public static Logger ConfigurationSerilog()
-        {
-            var appSettings = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            var logDB = configurationManager?.GetSection("ConnectionStrings:DbInterviews").Value;
-            var sinkOpts = new MSSqlServerSinkOptions { TableName = "LogRecords", AutoCreateSqlTable = true };
-
-            var columnOptions = new ColumnOptions
-            {
-                AdditionalColumns = new Collection<SqlColumn>
+            AdditionalColumns = new Collection<SqlColumn>
                 {
-                    new SqlColumn("IdType", SqlDbType.Int),
+                    new SqlColumn("IdType", SqlDbType.NVarChar),
                     new SqlColumn("CustomType", SqlDbType.NVarChar)
                 }
-            };
+        };
+        return new LoggerConfiguration()
+            .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
+            .WriteTo.MSSqlServer(
+                connectionString: logDB,
+                sinkOptions: sinkOpts,
+                columnOptions: columnOptions,
+                appConfiguration: appSettings
+            ).CreateLogger();
 
-            return new LoggerConfiguration()
-                .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
-                .WriteTo.MSSqlServer(
-                    connectionString: logDB,
-                    sinkOptions: sinkOpts,
-                    columnOptions: columnOptions,
-                    appConfiguration: appSettings
-                ).CreateLogger();
+    }
 
-        }
-
-        private static void ConfgiurationDb(IServiceCollection services) 
+    private static void ConfgiurationDb(IServiceCollection services)
+    {
+        services.AddDbContext<DbDataContext>(options =>
         {
-            services.AddDbContext<DbDataContext>(options =>
-            {
-                options.UseSqlServer(configurationManager.GetConnectionString("DbInterviews"),
-                    x => x.MigrationsAssembly("App.InterViews.Report.Migrations"));
-            });
-        }
+            options.UseSqlServer(configurationManager.GetConnectionString("DbInterviews"),
+                x => x.MigrationsAssembly("App.InterViews.Report.Migrations"));
+        });
+    }
 
-        private static void ConfigurationCors(IServiceCollection services) 
+    private static void ConfigurationCors(IServiceCollection services)
+    {
+        services.AddCors(options =>
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigin",
-                       builder =>
-                       {
-                           builder.WithOrigins("*")
-                           .WithHeaders("*")
-                           .WithMethods("*");
-                       });
-            });
-        } 
+            options.AddPolicy("AllowSpecificOrigin",
+                   builder =>
+                   {
+                       builder.WithOrigins("*")
+                       .WithHeaders("*")
+                       .WithMethods("*");
+                   });
+        });
     }
 }

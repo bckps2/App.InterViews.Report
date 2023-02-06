@@ -1,5 +1,7 @@
 ﻿using App.InterViews.Report.Contract.Service.Models;
 using App.InterViews.Report.Library.Entities;
+using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace App.InterViews.Report.Contract.Service.ServiceInterviewReport
 {
-    public interface ICompanyReportservice
+    public interface ICompanyReportservice<TResultValidation>
     {
-        List<Company>? GetAllCompanies();
+        IEnumerable<Company>? GetAllCompanies();
         Company? GetCompanyById(int idCompany);
-        Company? AddInterView(ServiceCompanyModel companyModel);
+        Task<Result<Company?, TResultValidation>> AddCompany(ServiceCompanyModel companyModel);
         Company? DeleteCompany(int idcompany);
     }
 }

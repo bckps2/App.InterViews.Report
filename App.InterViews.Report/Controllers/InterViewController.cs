@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using App.InterViews.Report.Models;
 using App.InterViews.Report.Contract.Service.Models;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
+using FluentValidation.Results;
 
 namespace App.InterViews.Report.Controllers
 {
@@ -11,9 +12,9 @@ namespace App.InterViews.Report.Controllers
     public class InterviewController : Controller
     {
         private readonly IMapper _mapper;
-        private readonly IInterViewReportService _iInterviewService;
+        private readonly IInterViewReportService<ValidationResult> _iInterviewService;
 
-        public InterviewController(IInterViewReportService iInterviewService, IMapper mapper)
+        public InterviewController(IInterViewReportService<ValidationResult> iInterviewService, IMapper mapper)
         {
             _mapper = mapper;
             _iInterviewService = iInterviewService;
@@ -25,10 +26,16 @@ namespace App.InterViews.Report.Controllers
             return Ok(_iInterviewService.GetAllInterViews());
         }
 
-        [HttpGet("GetByIdProcess/{idInterview}")]
-        public IActionResult GetByIdProcess(int idInterview)
+        [HttpGet("GetByIdProcess/{idProcess}")]
+        public IActionResult GetByIdProcess(int idProcess)
         {
-            return Ok(_iInterviewService.GetAllInterViewsByIdProcess(idInterview));
+            return Ok(_iInterviewService.GetAllInterViewsByIdProcess(idProcess));
+        }
+
+        [HttpGet("GetInterviewById/{idInterview}")]
+        public IActionResult GetInterviewById(int idInterview)
+        {
+            return Ok(_iInterviewService.GetInterviewById(idInterview));
         }
 
         [HttpPost("AddInterview")]
