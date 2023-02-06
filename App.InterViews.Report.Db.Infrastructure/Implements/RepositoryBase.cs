@@ -16,14 +16,12 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
         private readonly DbDataContext _context;
         private readonly DbSet<T> _set;
         private readonly IValidator<T> _iValidator;
-        private readonly IResultDefault<T, DefaultValue> _iResultDefault;
 
-        public RepositoryBase(DbDataContext context, IValidator<T> iValidator, IResultDefault<T, DefaultValue> iResultDefault)
+        public RepositoryBase(DbDataContext context, IValidator<T> iValidator)
         {
             _context = context;
             _set = context.Set<T>();
             _iValidator = iValidator;
-            _iResultDefault = iResultDefault;
         }
 
         public T? GetById(int id)
@@ -58,12 +56,12 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             var validator = await _iValidator.ValidateAsync(item);
 
             if (!validator.IsValid)
-                return _iResultDefault.ResultError((DefaultValue)validator);
+                return (DefaultValue)validator;
 
             var response = await _set.AddAsync(item);
             await _context.SaveChangesAsync();
 
-            return _iResultDefault.ResultValue(response.Entity, (DefaultValue)validator);
+            return response.Entity;
         }
 
         public T Delete(T item) 

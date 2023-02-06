@@ -31,9 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\App.InterViews.Report.Contract.Service\App.InterViews.Report.Contract.Service.csproj" />
     <ProjectReference Include="..\App.InterViews.Report.CrossCutting\App.InterViews.Report.CrossCutting.csproj" />
-    <ProjectReference Include="..\App.InterViews.Report.Db.Infrastructure\App.InterViews.Report.Db.Infrastructure.csproj" />
     <ProjectReference Include="..\App.InterViews.Report.Impl.Service\App.InterViews.Report.Impl.Service.csproj" />
     <ProjectReference Include="..\App.InterViews.Report.Migrations\App.InterViews.Report.Migrations.csproj" />
   </ItemGroup>

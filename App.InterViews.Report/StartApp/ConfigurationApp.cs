@@ -1,10 +1,6 @@
-﻿using App.InterViews.Report.Contract.Service;
-using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
-using App.InterViews.Report.Db.Infrastructure;
-using App.InterViews.Report.Db.Infrastructure.Context;
-using App.InterViews.Report.Db.Infrastructure.Implements;
-using App.InterViews.Report.Impl.Service.ServiceInterviewReport;
-using App.InterViews.Report.Library.Contracts;
+﻿using App.InterViews.Report.Db.Infrastructure.Context;
+using App.InterViews.Report.Db.Infrastructure.Ioc;
+using App.InterViews.Report.Impl.Service.Ioc;
 using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Validations;
 using FluentValidation;
@@ -24,13 +20,9 @@ public static class ConfigurationApp
     public static void StartConfiguration(this IServiceCollection services)
     {
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-        services.AddTransient(typeof(ICompanyReportservice<>), typeof(CompanyReportService<>));
-        services.AddTransient(typeof(IInterViewReportService<>), typeof(InterViewReportService<>));
-        services.AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>));
-        services.AddTransient(typeof(IProcessReportService<>), typeof(ProcessReportService<>));
         services.AddTransient<IValidator<Company>, CompanyValidator>();
-        services.AddTransient(typeof(IResultDefault<,>), typeof(ResultDefault<,>));
-
+        services.InitializeInfrastructure();
+        services.InitializeServices();
         ConfgiurationDb(services);
         ConfigurationCors(services);
     }

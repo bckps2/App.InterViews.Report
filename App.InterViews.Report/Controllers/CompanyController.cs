@@ -2,10 +2,8 @@
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using App.InterViews.Report.Models;
 using AutoMapper;
-using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace App.InterViews.Report.Controllers
 {
@@ -42,7 +40,8 @@ namespace App.InterViews.Report.Controllers
 
             if (result.IsFailure) 
             {
-                return BadRequest(result.Error.Errors[0].ErrorMessage);
+                var errorMessages = result.Error.Errors.Select(c => c.ErrorMessage);
+                return BadRequest(errorMessages);
             }
 
             return Ok(result);
