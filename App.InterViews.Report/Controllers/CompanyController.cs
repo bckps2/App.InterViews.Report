@@ -1,9 +1,14 @@
-﻿using App.InterViews.Report.Contract.Service.Models;
+﻿using App.InterViews.Report.Contract.Service.Dtos;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
+using App.InterViews.Report.Http;
+using App.InterViews.Report.Impl.Service.ServiceInterviewReport;
+using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Models;
 using AutoMapper;
+using CSharpFunctionalExtensions;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
+using IResult = Microsoft.AspNetCore.Http.IResult;
 
 namespace App.InterViews.Report.Controllers
 {
@@ -12,45 +17,41 @@ namespace App.InterViews.Report.Controllers
     public class CompanyController : Controller
     {
         private readonly IMapper _mapper;
-        private readonly ICompanyReportservice<ValidationResult> _iServiceCompany;
+        private readonly ICompanyReportservice<Company, ValidationResult> _iServiceCompany;
+        private readonly IAutoMapperHttp _iAutoMapperHttp;
 
-        public CompanyController(ICompanyReportservice<ValidationResult> iServiceCompany, IMapper mapper)
+        public CompanyController(ICompanyReportservice<Company, ValidationResult> iServiceCompany, IMapper mapper, IAutoMapperHttp iAutoMapperHttp)
         {
             _iServiceCompany = iServiceCompany;
             _mapper = mapper;
+            _iAutoMapperHttp = iAutoMapperHttp;
         }
 
         [HttpGet("GetCompanyById/{idCompany}")]
-        public IActionResult GetCompanyById(int idCompany)
+        public async Task<IResult> GetCompanyById(int idCompany)
         {
-            return Ok(_iServiceCompany.GetCompanyById(idCompany));
+            var result = await _iServiceCompany.GetCompanyById(idCompany);
+            return _iAutoMapperHttp.Ok(result);
         }
 
         [HttpGet("GetAllCompanies")]
-        public IActionResult GetAllCompanies()
+        public IResult GetAllCompanies()
         {
-            return Ok(_iServiceCompany.GetAllCompanies());
+            return _iAutoMapperHttp.Ok(_iServiceCompany.GetAllCompanies());
         }
 
         [HttpPost("AddCompany")]
-        public async Task<IActionResult> AddCompany(CompanyModel companyModel)
+        public async Task<IResult> AddCompany(CompanyModel companyModel)
         {
-            var company = _mapper.Map<ServiceCompanyModel>(companyModel);
+            var company = _mapper.Map<ServiceCompanyDto>(companyModel);
             var result = await _iServiceCompany.AddCompany(company);
-
-            if (result.IsFailure) 
-            {
-                var errorMessages = result.Error.Errors.Select(c => c.ErrorMessage);
-                return BadRequest(errorMessages);
-            }
-
-            return Ok(result);
+            return _iAutoMapperHttp.Ok(result);
         }
 
-        [HttpDelete("DeleteCompany/{idCompany}")]
-        public IActionResult DeleteCompany(int idCompany)
-        {
-            return Ok(_iServiceCompany.DeleteCompany(idCompany));
-        }
+        //[HttpDelete("DeleteCompany/{idCompany}")]
+        //public IActionResult DeleteCompany(int idCompany)
+        //{
+        //    return Ok(_iServiceCompany.DeleteCompany(idCompany));
+        //}
     }
 }

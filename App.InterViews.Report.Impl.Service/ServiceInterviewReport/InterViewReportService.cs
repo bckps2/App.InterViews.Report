@@ -1,86 +1,85 @@
 ﻿using AutoMapper;
 using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Library.Contracts;
-using App.InterViews.Report.Contract.Service.Models;
+using App.InterViews.Report.Contract.Service.Dtos;
 using App.InterViews.Report.Library.Extensions;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
-using FluentValidation.Results;
 using CSharpFunctionalExtensions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 
 namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 {
-    public class InterViewReportService<TValidation> : IInterViewReportService<TValidation>
+    public class InterViewReportService<TEntry, TValidation> : IInterViewReportService<TEntry, TValidation>
     {
         private readonly IMapper _mapper;
-        private readonly IRepositoryBase<InterView, ValidationResult> _iRepositoryInterview;
-        public InterViewReportService(IMapper mapper, IRepositoryBase<InterView,ValidationResult> iRepositoryInterview)
+        private readonly IRepositoryBase<TEntry, TValidation> _iRepositoryInterview;
+
+        public InterViewReportService(IMapper mapper, IRepositoryBase<TEntry, TValidation> iRepositoryInterview)
         {
             _iRepositoryInterview = iRepositoryInterview;
             _mapper = mapper;
         }
 
-        public List<InterView> GetAllInterViewsByIdProcess(int idProcess)
+        //public List<InterView> GetAllInterViewsByIdProcess(int idProcess)
+        //{
+        //    var response = GetAllInterViews().Where(c => c.IdProcess == idProcess).ToList();
+        //    return response;
+        //}
+
+        //public InterView? GetInterviewById(int idInterview)
+        //{
+        //    var response = _iRepositoryInterview.GetById(idInterview);
+        //    return response;
+        //}
+
+        public List<ServiceInterviewDto> GetAllInterViews()
         {
-            var response = GetAllInterViews().Where(c => c.IdProcess == idProcess).ToList();
-            return response;
+            var response = _iRepositoryInterview.GetAll();
+            var result = _mapper.Map<List<ServiceInterviewDto>>(response);
+            return result;
         }
 
-        public InterView? GetInterviewById(int idInterview)
-        {
-            var response = _iRepositoryInterview.GetById(idInterview);
-            return response;
-        }
+        //public async Task<Result<TEntry?, TValidation>> AddInterview(ServiceInterviewDto interviewModel)
+        //{
+        //    var company = _mapper.Map<InterView>(interviewModel);
+        //    return (await _iRepositoryInterview.AddAsync(company)).Value;
+        //}
 
-        public List<InterView> GetAllInterViews()
-        {
-            var response = _iRepositoryInterview.GetAll().ToList();
-            response.ForEach(interview => interview.SetNameInterViewers());
-            return response;
-        }
+        //public InterView? DeleteInterview(int idInterview)
+        //{
+        //    var interview = _iRepositoryInterview.GetById(idInterview);
+        //    if (interview != null)
+        //    {
+        //        var response = _iRepositoryInterview.Delete(interview);
+        //        return response;
+        //    }
+        //    return null;
+        //}
 
-        public async Task<Result<InterView?, TValidation>> AddInterview(ServiceInterviewModel interviewModel)
-        {
-            var company = _mapper.Map<InterView>(interviewModel);
-            return (await _iRepositoryInterview.AddAsync(company)).Value;
-        }
-
-        public InterView? DeleteInterview(int idInterview)
-        {
-            var interview = _iRepositoryInterview.GetById(idInterview);
-            if (interview != null)
-            {
-                var response = _iRepositoryInterview.Delete(interview);
-                return response;
-            }
-            return null;
-        }
-
-        public InterView? UpdateInterview(ServiceInterviewModel informationModel)
-        {
-            try
-            {
-                var interviewDb = _iRepositoryInterview.GetById(informationModel.IdInterview);
-                if (interviewDb != null)
-                {
-                    var interview = _mapper.Map<InterView>(informationModel);
-                    interview.SetInterViewersName();
-                    interviewDb.InterViewersName = interview.InterViewersName;
-                    interviewDb.Email = interview.Email;
-                    interviewDb.Observations = interview.Observations;
-                    interviewDb.DateInterView = interview.DateInterView;
-                    interviewDb.TypeInterView = interview.TypeInterView;
-                    var response = _iRepositoryInterview.Update(interviewDb).Value;
-                    response.SetNameInterViewers();
-                    return response;
-                }
-                return null;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
+        //public async Task<TEntry?> UpdateInterview(ServiceInterviewDto informationModel)
+        //{
+        //    try
+        //    {
+        //        var interviewDb = await _iRepositoryInterview.GetById(informationModel.IdInterview);
+        //        if (interviewDb.IsSuccess)
+        //        {
+        //            var interview = _mapper.Map<InterView>(informationModel);
+        //            interview.SetInterViewersName();
+        //            interviewDb.Value.InterViewersName = interview.InterViewersName;
+        //            interviewDb.Value.Email = interview.Email;
+        //            interviewDb.Value.Observations = interview.Observations;
+        //            interviewDb.Value.DateInterView = interview.DateInterView;
+        //            interviewDb.Value.TypeInterView = interview.TypeInterView;
+        //            var response = _iRepositoryInterview.Update(interviewDb.Value).Value;
+        //            response.SetNameInterViewers();
+        //            return response;
+        //        }
+        //        return null;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return null;
+        //    }
+        //}
 
     }
 }

@@ -1,16 +1,17 @@
-﻿using App.InterViews.Report.Contract.Service.Models;
+﻿using App.InterViews.Report.Contract.Service.Dtos;
 using App.InterViews.Report.Library.Entities;
 using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Contract.Service.ServiceInterviewReport
 {
-    public interface IInterViewReportService<TResultValidation>
+    public interface IInterViewReportService<TEntry, TValidation>
     {
-        public List<InterView> GetAllInterViews();
-        public List<InterView> GetAllInterViewsByIdProcess(int idCompany);
-        Task<Result<InterView?, TResultValidation>> AddInterview(ServiceInterviewModel interviewModel);
-        public InterView? DeleteInterview(int idInterview);
-        public InterView? UpdateInterview(ServiceInterviewModel informationModel);
-        public InterView? GetInterviewById(int idInterview);
+        List<ServiceInterviewDto> GetAllInterViews();
+        //public List<TEntry> GetAllInterViewsByIdProcess(int idCompany);
+        //Task<Result<TEntry?, TValidation>> AddInterview(ServiceInterviewDto interviewModel);
+        //public InterView? DeleteInterview(int idInterview);
+        //public InterView? UpdateInterview(ServiceInterviewModel informationModel);
+        //public InterView? GetInterviewById(int idInterview);
+        //Task<InterView?> UpdateInterview(ServiceInterviewDto informationModel);
     }
 }

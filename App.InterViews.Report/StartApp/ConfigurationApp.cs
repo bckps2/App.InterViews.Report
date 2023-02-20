@@ -1,5 +1,6 @@
 ﻿using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Db.Infrastructure.Ioc;
+using App.InterViews.Report.Http;
 using App.InterViews.Report.Impl.Service.Ioc;
 using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Validations;
@@ -21,6 +22,7 @@ public static class ConfigurationApp
     {
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.AddTransient<IValidator<Company>, CompanyValidator>();
+        services.AddScoped<IAutoMapperHttp, AutoMapperHttp>();
         services.InitializeInfrastructure();
         services.InitializeServices();
         ConfgiurationDb(services);

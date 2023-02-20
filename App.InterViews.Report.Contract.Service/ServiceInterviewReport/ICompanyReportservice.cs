@@ -1,20 +1,13 @@
-﻿using App.InterViews.Report.Contract.Service.Models;
-using App.InterViews.Report.Library.Entities;
+﻿using App.InterViews.Report.Contract.Service.Dtos;
 using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace App.InterViews.Report.Contract.Service.ServiceInterviewReport
 {
-    public interface ICompanyReportservice<TResultValidation>
+    public interface ICompanyReportservice<TEntry, TResultValidation>
     {
-        IEnumerable<Company>? GetAllCompanies();
-        Company? GetCompanyById(int idCompany);
-        Task<Result<Company?, TResultValidation>> AddCompany(ServiceCompanyModel companyModel);
-        Company? DeleteCompany(int idcompany);
+        Task<Result<ServiceCompanyDto, TResultValidation>> AddCompany(ServiceCompanyDto companyModel);
+        Result<IEnumerable<ServiceCompanyDto>, TResultValidation> GetAllCompanies();
+        Task<Result<ServiceCompanyDto, TResultValidation>> GetCompanyById(int idCompany);
+        //Company? DeleteCompany(int idcompany);
     }
 }

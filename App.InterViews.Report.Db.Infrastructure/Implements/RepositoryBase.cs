@@ -3,38 +3,51 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.Library.Contracts;
 using App.InterViews.Report.Db.Infrastructure.Context;
-using App.InterViews.Report.Library.Entities;
-using App.InterViews.Report.Contract.Service;
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using FluentValidation.Results;
+using App.InterViews.Report.CrossCutting.Helper;
 
 namespace App.InterViews.Report.Db.Infrastructure.Implements
 {
-    public class RepositoryBase<T, DefaultValue> : IRepositoryBase<T, DefaultValue> where T : class where DefaultValue : ValidationResult
+    public class RepositoryBase<TEntry, DefaultValue> : IRepositoryBase<TEntry, DefaultValue> where TEntry : class where DefaultValue : ValidationResult
     {
         private readonly DbDataContext _context;
-        private readonly DbSet<T> _set;
-        private readonly IValidator<T> _iValidator;
+        private readonly DbSet<TEntry> _set;
+        private readonly IValidator<TEntry> _iValidator;
 
-        public RepositoryBase(DbDataContext context, IValidator<T> iValidator)
+        public RepositoryBase(DbDataContext context, IValidator<TEntry> iValidator)
         {
             _context = context;
-            _set = context.Set<T>();
+            _set = context.Set<TEntry>();
             _iValidator = iValidator;
         }
 
-        public T? GetById(int id)
+        public async Task<Result<TEntry, DefaultValue>> GetById(int id)
         {
-            return  _set.Find(id);
+            var result = await _set.FindAsync(id);
+            
+            if(result is null) 
+            {
+                return Result.Failure<TEntry, DefaultValue>((DefaultValue)ErrorResult.NotFound<TEntry>());
+            }
+
+            return result;
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public Result<IEnumerable<TEntry>, DefaultValue> GetAll()
         {
-            return _set.AsEnumerable();
+            var result = _set.AsEnumerable();
+            
+            if (result is null || !result.Any())
+            {
+                return Result.Failure<IEnumerable<TEntry>,DefaultValue>((DefaultValue)ErrorResult.NotFound<TEntry>());
+            }
+
+            return Result.Success<IEnumerable<TEntry>, DefaultValue>(result);
         }
 
-        public ActionResult<T> Update(T item)
+        public ActionResult<TEntry> Update(TEntry item)
         {
             try
             {
@@ -51,7 +64,7 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             }
         }
 
-        public async Task<Result<T, DefaultValue>> AddAsync(T item)
+        public async Task<Result<TEntry, DefaultValue>> AddAsync(TEntry item)
         {
             var validator = await _iValidator.ValidateAsync(item);
 
@@ -64,7 +77,7 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             return response.Entity;
         }
 
-        public T Delete(T item) 
+        public TEntry Delete(TEntry item) 
         {
             try
             {

@@ -1,4 +1,4 @@
-﻿using App.InterViews.Report.Contract.Service.Models;
+﻿using App.InterViews.Report.Contract.Service.Dtos;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using App.InterViews.Report.Models;
 using AutoMapper;
@@ -25,11 +25,11 @@ namespace App.InterViews.Report.Controllers
             return Ok(_iProcessService.GetAllWithInterviews());
         }
 
-        [HttpGet("GetAllProcess")]
-        public IActionResult GetAllProcess()
-        {
-            return Ok(_iProcessService.GetAll());
-        }
+        //[HttpGet("GetAllProcess")]
+        //public IActionResult GetAllProcess()
+        //{
+        //    return Ok(_iProcessService.GetAll());
+        //}
 
         [HttpGet("GetByIdCompany/{idCompany}")]
         public IActionResult GetByIdCompany(int idCompany)
@@ -40,14 +40,14 @@ namespace App.InterViews.Report.Controllers
         [HttpPost("AddProcess")]
         public IActionResult AddProcess(ProcessModel processModel)
         {
-            var process = _mapper.Map<ServiceProcessModel>(processModel);
+            var process = _mapper.Map<ServiceProcessDto>(processModel);
             return Ok(_iProcessService.AddProcess(process));
         }
 
-        [HttpDelete("DeleteProcess/{idProcess}")]
-        public IActionResult DeleteProcess(int idProcess)
-        {
-            return Ok(_iProcessService.DeleteProcess(idProcess));
-        }
+        //[HttpDelete("DeleteProcess/{idProcess}")]
+        //public IActionResult DeleteProcess(int idProcess)
+        //{
+        //    return Ok(_iProcessService.DeleteProcess(idProcess));
+        //}
     }
 }

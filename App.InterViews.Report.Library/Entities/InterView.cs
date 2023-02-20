@@ -8,9 +8,6 @@ namespace App.InterViews.Report.Library.Entities
 {
     public class InterView
     {
-        public InterView()
-        {
-        }
 
         [Key]
         public int IdInterview { get; set; }

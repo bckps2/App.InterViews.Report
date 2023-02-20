@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Library.Contracts;
 using App.InterViews.Report.Library.Extensions;
-using App.InterViews.Report.Contract.Service.Models;
 using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using FluentValidation.Results;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 using CSharpFunctionalExtensions;
+using App.InterViews.Report.Contract.Service.Dtos;
 
 namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
 {
@@ -32,10 +32,10 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             return processes;
         }
 
-        public List<Process>? GetAll()
-        {
-            return _iRepositoryBaseInformation.GetAll().ToList();
-        }
+        //public List<Process>? GetAll()
+        //{
+        //    return _iRepositoryBaseInformation.GetAll();
+        //}
 
         public List<Process>? GetAllByIdCompany(int idInterview)
         {
@@ -44,22 +44,22 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             return processes;
         }
 
-        public async Task<Result<Process?, TValidation>> AddProcess(ServiceProcessModel informationModel)
+        public async Task<Result<Process?, TValidation>> AddProcess(ServiceProcessDto informationModel)
         {
             var process = _mapper.Map<Process>(informationModel);
             return (await _iRepositoryBaseInformation.AddAsync(process)).Value;
         }
 
-        public Process? DeleteProcess(int processId)
-        {
-            var information = _iRepositoryBaseInformation.GetById(processId);
-            if (information != null)
-            {
-                var response = _iRepositoryBaseInformation.Delete(information);
-                return response;
-            }
+        //public Process? DeleteProcess(int processId)
+        //{
+        //    var information = _iRepositoryBaseInformation.GetById(processId);
+        //    if (information != null)
+        //    {
+        //        var response = _iRepositoryBaseInformation.Delete(information);
+        //        return response;
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
     }
 }

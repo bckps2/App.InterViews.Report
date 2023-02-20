@@ -1,15 +1,9 @@
-﻿using App.InterViews.Report.CrossCutting.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
-namespace App.InterViews.Report.Contract.Service.Models
+namespace App.InterViews.Report.Contract.Service.Dtos
 {
-    public class ServiceProcessModel
+    public class ServiceProcessDto
     {
         public string? JobPosition { get; set; }
         public int IdCompany { get; set; }

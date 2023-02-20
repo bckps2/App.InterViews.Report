@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App.InterViews.Report.Library.Contracts
 {
-    public interface IRepositoryBase<T, TDefaultValue>
+    public interface IRepositoryBase<TEntry, TDefaultValue>
     {
-        T? GetById(int id);
-        IEnumerable<T> GetAll();
-        Task<Result<T, TDefaultValue>> AddAsync(T item);
-        ActionResult<T> Update(T item);
-        T Delete(T item);
+        Task<Result<TEntry, TDefaultValue>> GetById(int id);
+        Result<IEnumerable<TEntry>, TDefaultValue> GetAll();
+        Task<Result<TEntry, TDefaultValue>> AddAsync(TEntry item);
+        ActionResult<TEntry> Update(TEntry item);
+        TEntry Delete(TEntry item);
     }
 }
