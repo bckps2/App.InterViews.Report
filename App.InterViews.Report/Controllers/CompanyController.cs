@@ -1,11 +1,9 @@
 ﻿using App.InterViews.Report.Contract.Service.Dtos;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using App.InterViews.Report.Http;
-using App.InterViews.Report.Impl.Service.ServiceInterviewReport;
 using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Models;
 using AutoMapper;
-using CSharpFunctionalExtensions;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using IResult = Microsoft.AspNetCore.Http.IResult;
@@ -39,7 +37,7 @@ namespace App.InterViews.Report.Controllers
         {
             return _iAutoMapperHttp.Ok(_iServiceCompany.GetAllCompanies());
         }
-
+            
         [HttpPost("AddCompany")]
         public async Task<IResult> AddCompany(CompanyModel companyModel)
         {

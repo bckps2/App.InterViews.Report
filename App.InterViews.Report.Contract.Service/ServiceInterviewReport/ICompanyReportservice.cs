@@ -3,11 +3,11 @@ using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Contract.Service.ServiceInterviewReport
 {
-    public interface ICompanyReportservice<TEntry, TResultValidation>
+    public interface ICompanyReportservice<TEntry, TValidation>
     {
-        Task<Result<ServiceCompanyDto, TResultValidation>> AddCompany(ServiceCompanyDto companyModel);
-        Result<IEnumerable<ServiceCompanyDto>, TResultValidation> GetAllCompanies();
-        Task<Result<ServiceCompanyDto, TResultValidation>> GetCompanyById(int idCompany);
+        Task<Result<ServiceCompanyDto, TValidation>> AddCompany(ServiceCompanyDto companyModel);
+        Result<IEnumerable<ServiceCompanyDto>, TValidation> GetAllCompanies();
+        Task<Result<ServiceCompanyDto, TValidation>> GetCompanyById(int idCompany);
         //Company? DeleteCompany(int idcompany);
     }
 }
