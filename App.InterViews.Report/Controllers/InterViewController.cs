@@ -5,6 +5,7 @@ using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using FluentValidation.Results;
 using App.InterViews.Report.Contract.Service.Dtos;
 using App.InterViews.Report.Library.Entities;
+using App.InterViews.Report.Http;
 
 namespace App.InterViews.Report.Controllers
 {
@@ -13,18 +14,20 @@ namespace App.InterViews.Report.Controllers
     public class InterviewController : Controller
     {
         private readonly IMapper _mapper;
+        private readonly IAutoMapperHttp _iAutoMapperHttp;
         private readonly IInterViewReportService<InterView, ValidationResult> _iInterviewService;
 
-        public InterviewController(IInterViewReportService<InterView, ValidationResult> iInterviewService, IMapper mapper)
+        public InterviewController(IInterViewReportService<InterView, ValidationResult> iInterviewService, IAutoMapperHttp iAutoMapperHttp, IMapper mapper)
         {
-            _mapper = mapper;
             _iInterviewService = iInterviewService;
+            _iAutoMapperHttp = iAutoMapperHttp;
+            _mapper = mapper;
         }
 
         [HttpGet("GetInterviews")]
-        public IActionResult GetInterviews()
+        public  IResult GetInterviews()
         {
-            return Ok(_iInterviewService.GetAllInterViews());
+            return _iAutoMapperHttp.Ok(_iInterviewService.GetAllInterViews());
         }
 
         //[HttpGet("GetByIdProcess/{idProcess}")]
@@ -39,12 +42,13 @@ namespace App.InterViews.Report.Controllers
         //    return Ok(_iInterviewService.GetInterviewById(idInterview));
         //}
 
-        //[HttpPost("AddInterview")]
-        //public IActionResult AddInterview(InterviewModel interviewModel)
-        //{
-        //    var interviewServiceModel = _mapper.Map<ServiceInterviewDto>(interviewModel);
-        //    return Ok(_iInterviewService.AddInterview(interviewServiceModel));
-        //}
+        [HttpPost("AddInterview")]
+        public async Task<IResult> AddInterview(InterviewModel interviewModel)
+        {
+            var interview = _mapper.Map<ServiceInterviewDto>(interviewModel);
+            var result = await _iInterviewService.AddInterview(interview);
+            return _iAutoMapperHttp.Ok(result);
+        }
 
         //[HttpPut("UpdateInterview")]
         //public IActionResult UpdateInterview(InterviewModel interviewModel)

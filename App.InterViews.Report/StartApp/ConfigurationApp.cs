@@ -22,6 +22,8 @@ public static class ConfigurationApp
     {
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.AddTransient<IValidator<Company>, CompanyValidator>();
+        services.AddTransient<IValidator<InterView>, InterViewValidator>();
+        services.AddTransient<IValidator<Process>, ProccesValidator>();
         services.AddScoped<IAutoMapperHttp, AutoMapperHttp>();
         services.InitializeInfrastructure();
         services.InitializeServices();

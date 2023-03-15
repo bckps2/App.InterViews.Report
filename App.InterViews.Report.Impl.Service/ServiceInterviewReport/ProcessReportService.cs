@@ -2,11 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Library.Contracts;
-using App.InterViews.Report.Library.Extensions;
 using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using FluentValidation.Results;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 using CSharpFunctionalExtensions;
 using App.InterViews.Report.Contract.Service.Dtos;
 
@@ -28,7 +26,6 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
         public List<Process>? GetAllWithInterviews() 
         {
             var processes = _context.Process?.Include(c => c.Interviews).ToList();
-            processes?.ForEach(process => process.Interviews?.ToList().ForEach(interview => interview.SetNameInterViewers()));
             return processes;
         }
 
@@ -40,7 +37,7 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
         public List<Process>? GetAllByIdCompany(int idInterview)
         {
             var processes = _context.Process?.Include(c => c.Interviews).Where(c => c.IdCompany == idInterview).ToList();
-            processes?.ForEach(process => process.Interviews?.ToList().ForEach(interview => interview.SetNameInterViewers()));
+            //processes?.ForEach(process => process.Interviews?.ToList().ForEach(interview => interview.SetNameInterViewers()));
             return processes;
         }
 

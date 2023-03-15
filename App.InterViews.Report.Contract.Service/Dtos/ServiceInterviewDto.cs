@@ -18,6 +18,5 @@ public class ServiceInterviewDto
     public string? Email { get; set; }
     [Required]
     public string? Observations { get; set; }
-    public string? InterViewersName { get; set; }
     public DateTime DateCreated { get; } = DateTime.Now;
 }

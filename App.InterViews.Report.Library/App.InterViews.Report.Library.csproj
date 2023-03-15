@@ -16,4 +16,8 @@
     <ProjectReference Include="..\App.InterViews.Report.CrossCutting\App.InterViews.Report.CrossCutting.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>

@@ -5,7 +5,6 @@ namespace App.InterViews.Report.Db.Infrastructure.Context
 {
     public class DbDataContext : DbContext
     {
-
         public DbDataContext(DbContextOptions<DbDataContext> options) : base(options)
         {
             Database.Migrate();

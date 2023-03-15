@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Library.Contracts;
 using App.InterViews.Report.Contract.Service.Dtos;
-using App.InterViews.Report.Library.Extensions;
 using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using CSharpFunctionalExtensions;
 
@@ -19,6 +17,13 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
             _mapper = mapper;
         }
 
+        public Task<Result<ServiceInterviewDto, TValidation>> AddInterview(ServiceInterviewDto interviewModel)
+        {
+            var interview = _mapper.Map<TEntry>(interviewModel);
+            var result = _iRepositoryInterview.AddAsync(interview);
+            return result.Map(val => _mapper.Map<ServiceInterviewDto>(val));
+        }
+
         //public List<InterView> GetAllInterViewsByIdProcess(int idProcess)
         //{
         //    var response = GetAllInterViews().Where(c => c.IdProcess == idProcess).ToList();
@@ -31,11 +36,9 @@ namespace App.InterViews.Report.Impl.Service.ServiceInterviewReport
         //    return response;
         //}
 
-        public List<ServiceInterviewDto> GetAllInterViews()
+        public Result<List<ServiceInterviewDto>, TValidation> GetAllInterViews()
         {
-            var response = _iRepositoryInterview.GetAll();
-            var result = _mapper.Map<List<ServiceInterviewDto>>(response);
-            return result;
+            return _iRepositoryInterview.GetAll().Map(c => _mapper.Map<List<ServiceInterviewDto>>(c));
         }
 
         //public async Task<Result<TEntry?, TValidation>> AddInterview(ServiceInterviewDto interviewModel)
