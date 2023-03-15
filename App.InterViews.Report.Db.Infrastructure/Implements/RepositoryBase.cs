@@ -10,7 +10,7 @@ using App.InterViews.Report.CrossCutting.Helper;
 
 namespace App.InterViews.Report.Db.Infrastructure.Implements
 {
-    public class RepositoryBase<TEntry, DefaultValue> : IRepositoryBase<TEntry, DefaultValue> where TEntry : class where DefaultValue : ValidationResult
+    public class RepositoryBase<TEntry, DefaultValue> : IRepositoryBase<TEntry, DefaultValue> where TEntry : class, new() where DefaultValue : ValidationResult
     {
         private readonly DbDataContext _context;
         private readonly DbSet<TEntry> _set;

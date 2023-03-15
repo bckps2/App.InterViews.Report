@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using App.InterViews.Report.Library.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace App.InterViews.Report.Contract.Service.Dtos
@@ -12,5 +13,6 @@ namespace App.InterViews.Report.Contract.Service.Dtos
         public string? RangeSalarial { get; set; }
         [JsonIgnore]
         public DateTime DateCreated { get; } = DateTime.Now;
+        public IList<ServiceInterviewDto>? Interviews { get; set; }
     }
 }
