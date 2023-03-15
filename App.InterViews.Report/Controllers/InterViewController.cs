@@ -19,9 +19,9 @@ namespace App.InterViews.Report.Controllers
 
         public InterviewController(IInterViewReportService<InterView, ValidationResult> iInterviewService, IAutoMapperHttp iAutoMapperHttp, IMapper mapper)
         {
-            _iInterviewService = iInterviewService;
-            _iAutoMapperHttp = iAutoMapperHttp;
             _mapper = mapper;
+            _iAutoMapperHttp = iAutoMapperHttp;
+            _iInterviewService = iInterviewService;
         }
 
         [HttpGet("GetInterviews")]
