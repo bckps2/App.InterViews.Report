@@ -1,11 +1,6 @@
-﻿using App.InterViews.Report.Db.Infrastructure.Implements;
-using App.InterViews.Report.Library.Contracts;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using App.InterViews.Report.Db.Infrastructure.Contracts;
+using App.InterViews.Report.Db.Infrastructure.Implements;
 
 namespace App.InterViews.Report.Db.Infrastructure.Ioc
 {
@@ -13,7 +8,7 @@ namespace App.InterViews.Report.Db.Infrastructure.Ioc
     {
         public static void InitializeInfrastructure(this IServiceCollection services) 
         {
-            services.AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>));
+            services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
         }
     }
 }

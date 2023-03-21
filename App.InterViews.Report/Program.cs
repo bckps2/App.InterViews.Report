@@ -1,16 +1,6 @@
 using Serilog;
-using System.Data;
-using Serilog.Sinks.MSSqlServer;
-using System.Collections.ObjectModel;
-using App.InterViews.Report.Library.Contracts;
-using App.InterViews.Report.Db.Infrastructure.Context;
-using App.InterViews.Report.Db.Infrastructure.Implements;
-using App.InterViews.Report.Impl.Service.ServiceInterviewReport;
-using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
 using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.StartApp;
-using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 

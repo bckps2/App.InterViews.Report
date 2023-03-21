@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using App.InterViews.Report.Http;
 using App.InterViews.Report.Models;
-using App.InterViews.Report.Contract.Service.Models;
-using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
-using FluentValidation.Results;
+using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Library.Entities;
+using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
 namespace App.InterViews.Report.Controllers
 {
@@ -12,50 +13,56 @@ namespace App.InterViews.Report.Controllers
     public class InterviewController : Controller
     {
         private readonly IMapper _mapper;
-        private readonly IInterViewReportService<ValidationResult> _iInterviewService;
+        private readonly IAutoMapperHttp _iAutoMapperHttp;
+        private readonly IInterViewReportService<InterView> _iInterviewService;
 
-        public InterviewController(IInterViewReportService<ValidationResult> iInterviewService, IMapper mapper)
+        public InterviewController(IInterViewReportService<InterView> iInterviewService, IAutoMapperHttp iAutoMapperHttp, IMapper mapper)
         {
             _mapper = mapper;
+            _iAutoMapperHttp = iAutoMapperHttp;
             _iInterviewService = iInterviewService;
         }
 
         [HttpGet("GetInterviews")]
-        public IActionResult GetInterviews()
+        public  IResult GetInterviews()
         {
-            return Ok(_iInterviewService.GetAllInterViews());
+            return _iAutoMapperHttp.Ok(_iInterviewService.GetAll());
         }
 
-        [HttpGet("GetByIdProcess/{idProcess}")]
-        public IActionResult GetByIdProcess(int idProcess)
-        {
-            return Ok(_iInterviewService.GetAllInterViewsByIdProcess(idProcess));
-        }
+        //[HttpGet("GetByIdProcess/{idProcess}")]
+        //public IActionResult GetByIdProcess(int idProcess)
+        //{
+        //    return Ok(_iInterviewService.GetAllInterViewsByIdProcess(idProcess));
+        //}
 
         [HttpGet("GetInterviewById/{idInterview}")]
-        public IActionResult GetInterviewById(int idInterview)
+        public async Task<IResult> GetInterviewById(int idInterview)
         {
-            return Ok(_iInterviewService.GetInterviewById(idInterview));
+            var result = await _iInterviewService.GetById(idInterview);
+            return _iAutoMapperHttp.Ok(result);
         }
 
         [HttpPost("AddInterview")]
-        public IActionResult AddInterview(InterviewModel interviewModel)
+        public async Task<IResult> AddInterview(InterviewModel interviewModel)
         {
-            var interviewServiceModel = _mapper.Map<ServiceInterviewModel>(interviewModel);
-            return Ok(_iInterviewService.AddInterview(interviewServiceModel));
+            var interview = _mapper.Map<InterviewDto>(interviewModel);
+            var result = await _iInterviewService.Add(interview);
+            return _iAutoMapperHttp.Ok(result);
         }
 
         [HttpPut("UpdateInterview")]
-        public IActionResult UpdateInterview(InterviewModel interviewModel)
+        public async Task<IResult> UpdateInterview(InterviewModel interviewModel)
         {
-            var interview = _mapper.Map<ServiceInterviewModel>(interviewModel);
-            return Ok(_iInterviewService.UpdateInterview(interview));
+            var interview = _mapper.Map<InterviewDto>(interviewModel);
+            var result = await _iInterviewService.Update(interview);
+            return _iAutoMapperHttp.Ok(result);
         }
 
         [HttpDelete("DeleteInterview/{idInterview}")]
-        public IActionResult DeleteInterview(int idInterview)
+        public async Task<IResult> DeleteInterview(int idInterview)
         {
-            return Ok(_iInterviewService.DeleteInterview(idInterview));
+            var result = await _iInterviewService.Delete(idInterview);
+            return _iAutoMapperHttp.Ok(result);
         }
     }
 }

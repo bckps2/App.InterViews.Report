@@ -1,15 +1,16 @@
 ﻿using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Db.Infrastructure.Ioc;
-using App.InterViews.Report.Impl.Service.Ioc;
+using App.InterViews.Report.Http;
 using App.InterViews.Report.Library.Entities;
+using App.InterViews.Report.Service.Ioc;
 using App.InterViews.Report.Validations;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Data;
 using Serilog.Core;
 using Serilog.Sinks.MSSqlServer;
 using System.Collections.ObjectModel;
-using System.Data;
 
 namespace App.InterViews.Report.StartApp;
 
@@ -21,6 +22,9 @@ public static class ConfigurationApp
     {
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.AddTransient<IValidator<Company>, CompanyValidator>();
+        services.AddTransient<IValidator<InterView>, InterViewValidator>();
+        services.AddTransient<IValidator<Process>, ProccesValidator>();
+        services.AddScoped<IAutoMapperHttp, AutoMapperHttp>();
         services.InitializeInfrastructure();
         services.InitializeServices();
         ConfgiurationDb(services);

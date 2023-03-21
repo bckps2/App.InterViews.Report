@@ -5,6 +5,11 @@ namespace App.InterViews.Report.Library.Entities
 {
     public class Company
     {
+        public Company()
+        {
+            
+        }
+
         [Key]
         [Column(Order = 1)]
         public int IdCompany { get; set; }
