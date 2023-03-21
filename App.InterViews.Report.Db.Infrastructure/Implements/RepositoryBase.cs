@@ -1,17 +1,16 @@
 ﻿using Serilog;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using App.InterViews.Report.Library.Contracts;
-using App.InterViews.Report.Db.Infrastructure.Context;
-using CSharpFunctionalExtensions;
 using FluentValidation;
 using FluentValidation.Results;
+using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.CrossCutting.Helper;
+using App.InterViews.Report.Db.Infrastructure.Context;
+using App.InterViews.Report.Db.Infrastructure.Contracts;
 
 namespace App.InterViews.Report.Db.Infrastructure.Implements
 {
-    public class RepositoryBase<TEntry, DefaultValue> : IRepositoryBase<TEntry, DefaultValue> where TEntry : class, new() where DefaultValue : ValidationResult
-    {
+    public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : class, new()
+    { 
         private readonly DbDataContext _context;
         private readonly DbSet<TEntry> _set;
         private readonly IValidator<TEntry> _iValidator;
@@ -23,74 +22,79 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             _iValidator = iValidator;
         }
 
-        public async Task<Result<TEntry, DefaultValue>> GetById(int id)
+        public async Task<Result<TEntry, ValidationResult>> GetByIdAsync(int id)
         {
             var result = await _set.FindAsync(id);
             
             if(result is null) 
             {
-                return Result.Failure<TEntry, DefaultValue>((DefaultValue)ErrorResult.NotFound<TEntry>());
+                return Result.Failure<TEntry, ValidationResult>(ErrorResult.NotFound<TEntry>());
             }
 
+            Log.Error($"On Get Object By Id {nameof(TEntry).GetType()}, Message Error : item Not found");
             return result;
         }
 
-        public Result<IEnumerable<TEntry>, DefaultValue> GetAll()
+        public Result<IEnumerable<TEntry>, ValidationResult> GetAll()
         {
             var result = _set.AsEnumerable();
             
             if (result is null || !result.Any())
             {
-                return Result.Failure<IEnumerable<TEntry>,DefaultValue>((DefaultValue)ErrorResult.NotFound<TEntry>());
+                return Result.Failure<IEnumerable<TEntry>, ValidationResult>(ErrorResult.NotFound<TEntry>());
             }
-
-            return Result.Success<IEnumerable<TEntry>, DefaultValue>(result);
+            Log.Error($"On Get All Objects {nameof(TEntry).GetType()}, Message Error : items Not found");
+            return Result.Success<IEnumerable<TEntry>, ValidationResult>(result);
         }
 
-        public ActionResult<TEntry> Update(TEntry item)
+        public Result<TEntry, ValidationResult> Update(TEntry item)
         {
             try
             {
                 var response = _set.Update(item);
-                var id = (item.GetType().Name);
-                Log.Information("{Message}-{IdType}-{CustomType}", $"Processing Data in Repository Base {item.GetType().Name} and Item: {item}", id, item.GetType().Name);
                 _context.SaveChanges();                
                 return response.Entity;
             }
             catch (Exception ex)
             {
-                Log.Error($"On Add Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
-                throw;
+                Log.Error($"On update Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
+                return Result.Failure<TEntry, ValidationResult>(ErrorResult.ExceptionError<TEntry>(ex.Message));
             }
         }
 
-        public async Task<Result<TEntry, DefaultValue>> AddAsync(TEntry item)
+        public async Task<Result<TEntry, ValidationResult>> AddAsync(TEntry item)
         {
             var validator = await _iValidator.ValidateAsync(item);
 
             if (!validator.IsValid)
-                return (DefaultValue)validator;
+                return validator;
 
-            var response = await _set.AddAsync(item);
-            await _context.SaveChangesAsync();
-
-            return response.Entity;
-        }
-
-        public TEntry Delete(TEntry item) 
-        {
             try
             {
-                var response = _set.Remove(item);
-                var id = (item.GetType().Name);
-                Log.Information("{Message}-{IdType}-{CustomType}", $"Processing Data in Repository Base {item.GetType().Name} and Item: {item}", id, item.GetType().Name);
-                _context.SaveChanges();
+                var response = await _set.AddAsync(item);
+                await _context.SaveChangesAsync();
                 return response.Entity;
             }
             catch (Exception ex)
             {
                 Log.Error($"On Add Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
-                throw;
+                return Result.Failure<TEntry, ValidationResult>(ErrorResult.ExceptionError<TEntry>(ex.Message));
+            }
+            
+        }
+
+        public Result<TEntry, ValidationResult> Delete(TEntry item) 
+        {
+            try
+            {
+                var response = _set.Remove(item);
+                _context.SaveChanges();
+                return response.Entity;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"On Delete Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
+                return Result.Failure<TEntry, ValidationResult>(ErrorResult.ExceptionError<TEntry>(ex.Message));
             }
         }
     }

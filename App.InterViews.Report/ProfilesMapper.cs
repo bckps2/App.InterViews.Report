@@ -1,56 +1,55 @@
-﻿using App.InterViews.Report.Contract.Service.Dtos;
-using App.InterViews.Report.Library.Entities;
+﻿using AutoMapper;
 using App.InterViews.Report.Models;
-using AutoMapper;
+using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Library.Entities;
 
-namespace App.InterViews.Report
+namespace App.InterViews.Report;
+
+public class ProfilesMapper : Profile
 {
-    public class ProfilesMapper : Profile
+    public ProfilesMapper()
     {
-        public ProfilesMapper()
-        {
-            MapperProcess();
-            MapperInterview();
-            MapperCompany();
-        }
+        MapperProcess();
+        MapperInterview();
+        MapperCompany();
+    }
 
-        private void MapperInterview()
-        {
-            CreateMap<InterviewModel, InterView>().ReverseMap();
-            CreateMap<ServiceInterviewDto, InterviewModel>().ReverseMap();
+    private void MapperInterview()
+    {
+        CreateMap<InterviewModel, InterView>().ReverseMap();
+        CreateMap<InterviewDto, InterviewModel>().ReverseMap();
 
-            CreateMap<ServiceInterviewDto, InterView>()
-                .ForMember(interview => interview.InterViewersName, opt => opt.MapFrom(service => ListToToString(service)))
-                .ReverseMap()
-                .ForMember(service => service.NameInterViewers, opt => opt.MapFrom(interview => SplitNames(interview)));
-        }
+        CreateMap<InterviewDto, InterView>()
+            .ForMember(interview => interview.InterViewersName, opt => opt.MapFrom(service => ListToToString(service)))
+            .ReverseMap()
+            .ForMember(service => service.NameInterViewers, opt => opt.MapFrom(interview => SplitNames(interview)));
+    }
 
-        private void MapperCompany()
-        {
-            CreateMap<CompanyModel, Company>().ReverseMap();
-            CreateMap<ServiceCompanyDto, Company>().ReverseMap();
-            CreateMap<ServiceCompanyDto, CompanyModel>().ReverseMap();
-        }
+    private void MapperCompany()
+    {
+        CreateMap<CompanyModel, Company>().ReverseMap();
+        CreateMap<CompanyDto, Company>().ReverseMap();
+        CreateMap<CompanyDto, CompanyModel>().ReverseMap();
+    }
 
-        private void MapperProcess()
-        {
-            CreateMap<ProcessModel, Process>().ReverseMap();
-            CreateMap<ServiceProcessDto, Process>().ReverseMap();
-            CreateMap<ServiceProcessDto, ProcessModel>().ReverseMap();
-        }
+    private void MapperProcess()
+    {
+        CreateMap<ProcessModel, Process>().ReverseMap();
+        CreateMap<ProcessDto, Process>().ReverseMap();
+        CreateMap<ProcessDto, ProcessModel>().ReverseMap();
+    }
 
-        private static List<string>? SplitNames(InterView interView)
-        {
-            if (interView.InterViewersName?.Length > 0)
-                return interView.InterViewersName.Split(',').ToList();
-            return default;
-        }
+    private static List<string>? SplitNames(InterView interView)
+    {
+        if (interView.InterViewersName?.Length > 0)
+            return interView.InterViewersName.Split(',').ToList();
+        return default;
+    }
 
-        private static string? ListToToString(ServiceInterviewDto serviceInterview)
-        {
-            if (serviceInterview.NameInterViewers != null && serviceInterview.NameInterViewers.Any())
-                return string.Join(',', serviceInterview.NameInterViewers);
-            return default;
-        }
+    private static string? ListToToString(InterviewDto serviceInterview)
+    {
+        if (serviceInterview.NameInterViewers != null && serviceInterview.NameInterViewers.Any())
+            return string.Join(',', serviceInterview.NameInterViewers);
+        return default;
     }
 }

@@ -9,13 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.InterViews.Report.Libra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.InterViews.Report.CrossCutting", "App.InterViews.Report.CrossCutting\App.InterViews.Report.CrossCutting.csproj", "{6BB845A3-6F88-4DCE-A4A4-BAF6B4CC375C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.InterViews.Report.Impl.Service", "App.InterViews.Report.Impl.Service\App.InterViews.Report.Impl.Service.csproj", "{23FB0914-C56D-4E07-913E-8060569F3680}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.InterViews.Report.Contract.Service", "App.InterViews.Report.Contract.Service\App.InterViews.Report.Contract.Service.csproj", "{01BA8D30-C566-45B4-8B45-F1347C1A0350}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.InterViews.Report.Db.Infrastructure", "App.InterViews.Report.Db.Infrastructure\App.InterViews.Report.Db.Infrastructure.csproj", "{62CACFD8-B6F4-4342-9751-ADAC254ED49A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.InterViews.Report.Migrations", "App.InterViews.Report.Migrations\App.InterViews.Report.Migrations.csproj", "{1A43743C-53CD-487B-9069-724055B33B2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.InterViews.Report.Migrations", "App.InterViews.Report.Migrations\App.InterViews.Report.Migrations.csproj", "{1A43743C-53CD-487B-9069-724055B33B2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.InterViews.Report.Service", "App.InterViews.Report.Service\App.InterViews.Report.Service.csproj", "{9D446095-FC47-4B26-8AB5-F638B550356C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,14 +33,6 @@ Global
 		{6BB845A3-6F88-4DCE-A4A4-BAF6B4CC375C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BB845A3-6F88-4DCE-A4A4-BAF6B4CC375C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BB845A3-6F88-4DCE-A4A4-BAF6B4CC375C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{23FB0914-C56D-4E07-913E-8060569F3680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23FB0914-C56D-4E07-913E-8060569F3680}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23FB0914-C56D-4E07-913E-8060569F3680}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23FB0914-C56D-4E07-913E-8060569F3680}.Release|Any CPU.Build.0 = Release|Any CPU
-		{01BA8D30-C566-45B4-8B45-F1347C1A0350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{01BA8D30-C566-45B4-8B45-F1347C1A0350}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{01BA8D30-C566-45B4-8B45-F1347C1A0350}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{01BA8D30-C566-45B4-8B45-F1347C1A0350}.Release|Any CPU.Build.0 = Release|Any CPU
 		{62CACFD8-B6F4-4342-9751-ADAC254ED49A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{62CACFD8-B6F4-4342-9751-ADAC254ED49A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62CACFD8-B6F4-4342-9751-ADAC254ED49A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +41,10 @@ Global
 		{1A43743C-53CD-487B-9069-724055B33B2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A43743C-53CD-487B-9069-724055B33B2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A43743C-53CD-487B-9069-724055B33B2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D446095-FC47-4B26-8AB5-F638B550356C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D446095-FC47-4B26-8AB5-F638B550356C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D446095-FC47-4B26-8AB5-F638B550356C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D446095-FC47-4B26-8AB5-F638B550356C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
