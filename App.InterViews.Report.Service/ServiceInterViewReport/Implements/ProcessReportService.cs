@@ -1,9 +1,9 @@
-﻿using App.InterViews.Report.Db.Infrastructure.Contracts;
-using App.InterViews.Report.Service.Dtos;
-using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
-using AutoMapper;
-using CSharpFunctionalExtensions;
+﻿using AutoMapper;
 using FluentValidation.Results;
+using CSharpFunctionalExtensions;
+using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Db.Infrastructure.Contracts;
+using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
@@ -53,6 +53,16 @@ public class ProcessReportService<TEntry> : IProcessReportService<TEntry>
         return companies.Map(value =>
         {
             return _mapper.Map<IEnumerable<ProcessDto>>(value);
+        });
+    }
+
+    public Result<IEnumerable<ProcessDto>, ValidationResult> GetProcessesByIdCompany(int idCompany)
+    {
+        var companies = _iRepositoryBase.GetAll();
+
+        return companies.Map(value =>
+        {
+            return _mapper.Map<IEnumerable<ProcessDto>>(value).Where(process => process.IdCompany == idCompany);
         });
     }
 

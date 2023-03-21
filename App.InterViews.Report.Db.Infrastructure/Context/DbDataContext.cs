@@ -10,9 +10,9 @@ namespace App.InterViews.Report.Db.Infrastructure.Context
             Database.Migrate();
         }
 
-        public DbSet<InterView>? InterViews {get;set;}
-        public DbSet<Process>? Process {get;set;}
-        public DbSet<Company>? Companies {get;set;}
+        public DbSet<InterView>? InterViews { get; set; }
+        public DbSet<Process>? Process { get; set; }
+        public DbSet<Company>? Companies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

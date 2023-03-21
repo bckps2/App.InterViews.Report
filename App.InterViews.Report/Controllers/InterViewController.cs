@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using App.InterViews.Report.Models;
-using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Http;
-using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
+using App.InterViews.Report.Models;
 using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Library.Entities;
+using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
 namespace App.InterViews.Report.Controllers
 {

@@ -18,8 +18,8 @@ public class CompanyController : Controller
 
     public CompanyController(ICompanyReportService<Company> iServiceCompany, IMapper mapper, IAutoMapperHttp iAutoMapperHttp)
     {
-        _iServiceCompany = iServiceCompany;
         _mapper = mapper;
+        _iServiceCompany = iServiceCompany;
         _iAutoMapperHttp = iAutoMapperHttp;
     }
 

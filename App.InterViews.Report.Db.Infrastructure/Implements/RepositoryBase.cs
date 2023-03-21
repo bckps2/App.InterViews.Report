@@ -51,6 +51,8 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
         {
             try
             {
+                _context.ChangeTracker.Clear();
+                _set.Attach(item).State = EntityState.Modified;
                 var response = _set.Update(item);
                 _context.SaveChanges();                
                 return response.Entity;
@@ -80,7 +82,6 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
                 Log.Error($"On Add Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
                 return Result.Failure<TEntry, ValidationResult>(ErrorResult.ExceptionError<TEntry>(ex.Message));
             }
-            
         }
 
         public Result<TEntry, ValidationResult> Delete(TEntry item) 

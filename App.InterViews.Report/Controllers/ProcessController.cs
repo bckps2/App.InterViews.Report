@@ -1,9 +1,10 @@
-﻿using App.InterViews.Report.Contract.Service.Dtos;
-using App.InterViews.Report.Contract.Service.ServiceInterviewReport;
-using App.InterViews.Report.Models;
-using AutoMapper;
-using FluentValidation.Results;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using App.InterViews.Report.Http;
+using App.InterViews.Report.Models;
+using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Library.Entities;
+using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
 namespace App.InterViews.Report.Controllers
 {
@@ -12,42 +13,42 @@ namespace App.InterViews.Report.Controllers
     public class ProcessController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IProcessReportService<ValidationResult> _iProcessService;
-        public ProcessController(IProcessReportService<ValidationResult> iProcessService, IMapper mapper)
+        private readonly IAutoMapperHttp _iAutoMapperHttp;
+        private readonly IProcessReportService<Process> _iProcessService;
+
+        public ProcessController(IProcessReportService<Process> iProcessService, IMapper mapper, IAutoMapperHttp iAutoMapperHttp)
         {
-            _iProcessService = iProcessService;
             _mapper = mapper;
+            _iProcessService = iProcessService;
+            _iAutoMapperHttp = iAutoMapperHttp;
         }
 
-        [HttpGet("GetAllProcessWithInterviews")]
-        public IActionResult GetAllProcessWithInterviews()
+        [HttpGet("GetAllProcess")]
+        public IResult GetAllProcess()
         {
-            return Ok(_iProcessService.GetAllWithInterviews());
+            return _iAutoMapperHttp.Ok(_iProcessService.GetAll());
         }
 
-        //[HttpGet("GetAllProcess")]
-        //public IActionResult GetAllProcess()
-        //{
-        //    return Ok(_iProcessService.GetAll());
-        //}
-
-        [HttpGet("GetByIdCompany/{idCompany}")]
-        public IActionResult GetByIdCompany(int idCompany)
+        [HttpGet("GetProcessesByIdCompany/{idCompany}")]
+        public Task<IResult> GetProcessesByIdCompany(int idCompany)
         {
-            return Ok(_iProcessService.GetAllByIdCompany(idCompany));
+            var result = _iProcessService.GetProcessesByIdCompany(idCompany);
+            return Task.FromResult(_iAutoMapperHttp.Ok(result));
         }
 
         [HttpPost("AddProcess")]
-        public IActionResult AddProcess(ProcessModel processModel)
+        public async Task<IResult> AddProcess(ProcessModel processModel)
         {
-            var process = _mapper.Map<ServiceProcessDto>(processModel);
-            return Ok(_iProcessService.AddProcess(process));
+            var process = _mapper.Map<ProcessDto>(processModel);
+            var result = await _iProcessService.Add(process);
+            return _iAutoMapperHttp.Ok(result);
         }
 
-        //[HttpDelete("DeleteProcess/{idProcess}")]
-        //public IActionResult DeleteProcess(int idProcess)
-        //{
-        //    return Ok(_iProcessService.DeleteProcess(idProcess));
-        //}
+        [HttpDelete("DeleteProcess/{idProcess}")]
+        public async Task<IResult> DeleteProcess(int idProcess)
+        {
+            var result = await _iProcessService.Delete(idProcess);
+            return _iAutoMapperHttp.Ok(result);
+        }
     }
 }
