@@ -8,7 +8,7 @@ namespace App.InterViews.Report.Db.Infrastructure.Ioc
     {
         public static void InitializeInfrastructure(this IServiceCollection services) 
         {
-            services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+            services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
         }
     }
 }

@@ -6,13 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.CrossCutting.Helper;
 using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace App.InterViews.Report.Db.Infrastructure.Implements
 {
     public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : class, new()
-    { 
-        private readonly DbDataContext _context;
+    {
         private readonly DbSet<TEntry> _set;
+        private readonly DbDataContext _context;
         private readonly IValidator<TEntry> _iValidator;
 
         public RepositoryBase(DbDataContext context, IValidator<TEntry> iValidator)
@@ -25,13 +26,12 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
         public async Task<Result<TEntry, ValidationResult>> GetByIdAsync(int id)
         {
             var result = await _set.FindAsync(id);
-            
             if(result is null) 
             {
+                Log.Error($"On Get Object By Id {nameof(TEntry).GetType()}, Message Error : item Not found");
                 return Result.Failure<TEntry, ValidationResult>(ErrorResult.NotFound<TEntry>());
             }
 
-            Log.Error($"On Get Object By Id {nameof(TEntry).GetType()}, Message Error : item Not found");
             return result;
         }
 

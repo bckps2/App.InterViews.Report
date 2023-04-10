@@ -8,9 +8,9 @@ namespace App.InterViews.Report.Service.Ioc
     {
         public static void InitializeServices(this IServiceCollection services)
         {
-            services.AddTransient(typeof(ICompanyReportService<>), typeof(CompanyReportService<>));
-            services.AddTransient(typeof(IInterViewReportService<>), typeof(InterViewReportService<>));
-            services.AddTransient(typeof(IProcessReportService<>), typeof(ProcessReportService<>));
+            services.AddSingleton(typeof(ICompanyReportService<>), typeof(CompanyReportService<>));
+            services.AddSingleton(typeof(IInterViewReportService<>), typeof(InterViewReportService<>));
+            services.AddSingleton(typeof(IProcessReportService<>), typeof(ProcessReportService<>));
         }
     }
 }

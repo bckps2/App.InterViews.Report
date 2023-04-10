@@ -13,8 +13,8 @@ namespace App.InterViews.Report.Controllers;
 public class CompanyController : Controller
 {
     private readonly IMapper _mapper;
-    private readonly ICompanyReportService<Company> _iServiceCompany;
     private readonly IAutoMapperHttp _iAutoMapperHttp;
+    private readonly ICompanyReportService<Company> _iServiceCompany;
 
     public CompanyController(ICompanyReportService<Company> iServiceCompany, IMapper mapper, IAutoMapperHttp iAutoMapperHttp)
     {
