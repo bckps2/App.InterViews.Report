@@ -1,7 +1,5 @@
 ﻿using App.InterViews.Report.CrossCutting.Helper;
-using App.InterViews.Report.CrossCutting.Helper.ErrorResults;
 using CSharpFunctionalExtensions;
-using FluentValidation.Results;
 using IResult = Microsoft.AspNetCore.Http.IResult;
 
 namespace App.InterViews.Report.Http;
@@ -19,6 +17,7 @@ public sealed class AutoMapperHttp : IAutoMapperHttp
     => validation.StatusCode switch
     {
         System.Net.HttpStatusCode.NotFound => Results.NotFound(validation.Errors.Select(c => c.ErrorMessage)),
-        _ => Results.BadRequest(validation.Errors.Select(c => c.ErrorMessage))
+        System.Net.HttpStatusCode.BadRequest => Results.BadRequest(validation.Errors.Select(c => c.ErrorMessage)),
+        _ => Results.Problem(validation.Errors.FirstOrDefault()?.ErrorMessage)
     };
 }
