@@ -1,22 +1,17 @@
-﻿using CSharpFunctionalExtensions;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
+using System.Net;
 
 namespace App.InterViews.Report.CrossCutting.Helper
 {
-    public static class ErrorResult
+    public class ErrorResult : ValidationResult
     {
-        public static ValidationResult NotFound<T>()
-        {
-            var error = new ValidationResult();
-            error.Errors.Add(new ValidationFailure() { ErrorMessage = $"{typeof(T).Name} not found" });
-            return error;
-        }
+        public HttpStatusCode StatusCode { get; private set; }
 
-        public static ValidationResult ExceptionError<T>(string messageError)
+        public ErrorResult() { }
+
+        protected ErrorResult(IEnumerable<ValidationFailure> failures, HttpStatusCode httpStatusCode) : base(failures)
         {
-            var error = new ValidationResult();
-            error.Errors.Add(new ValidationFailure() { ErrorMessage = $"{typeof(T).Name}: {messageError}" });
-            return error;
+            StatusCode = httpStatusCode;
         }
     }
 }

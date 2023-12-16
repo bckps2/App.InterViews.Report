@@ -7,6 +7,8 @@ using App.InterViews.Report.CrossCutting.Helper;
 using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using App.InterViews.Report.CrossCutting.Helper.ErrorResults;
+using CSharpFunctionalExtensions.ValueTasks;
 
 namespace App.InterViews.Report.Db.Infrastructure.Implements
 {
@@ -23,31 +25,33 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             _iValidator = iValidator;
         }
 
-        public async Task<Result<TEntry, ValidationResult>> GetByIdAsync(int id)
+        public async Task<Result<TEntry, ErrorResult>> GetByIdAsync(int id)
         {
             var result = await _set.FindAsync(id);
+            
             if(result is null) 
             {
                 Log.Error($"On Get Object By Id {nameof(TEntry).GetType()}, Message Error : item Not found");
-                return Result.Failure<TEntry, ValidationResult>(ErrorResult.NotFound<TEntry>());
+                return Result.Failure<TEntry, ErrorResult>(ErrorNotFound.NotFound<TEntry>());
             }
 
             return result;
         }
 
-        public Result<IEnumerable<TEntry>, ValidationResult> GetAll()
+        public Result<IEnumerable<TEntry>, ErrorResult> GetAll()
         {
             var result = _set.AsEnumerable();
             
             if (result is null || !result.Any())
             {
-                return Result.Failure<IEnumerable<TEntry>, ValidationResult>(ErrorResult.NotFound<TEntry>());
+                return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorNotFound.NotFound<TEntry>());
             }
             Log.Error($"On Get All Objects {nameof(TEntry).GetType()}, Message Error : items Not found");
-            return Result.Success<IEnumerable<TEntry>, ValidationResult>(result);
+
+            return Result.Success<IEnumerable<TEntry>, ErrorResult>(result);
         }
 
-        public Result<TEntry, ValidationResult> Update(TEntry item)
+        public Result<TEntry, ErrorResult> Update(TEntry item)
         {
             try
             {
@@ -60,17 +64,17 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             catch (Exception ex)
             {
                 Log.Error($"On update Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
-                return Result.Failure<TEntry, ValidationResult>(ErrorResult.ExceptionError<TEntry>(ex.Message));
+                return Result.Failure<TEntry, ErrorResult>(ErrorException.Exception<TEntry>(ex.Message));
             }
         }
 
-        public async Task<Result<TEntry, ValidationResult>> AddAsync(TEntry item)
+        public async Task<Result<TEntry, ErrorResult>> AddAsync(TEntry item)
         {
             var validator = await _iValidator.ValidateAsync(item);
 
             if (!validator.IsValid)
-                return validator;
-
+                return ErrorValidation.Validation(validator.Errors);
+                
             try
             {
                 var response = await _set.AddAsync(item);
@@ -80,11 +84,11 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             catch (Exception ex)
             {
                 Log.Error($"On Add Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
-                return Result.Failure<TEntry, ValidationResult>(ErrorResult.ExceptionError<TEntry>(ex.Message));
+                return Result.Failure<TEntry, ErrorResult>(ErrorException.Exception<TEntry>(ex.Message));
             }
         }
 
-        public Result<TEntry, ValidationResult> Delete(TEntry item) 
+        public Result<TEntry, ErrorResult> Delete(TEntry item) 
         {
             try
             {
@@ -95,7 +99,7 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             catch (Exception ex)
             {
                 Log.Error($"On Delete Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
-                return Result.Failure<TEntry, ValidationResult>(ErrorResult.ExceptionError<TEntry>(ex.Message));
+                return Result.Failure<TEntry, ErrorResult>(ErrorException.Exception<TEntry>(ex.Message));
             }
         }
     }

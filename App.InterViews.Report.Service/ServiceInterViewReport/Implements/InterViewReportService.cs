@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using FluentValidation.Results;
 using CSharpFunctionalExtensions;
 using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
+using App.InterViews.Report.CrossCutting.Helper;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
@@ -18,7 +18,7 @@ public class InterViewReportService<TEntry> : IInterViewReportService<TEntry> wh
         _iRepositoryBase = iRepositoryBase;
     }
 
-    public async Task<Result<InterviewDto, ValidationResult>> Add(InterviewDto dto)
+    public async Task<Result<InterviewDto, ErrorResult>> Add(InterviewDto dto)
     {
         var interview = _mapper.Map<TEntry>(dto);
         var result = await _iRepositoryBase.AddAsync(interview);
@@ -29,7 +29,7 @@ public class InterViewReportService<TEntry> : IInterViewReportService<TEntry> wh
         });
     }
 
-    public async Task<Result<InterviewDto, ValidationResult>> Delete(int id)
+    public async Task<Result<InterviewDto, ErrorResult>> Delete(int id)
     {
         var company = await _iRepositoryBase.GetByIdAsync(id);
 
@@ -46,7 +46,7 @@ public class InterViewReportService<TEntry> : IInterViewReportService<TEntry> wh
         return company.Error;
     }
 
-    public Result<IEnumerable<InterviewDto>, ValidationResult> GetAll()
+    public Result<IEnumerable<InterviewDto>, ErrorResult> GetAll()
     {
         var companies = _iRepositoryBase.GetAll();
 
@@ -56,7 +56,7 @@ public class InterViewReportService<TEntry> : IInterViewReportService<TEntry> wh
         });
     }
 
-    public Result<IEnumerable<InterviewDto>, ValidationResult> GetAllByIdProcess(int idProcess)
+    public Result<IEnumerable<InterviewDto>, ErrorResult> GetAllByIdProcess(int idProcess)
     {
         var interviews = _iRepositoryBase.GetAll();
 
@@ -69,7 +69,7 @@ public class InterViewReportService<TEntry> : IInterViewReportService<TEntry> wh
         });
     }
 
-    public async Task<Result<InterviewDto, ValidationResult>> GetById(int id)
+    public async Task<Result<InterviewDto, ErrorResult>> GetById(int id)
     {
         var value = await _iRepositoryBase.GetByIdAsync(id);
 
@@ -79,7 +79,7 @@ public class InterViewReportService<TEntry> : IInterViewReportService<TEntry> wh
         });
     }
 
-    public async Task<Result<InterviewDto, ValidationResult>> Update(InterviewDto dto)
+    public async Task<Result<InterviewDto, ErrorResult>> Update(InterviewDto dto)
     {
         var value = await _iRepositoryBase.GetByIdAsync(dto.IdInterview);
 

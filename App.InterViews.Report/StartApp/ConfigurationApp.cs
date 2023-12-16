@@ -24,7 +24,7 @@ public static class ConfigurationApp
         services.AddTransient<IValidator<Company>, CompanyValidator>();
         services.AddTransient<IValidator<InterView>, InterViewValidator>();
         services.AddTransient<IValidator<Process>, ProccesValidator>();
-        services.AddScoped<IAutoMapperHttp, AutoMapperHttp>();
+        services.AddScoped<IAutoMapperHttp, AutoMapperHttp>();          
         services.InitializeInfrastructure();
         services.InitializeServices();
         ConfgiurationDb(services);

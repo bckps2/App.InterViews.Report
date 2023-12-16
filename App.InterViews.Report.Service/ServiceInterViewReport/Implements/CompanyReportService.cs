@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using FluentValidation.Results;
 using CSharpFunctionalExtensions;
 using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
+using App.InterViews.Report.CrossCutting.Helper;
+using CSharpFunctionalExtensions.ValueTasks;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
@@ -18,7 +19,7 @@ public class CompanyReportService<TEntry> : ICompanyReportService<TEntry>
         _iRepositoryBase = iRepositoryBase;
     }
 
-    public async Task<Result<CompanyDto, ValidationResult>> GetById(int id)
+    public async Task<Result<CompanyDto, ErrorResult>> GetById(int id)
     {
         var value = await _iRepositoryBase.GetByIdAsync(id);
 
@@ -28,7 +29,7 @@ public class CompanyReportService<TEntry> : ICompanyReportService<TEntry>
         });
     }
 
-    public Result<IEnumerable<CompanyDto>, ValidationResult> GetAll()
+    public Result<IEnumerable<CompanyDto>, ErrorResult> GetAll()
     {
         var companies = _iRepositoryBase.GetAll();
 
@@ -38,7 +39,7 @@ public class CompanyReportService<TEntry> : ICompanyReportService<TEntry>
         });
     }
 
-    public async Task<Result<CompanyDto, ValidationResult>> Add(CompanyDto dto)
+    public async Task<Result<CompanyDto, ErrorResult>> Add(CompanyDto dto)
     {
         var company = _mapper.Map<TEntry>(dto);
         var result = await _iRepositoryBase.AddAsync(company);
@@ -49,7 +50,7 @@ public class CompanyReportService<TEntry> : ICompanyReportService<TEntry>
         });
     }
 
-    public async Task<Result<CompanyDto, ValidationResult>> Delete(int id)
+    public async Task<Result<CompanyDto, ErrorResult>> Delete(int id)
     {
         var company = await _iRepositoryBase.GetByIdAsync(id);
 

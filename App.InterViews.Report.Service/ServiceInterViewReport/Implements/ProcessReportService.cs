@@ -4,6 +4,7 @@ using CSharpFunctionalExtensions;
 using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
+using App.InterViews.Report.CrossCutting.Helper;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
@@ -18,7 +19,7 @@ public class ProcessReportService<TEntry> : IProcessReportService<TEntry>
         _iRepositoryBase = iRepositoryBase;
     }
 
-    public async Task<Result<ProcessDto, ValidationResult>> Add(ProcessDto dto)
+    public async Task<Result<ProcessDto, ErrorResult>> Add(ProcessDto dto)
     {
         var company = _mapper.Map<TEntry>(dto);
         var result = await _iRepositoryBase.AddAsync(company);
@@ -29,7 +30,7 @@ public class ProcessReportService<TEntry> : IProcessReportService<TEntry>
         });
     }
 
-    public async Task<Result<ProcessDto, ValidationResult>> Delete(int id)
+    public async Task<Result<ProcessDto, ErrorResult>> Delete(int id)
     {
         var processDto = await _iRepositoryBase.GetByIdAsync(id);
 
@@ -46,7 +47,7 @@ public class ProcessReportService<TEntry> : IProcessReportService<TEntry>
         return processDto.Error;
     }
 
-    public Result<IEnumerable<ProcessDto>, ValidationResult> GetAll()
+    public Result<IEnumerable<ProcessDto>, ErrorResult> GetAll()
     {
         var companies = _iRepositoryBase.GetAll();
 
@@ -56,7 +57,7 @@ public class ProcessReportService<TEntry> : IProcessReportService<TEntry>
         });
     }
 
-    public Result<IEnumerable<ProcessDto>, ValidationResult> GetProcessesByIdCompany(int idCompany)
+    public Result<IEnumerable<ProcessDto>, ErrorResult> GetProcessesByIdCompany(int idCompany)
     {
         var companies = _iRepositoryBase.GetAll();
 
@@ -66,7 +67,7 @@ public class ProcessReportService<TEntry> : IProcessReportService<TEntry>
         });
     }
 
-    public async Task<Result<ProcessDto, ValidationResult>> GetById(int id)
+    public async Task<Result<ProcessDto, ErrorResult>> GetById(int id)
     {
         var value = await _iRepositoryBase.GetByIdAsync(id);
 

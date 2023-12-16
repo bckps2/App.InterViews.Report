@@ -22,7 +22,7 @@ public class CompanyController : Controller
         _iServiceCompany = iServiceCompany;
         _iAutoMapperHttp = iAutoMapperHttp;
     }
-
+    
     [HttpGet("GetCompanyById/{idCompany}")]
     public async Task<IResult> GetCompanyById(int idCompany)
     {

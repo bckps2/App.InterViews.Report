@@ -22,7 +22,8 @@ public class ProfilesMapper : Profile
         CreateMap<InterviewDto, InterView>()
             .ForMember(interview => interview.InterViewersName, opt => opt.MapFrom(service => ListToToString(service)))
             .ReverseMap()
-            .ForMember(service => service.NameInterViewers, opt => opt.MapFrom(interview => SplitNames(interview)));
+            .ForMember(service => service.NameInterViewers, opt => opt.MapFrom(interview => SplitNames(interview)))
+            .ReverseMap();
     }
 
     private void MapperCompany()
@@ -45,7 +46,7 @@ public class ProfilesMapper : Profile
             return interView.InterViewersName.Split(',').ToList();
         return default;
     }
-
+     
     private static string? ListToToString(InterviewDto serviceInterview)
     {
         if (serviceInterview.NameInterViewers != null && serviceInterview.NameInterViewers.Any())
