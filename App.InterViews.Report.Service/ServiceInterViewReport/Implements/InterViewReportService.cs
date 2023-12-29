@@ -4,15 +4,16 @@ using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using App.InterViews.Report.CrossCutting.Helper;
+using App.InterViews.Report.Library.Entities;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
-public class InterViewReportService<TEntry> : IInterViewReportService<TEntry> where TEntry : class
+public class InterViewReportService : IInterViewReportService
 {
     private readonly IMapper _mapper;
-    private readonly IRepositoryBase<TEntry> _iRepositoryBase;
+    private readonly IRepositoryBase<InterView> _iRepositoryBase;
 
-    public InterViewReportService(IMapper mapper, IRepositoryBase<TEntry> iRepositoryBase)
+    public InterViewReportService(IMapper mapper, IRepositoryBase<InterView> iRepositoryBase)
     {
         _mapper = mapper;
         _iRepositoryBase = iRepositoryBase;
@@ -20,7 +21,7 @@ public class InterViewReportService<TEntry> : IInterViewReportService<TEntry> wh
 
     public async Task<Result<InterviewDto, ErrorResult>> Add(InterviewDto dto)
     {
-        var interview = _mapper.Map<TEntry>(dto);
+        var interview = _mapper.Map<InterView>(dto);
         var result = await _iRepositoryBase.AddAsync(interview);
 
         return result.Map(val =>
@@ -46,7 +47,7 @@ public class InterViewReportService<TEntry> : IInterViewReportService<TEntry> wh
         return company.Error;
     }
 
-    public Result<IEnumerable<InterviewDto>, ErrorResult> GetAll()
+    public Result<IEnumerable<InterviewDto>, ErrorResult> GetAll()    
     {
         var companies = _iRepositoryBase.GetAll();
 
@@ -85,7 +86,7 @@ public class InterViewReportService<TEntry> : IInterViewReportService<TEntry> wh
 
         if (value.IsSuccess)
         {
-            var interview = _mapper.Map<TEntry>(dto);
+            var interview = _mapper.Map<InterView>(dto);
             var response = _iRepositoryBase.Update(interview);
 
             return response.Map(val =>

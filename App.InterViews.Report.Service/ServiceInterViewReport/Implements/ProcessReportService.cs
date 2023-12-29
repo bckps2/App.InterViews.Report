@@ -1,19 +1,19 @@
 ﻿using AutoMapper;
-using FluentValidation.Results;
 using CSharpFunctionalExtensions;
 using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using App.InterViews.Report.CrossCutting.Helper;
+using App.InterViews.Report.Library.Entities;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
-public class ProcessReportService<TEntry> : IProcessReportService<TEntry>
+public class ProcessReportService : IProcessReportService
 {
     private readonly IMapper _mapper;
-    private readonly IRepositoryBase<TEntry> _iRepositoryBase;
+    private readonly IRepositoryBase<Process> _iRepositoryBase;
 
-    public ProcessReportService(IMapper mapper, IRepositoryBase<TEntry> iRepositoryBase)
+    public ProcessReportService(IMapper mapper, IRepositoryBase<Process> iRepositoryBase)
     {
         _mapper = mapper;
         _iRepositoryBase = iRepositoryBase;
@@ -21,7 +21,7 @@ public class ProcessReportService<TEntry> : IProcessReportService<TEntry>
 
     public async Task<Result<ProcessDto, ErrorResult>> Add(ProcessDto dto)
     {
-        var company = _mapper.Map<TEntry>(dto);
+        var company = _mapper.Map<Process>(dto);
         var result = await _iRepositoryBase.AddAsync(company);
 
         return result.Map(val =>

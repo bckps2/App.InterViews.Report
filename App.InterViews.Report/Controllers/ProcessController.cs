@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using App.InterViews.Report.Http;
 using App.InterViews.Report.Models;
 using App.InterViews.Report.Service.Dtos;
-using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
 namespace App.InterViews.Report.Controllers
@@ -14,9 +13,9 @@ namespace App.InterViews.Report.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IAutoMapperHttp _iAutoMapperHttp;
-        private readonly IProcessReportService<Process> _iProcessService;
+        private readonly IProcessReportService _iProcessService;
 
-        public ProcessController(IProcessReportService<Process> iProcessService, IMapper mapper, IAutoMapperHttp iAutoMapperHttp)
+        public ProcessController(IProcessReportService iProcessService, IMapper mapper, IAutoMapperHttp iAutoMapperHttp)
         {
             _mapper = mapper;
             _iProcessService = iProcessService;

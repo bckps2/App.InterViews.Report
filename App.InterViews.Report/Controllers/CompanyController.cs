@@ -14,9 +14,9 @@ public class CompanyController : Controller
 {
     private readonly IMapper _mapper;
     private readonly IAutoMapperHttp _iAutoMapperHttp;
-    private readonly ICompanyReportService<Company> _iServiceCompany;
+    private readonly ICompanyReportService _iServiceCompany;
 
-    public CompanyController(ICompanyReportService<Company> iServiceCompany, IMapper mapper, IAutoMapperHttp iAutoMapperHttp)
+    public CompanyController(ICompanyReportService iServiceCompany, IMapper mapper, IAutoMapperHttp iAutoMapperHttp)
     {
         _mapper = mapper;
         _iServiceCompany = iServiceCompany;

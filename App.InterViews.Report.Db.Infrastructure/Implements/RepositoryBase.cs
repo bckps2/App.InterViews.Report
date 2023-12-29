@@ -1,14 +1,11 @@
 ﻿using Serilog;
 using FluentValidation;
-using FluentValidation.Results;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using App.InterViews.Report.CrossCutting.Helper;
 using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using App.InterViews.Report.CrossCutting.Helper.ErrorResults;
-using CSharpFunctionalExtensions.ValueTasks;
 
 namespace App.InterViews.Report.Db.Infrastructure.Implements
 {
@@ -28,8 +25,8 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
         public async Task<Result<TEntry, ErrorResult>> GetByIdAsync(int id)
         {
             var result = await _set.FindAsync(id);
-            
-            if(result is null) 
+
+            if (result is null)
             {
                 Log.Error($"On Get Object By Id {nameof(TEntry).GetType()}, Message Error : item Not found");
                 return Result.Failure<TEntry, ErrorResult>(ErrorNotFound.NotFound<TEntry>());
@@ -41,12 +38,12 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
         public Result<IEnumerable<TEntry>, ErrorResult> GetAll()
         {
             var result = _set.AsEnumerable();
-            
-            if (result is null || !result.Any())
+
+            if (result is null || !result.Any()) 
             {
+                Log.Error($"On Get All Objects {nameof(TEntry).GetType()}, Message Error : items Not found");
                 return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorNotFound.NotFound<TEntry>());
             }
-            Log.Error($"On Get All Objects {nameof(TEntry).GetType()}, Message Error : items Not found");
 
             return Result.Success<IEnumerable<TEntry>, ErrorResult>(result);
         }
@@ -58,7 +55,7 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
                 _context.ChangeTracker.Clear();
                 _set.Attach(item).State = EntityState.Modified;
                 var response = _set.Update(item);
-                _context.SaveChanges();                
+                _context.SaveChanges();
                 return response.Entity;
             }
             catch (Exception ex)
@@ -74,7 +71,7 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
 
             if (!validator.IsValid)
                 return ErrorValidation.Validation(validator.Errors);
-                
+
             try
             {
                 var response = await _set.AddAsync(item);
@@ -88,7 +85,7 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             }
         }
 
-        public Result<TEntry, ErrorResult> Delete(TEntry item) 
+        public Result<TEntry, ErrorResult> Delete(TEntry item)
         {
             try
             {

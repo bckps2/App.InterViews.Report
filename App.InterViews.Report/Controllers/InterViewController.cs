@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using App.InterViews.Report.Http;
 using App.InterViews.Report.Models;
 using App.InterViews.Report.Service.Dtos;
-using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
 namespace App.InterViews.Report.Controllers
@@ -14,9 +13,9 @@ namespace App.InterViews.Report.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IAutoMapperHttp _iAutoMapperHttp;
-        private readonly IInterViewReportService<InterView> _iInterviewService;
+        private readonly IInterViewReportService _iInterviewService;
 
-        public InterviewController(IInterViewReportService<InterView> iInterviewService, IAutoMapperHttp iAutoMapperHttp, IMapper mapper)
+        public InterviewController(IInterViewReportService iInterviewService, IAutoMapperHttp iAutoMapperHttp, IMapper mapper)
         {
             _mapper = mapper;
             _iAutoMapperHttp = iAutoMapperHttp;
@@ -29,11 +28,11 @@ namespace App.InterViews.Report.Controllers
             return _iAutoMapperHttp.Ok(_iInterviewService.GetAll());
         }
 
-        //[HttpGet("GetByIdProcess/{idProcess}")]
-        //public IActionResult GetByIdProcess(int idProcess)
-        //{
-        //    return Ok(_iInterviewService.GetAllInterViewsByIdProcess(idProcess));
-        //}
+        [HttpGet("GetByIdProcess/{idProcess}")]
+        public IResult GetByIdProcess(int idProcess)
+        {
+            return _iAutoMapperHttp.Ok(_iInterviewService.GetAllByIdProcess(idProcess));
+        }
 
         [HttpGet("GetInterviewById/{idInterview}")]
         public async Task<IResult> GetInterviewById(int idInterview)

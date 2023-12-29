@@ -5,15 +5,16 @@ using App.InterViews.Report.Db.Infrastructure.Contracts;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using App.InterViews.Report.CrossCutting.Helper;
 using CSharpFunctionalExtensions.ValueTasks;
+using App.InterViews.Report.Library.Entities;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
-public class CompanyReportService<TEntry> : ICompanyReportService<TEntry>
+public class CompanyReportService : ICompanyReportService
 {
     private readonly IMapper _mapper;
-    private readonly IRepositoryBase<TEntry> _iRepositoryBase;
+    private readonly IRepositoryBase<Company> _iRepositoryBase;
 
-    public CompanyReportService(IRepositoryBase<TEntry> iRepositoryBase, IMapper mapper)
+    public CompanyReportService(IRepositoryBase<Company> iRepositoryBase, IMapper mapper)
     {
         _mapper = mapper;
         _iRepositoryBase = iRepositoryBase;
@@ -41,7 +42,7 @@ public class CompanyReportService<TEntry> : ICompanyReportService<TEntry>
 
     public async Task<Result<CompanyDto, ErrorResult>> Add(CompanyDto dto)
     {
-        var company = _mapper.Map<TEntry>(dto);
+        var company = _mapper.Map<Company>(dto);
         var result = await _iRepositoryBase.AddAsync(company);
 
         return result.Map(val =>
