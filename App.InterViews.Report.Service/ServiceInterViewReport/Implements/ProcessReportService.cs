@@ -59,11 +59,11 @@ public class ProcessReportService : IProcessReportService
 
     public Result<IEnumerable<ProcessDto>, ErrorResult> GetProcessesByIdCompany(int idCompany)
     {
-        var companies = _iRepositoryBase.GetAll();
+        var companies = _iRepositoryBase.GetEntitiesByFilter(c => c.IdCompany == idCompany);
 
         return companies.Map(value =>
         {
-            return _mapper.Map<IEnumerable<ProcessDto>>(value).Where(process => process.IdCompany == idCompany);
+            return _mapper.Map<IEnumerable<ProcessDto>>(value);
         });
     }
 

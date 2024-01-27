@@ -6,6 +6,8 @@ using App.InterViews.Report.CrossCutting.Helper;
 using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
 using App.InterViews.Report.Library.Entities;
+using System.Linq.Expressions;
+using System.Linq;
 
 namespace App.InterViews.Report.Db.Infrastructure.Implements
 {
@@ -42,6 +44,19 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             var result = _set.AsEnumerable();
 
             if (result is null || !result.Any()) 
+            {
+                Log.Error($"On Get All Objects {nameof(TEntry).GetType()}, Message Error : items Not found");
+                return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.NotFound<TEntry>());
+            }
+
+            return Result.Success<IEnumerable<TEntry>, ErrorResult>(result);
+        }
+
+        public Result<IEnumerable<TEntry>, ErrorResult> GetEntitiesByFilter(Expression<Func<TEntry, bool>> expression)
+        {
+            var result = _set.Where(expression);
+
+            if (result is null || !result.Any())
             {
                 Log.Error($"On Get All Objects {nameof(TEntry).GetType()}, Message Error : items Not found");
                 return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.NotFound<TEntry>());
