@@ -1,6 +1,5 @@
 ﻿using App.InterViews.Report.CrossCutting.Helper;
 using CSharpFunctionalExtensions;
-using FluentValidation.Results;
 
 namespace App.InterViews.Report.Db.Infrastructure.Contracts;
 

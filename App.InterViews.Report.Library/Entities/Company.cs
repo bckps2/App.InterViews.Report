@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace App.InterViews.Report.Library.Entities
 {
-    public class Company
+    public class Company : BaseEntity
     {
         public Company()
         {
@@ -14,7 +14,6 @@ namespace App.InterViews.Report.Library.Entities
         [Column(Order = 1)]
         public int IdCompany { get; set; }
         public string? CompanyName { get; set; }
-        public DateTime DateCreated { get; set; }
         public virtual ICollection<Process>? Process { get; set; }
     }
 }

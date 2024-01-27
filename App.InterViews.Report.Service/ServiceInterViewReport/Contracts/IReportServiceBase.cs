@@ -1,7 +1,5 @@
 ﻿using App.InterViews.Report.CrossCutting.Helper;
-using App.InterViews.Report.Service.Dtos;
 using CSharpFunctionalExtensions;
-using FluentValidation.Results;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 

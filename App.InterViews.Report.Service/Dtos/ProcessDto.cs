@@ -12,6 +12,6 @@ public class ProcessDto
     [Required]
     public string? RangeSalarial { get; set; }
     [JsonIgnore]
-    public DateTime DateCreated { get; } = DateTime.Now;
+    public DateTime DateCreated { get; set; }
     public IList<InterviewDto>? Interviews { get; set; }
 }

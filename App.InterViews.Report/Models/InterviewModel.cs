@@ -1,13 +1,12 @@
 ﻿using App.InterViews.Report.CrossCutting.Enums;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace App.InterViews.Report.Models
 {
     public class InterviewModel
     {
+
+        [Required]
         public int IdInterview { get; set; }
         [Required]
         public int IdProcess { get; set; }

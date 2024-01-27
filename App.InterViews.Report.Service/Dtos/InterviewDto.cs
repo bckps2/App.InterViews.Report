@@ -17,5 +17,5 @@ public class InterviewDto
     public string? Email { get; set; }
     [Required]
     public string? Observations { get; set; }
-    public DateTime DateCreated { get => DateTime.Now; }
+    public DateTime DateCreated { get; set; }
 }
