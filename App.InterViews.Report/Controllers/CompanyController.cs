@@ -1,10 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using App.InterViews.Report.Http;
+﻿using App.InterViews.Report.Http;
 using App.InterViews.Report.Models;
 using App.InterViews.Report.Service.Dtos;
-using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace App.InterViews.Report.Controllers;
 
@@ -13,10 +13,10 @@ namespace App.InterViews.Report.Controllers;
 public class CompanyController : Controller
 {
     private readonly IMapper _mapper;
-    private readonly ICompanyReportService<Company> _iServiceCompany;
     private readonly IAutoMapperHttp _iAutoMapperHttp;
+    private readonly ICompanyReportService _iServiceCompany;
 
-    public CompanyController(ICompanyReportService<Company> iServiceCompany, IMapper mapper, IAutoMapperHttp iAutoMapperHttp)
+    public CompanyController(ICompanyReportService iServiceCompany, IMapper mapper, IAutoMapperHttp iAutoMapperHttp)
     {
         _mapper = mapper;
         _iServiceCompany = iServiceCompany;
@@ -24,6 +24,7 @@ public class CompanyController : Controller
     }
 
     [HttpGet("GetCompanyById/{idCompany}")]
+    [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.OK)]
     public async Task<IResult> GetCompanyById(int idCompany)
     {
         var result = await _iServiceCompany.GetById(idCompany);
@@ -31,12 +32,14 @@ public class CompanyController : Controller
     }
 
     [HttpGet("GetAllCompanies")]
+    [ProducesResponseType(typeof(IEnumerable<CompanyDto>), (int)HttpStatusCode.OK)]
     public IResult GetAllCompanies()
     {
         return _iAutoMapperHttp.Ok(_iServiceCompany.GetAll());
     }
 
     [HttpPost("AddCompany")]
+    [ProducesResponseType(typeof(IEnumerable<CompanyDto>), (int)HttpStatusCode.Created)]
     public async Task<IResult> AddCompany(CompanyModel companyModel)
     {
         var company = _mapper.Map<CompanyDto>(companyModel);
@@ -45,6 +48,7 @@ public class CompanyController : Controller
     }
 
     [HttpDelete("DeleteCompany/{idCompany}")]
+    [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.OK)]
     public async Task<IResult> DeleteCompany(int idCompany)
     {
         var result = await _iServiceCompany.Delete(idCompany);

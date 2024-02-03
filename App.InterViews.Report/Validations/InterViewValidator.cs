@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using App.InterViews.Report.Library.Entities;
+﻿using App.InterViews.Report.Library.Entities;
+using FluentValidation;
 
 namespace App.InterViews.Report.Validations
 {
@@ -7,7 +7,7 @@ namespace App.InterViews.Report.Validations
     {
         public InterViewValidator()
         {
-           //TODO => Add Rules
+            //TODO => Add Rules
         }
     }
 }

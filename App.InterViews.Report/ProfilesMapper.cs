@@ -1,7 +1,7 @@
-﻿using AutoMapper;
+﻿using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Models;
 using App.InterViews.Report.Service.Dtos;
-using App.InterViews.Report.Library.Entities;
+using AutoMapper;
 
 namespace App.InterViews.Report;
 
@@ -22,7 +22,8 @@ public class ProfilesMapper : Profile
         CreateMap<InterviewDto, InterView>()
             .ForMember(interview => interview.InterViewersName, opt => opt.MapFrom(service => ListToToString(service)))
             .ReverseMap()
-            .ForMember(service => service.NameInterViewers, opt => opt.MapFrom(interview => SplitNames(interview)));
+            .ForMember(service => service.NameInterViewers, opt => opt.MapFrom(interview => SplitNames(interview)))
+            .ReverseMap();
     }
 
     private void MapperCompany()

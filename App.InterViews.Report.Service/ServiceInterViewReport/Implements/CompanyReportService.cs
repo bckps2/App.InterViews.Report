@@ -1,24 +1,26 @@
-﻿using AutoMapper;
-using FluentValidation.Results;
-using CSharpFunctionalExtensions;
-using App.InterViews.Report.Service.Dtos;
+﻿using App.InterViews.Report.CrossCutting.Helper;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
+using App.InterViews.Report.Library.Entities;
+using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
+using AutoMapper;
+using CSharpFunctionalExtensions;
+using CSharpFunctionalExtensions.ValueTasks;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
-public class CompanyReportService<TEntry> : ICompanyReportService<TEntry>
+public class CompanyReportService : ICompanyReportService
 {
     private readonly IMapper _mapper;
-    private readonly IRepositoryBase<TEntry> _iRepositoryBase;
+    private readonly IRepositoryBase<Company> _iRepositoryBase;
 
-    public CompanyReportService(IRepositoryBase<TEntry> iRepositoryBase, IMapper mapper)
+    public CompanyReportService(IRepositoryBase<Company> iRepositoryBase, IMapper mapper)
     {
         _mapper = mapper;
         _iRepositoryBase = iRepositoryBase;
     }
 
-    public async Task<Result<CompanyDto, ValidationResult>> GetById(int id)
+    public async Task<Result<CompanyDto, ErrorResult>> GetById(int id)
     {
         var value = await _iRepositoryBase.GetByIdAsync(id);
 
@@ -28,7 +30,7 @@ public class CompanyReportService<TEntry> : ICompanyReportService<TEntry>
         });
     }
 
-    public Result<IEnumerable<CompanyDto>, ValidationResult> GetAll()
+    public Result<IEnumerable<CompanyDto>, ErrorResult> GetAll()
     {
         var companies = _iRepositoryBase.GetAll();
 
@@ -38,9 +40,9 @@ public class CompanyReportService<TEntry> : ICompanyReportService<TEntry>
         });
     }
 
-    public async Task<Result<CompanyDto, ValidationResult>> Add(CompanyDto dto)
+    public async Task<Result<CompanyDto, ErrorResult>> Add(CompanyDto dto)
     {
-        var company = _mapper.Map<TEntry>(dto);
+        var company = _mapper.Map<Company>(dto);
         var result = await _iRepositoryBase.AddAsync(company);
 
         return result.Map(val =>
@@ -49,7 +51,7 @@ public class CompanyReportService<TEntry> : ICompanyReportService<TEntry>
         });
     }
 
-    public async Task<Result<CompanyDto, ValidationResult>> Delete(int id)
+    public async Task<Result<CompanyDto, ErrorResult>> Delete(int id)
     {
         var company = await _iRepositoryBase.GetByIdAsync(id);
 
