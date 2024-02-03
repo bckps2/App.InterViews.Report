@@ -1,11 +1,23 @@
 name: Docker Image CI
+
 on:
   push:
-    branches: [ "testDocker" ]
-    
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag appinterviewreport:$(date +%s)
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build -t interviewreportapp .
+
+    - name: Run Docker container
+      run: docker run my-dotnet-app
