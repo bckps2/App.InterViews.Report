@@ -11,7 +11,7 @@ namespace App.InterViews.Report.Models
         [Required]
         public int IdProcess { get; set; }
         [Required]
-        public TypeInterview TypeInterView { get; set; }
+        public InterviewType TypeInterView { get; set; }
         [Required]
         public List<string>? NameInterViewers { get; set; }
 

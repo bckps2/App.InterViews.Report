@@ -3,7 +3,7 @@
 namespace App.InterViews.Report.CrossCutting.Enums
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum TypeInterview
+    public enum InterviewType
     {
         FirstInterView = 0,
         SecondInterView = 1,

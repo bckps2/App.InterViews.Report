@@ -9,7 +9,7 @@ public class InterviewDto
     public int IdProcess { get; set; }
     public int IdInterview { get; set; }
     [Required]
-    public TypeInterview TypeInterView { get; set; }
+    public InterviewType TypeInterView { get; set; }
     [Required]
     public List<string>? NameInterViewers { get; set; }
     public DateTime DateInterView { get; set; }

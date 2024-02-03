@@ -14,7 +14,7 @@ namespace App.InterViews.Report.Library.Entities
         public string? Observations { get; set; }
 
         [Column(TypeName = "nvarchar(20)")]
-        public TypeInterview TypeInterView { get; set; }
+        public InterviewType TypeInterView { get; set; }
 
         [ForeignKey("Process")]
         public int IdProcess { get; set; }
