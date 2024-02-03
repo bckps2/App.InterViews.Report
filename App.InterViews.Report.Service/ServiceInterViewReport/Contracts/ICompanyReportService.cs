@@ -1,14 +1,8 @@
-﻿using App.InterViews.Report.Service.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using App.InterViews.Report.Library.Entities;
+using App.InterViews.Report.Service.Dtos;
 
-namespace App.InterViews.Report.Service.ServiceInterViewReport.Contracts
+namespace App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
+
+public interface ICompanyReportService : IReportServiceBase<Company, CompanyDto>
 {
-    public interface ICompanyReportService<TEntry> : IReportServiceBase<TEntry, CompanyDto>
-    {
-
-    }
 }

@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using App.InterViews.Report.Library.Entities;
+﻿using App.InterViews.Report.Library.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace App.InterViews.Report.Db.Infrastructure.Context
 {

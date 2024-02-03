@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using App.InterViews.Report.Library.Entities;
+﻿using App.InterViews.Report.Library.Entities;
+using FluentValidation;
 
 namespace App.InterViews.Report.Validations
 {

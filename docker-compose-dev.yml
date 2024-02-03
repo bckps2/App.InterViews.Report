@@ -1,0 +1,41 @@
+services:
+  apireport:
+    image: apireportinterview
+    build:
+      context: ../App.InterViews.Report
+      dockerfile: ../App.InterViews.Report/Dockerfile
+    environment:
+      - ASPNETCORE_HTTPS_PORT=443
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+      - ASPNETCORE_ENVIRONMENT=Release
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/App.InterViews.Report.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=12345678Abc
+    ports:
+      - "8081:80"
+      - "443:443"
+    networks:
+      - app-network-public
+    volumes:
+      - type: bind
+        source: C:\Users\baflo\AppData\Roaming\Microsoft\UserSecrets
+        target: /root/.microsoft/usersecrets
+      - type: bind
+        source: C:\Users\baflo\AppData\Roaming\ASP.NET\Https
+        target: /root/.aspnet/https
+    command: /bin/sh -c "chmod 644 /root/.aspnet/https/App.InterViews.Report.pfx"
+
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    networks:
+      - app-network-public
+    environment:
+      - SA_PASSWORD=12345678.Abc
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+
+networks:
+  app-network-public:
+    name: reportnetwork
+    driver: bridge
