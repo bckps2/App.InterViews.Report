@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag App.Interviews.Report:$(date +%s)
+      run: docker build . --file Dockerfile --tag apiinterviewreport:$(date +%s)
