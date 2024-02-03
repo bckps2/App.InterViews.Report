@@ -1,13 +1,11 @@
 name: Docker Image CI
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    branches: [ "testDocker" ]
     
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag apiinterviewreport:$(date +%s)
+      run: docker build . --file Dockerfile --tag appinterviewreport:$(date +%s)
