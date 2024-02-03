@@ -1,10 +1,10 @@
-﻿using AutoMapper;
-using CSharpFunctionalExtensions;
-using App.InterViews.Report.Service.Dtos;
+﻿using App.InterViews.Report.CrossCutting.Helper;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
-using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
-using App.InterViews.Report.CrossCutting.Helper;
 using App.InterViews.Report.Library.Entities;
+using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
+using AutoMapper;
+using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
@@ -47,7 +47,7 @@ public class InterViewReportService : IInterViewReportService
         return company.Error;
     }
 
-    public Result<IEnumerable<InterviewDto>, ErrorResult> GetAll()    
+    public Result<IEnumerable<InterviewDto>, ErrorResult> GetAll()
     {
         var companies = _iRepositoryBase.GetAll();
 

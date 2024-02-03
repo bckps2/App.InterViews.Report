@@ -1,7 +1,7 @@
-﻿using AutoMapper;
+﻿using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Models;
 using App.InterViews.Report.Service.Dtos;
-using App.InterViews.Report.Library.Entities;
+using AutoMapper;
 
 namespace App.InterViews.Report;
 
@@ -46,7 +46,7 @@ public class ProfilesMapper : Profile
             return interView.InterViewersName.Split(',').ToList();
         return default;
     }
-     
+
     private static string? ListToToString(InterviewDto serviceInterview)
     {
         if (serviceInterview.NameInterViewers != null && serviceInterview.NameInterViewers.Any())

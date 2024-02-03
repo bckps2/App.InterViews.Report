@@ -7,10 +7,10 @@ using App.InterViews.Report.Validations;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Data;
 using Serilog.Core;
 using Serilog.Sinks.MSSqlServer;
 using System.Collections.ObjectModel;
+using System.Data;
 
 namespace App.InterViews.Report.StartApp;
 
@@ -24,7 +24,7 @@ public static class ConfigurationApp
         services.AddTransient<IValidator<Company>, CompanyValidator>();
         services.AddTransient<IValidator<InterView>, InterViewValidator>();
         services.AddTransient<IValidator<Process>, ProccesValidator>();
-        services.AddScoped<IAutoMapperHttp, AutoMapperHttp>();          
+        services.AddScoped<IAutoMapperHttp, AutoMapperHttp>();
         services.InitializeInfrastructure();
         services.InitializeServices();
         ConfgiurationDb(services);
@@ -39,6 +39,7 @@ public static class ConfigurationApp
             .Build();
 
         var logDB = configurationManager?.GetSection("ConnectionStrings:DbInterviews").Value;
+        Console.WriteLine("####################### => ESTA ES LA CONNECTION ACTUAL => " + logDB);
         var sinkOpts = new MSSqlServerSinkOptions { TableName = "LogRecords", AutoCreateSqlTable = true };
 
         var columnOptions = new ColumnOptions
@@ -50,7 +51,7 @@ public static class ConfigurationApp
                 }
         };
         return new LoggerConfiguration()
-            .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
+            .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Error)
             .WriteTo.MSSqlServer(
                 connectionString: logDB,
                 sinkOptions: sinkOpts,

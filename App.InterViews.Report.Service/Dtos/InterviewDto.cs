@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using App.InterViews.Report.CrossCutting.Enums;
+﻿using App.InterViews.Report.CrossCutting.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace App.InterViews.Report.Service.Dtos;
 

@@ -1,13 +1,12 @@
-﻿using Serilog;
-using FluentValidation;
-using CSharpFunctionalExtensions;
-using Microsoft.EntityFrameworkCore;
-using App.InterViews.Report.CrossCutting.Helper;
+﻿using App.InterViews.Report.CrossCutting.Helper;
 using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
 using App.InterViews.Report.Library.Entities;
+using CSharpFunctionalExtensions;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.Linq.Expressions;
-using System.Linq;
 
 namespace App.InterViews.Report.Db.Infrastructure.Implements
 {
@@ -27,10 +26,10 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
         public async Task<Result<TEntry, ErrorResult>> GetByIdAsync(int id)
         {
             var result = await _set.FindAsync(id);
-            
+
             if (result is null)
             {
-                Log.Error($"On Get Object By Id {nameof(TEntry).GetType()}, Message Error : item Not found");
+                Log.Error($"On Get Object By Id {typeof(TEntry)}, Message Error : item Not found");
                 return Result.Failure<TEntry, ErrorResult>(ErrorResult.NotFound<TEntry>());
             }
 
@@ -43,9 +42,9 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
         {
             var result = _set.AsEnumerable();
 
-            if (result is null || !result.Any()) 
+            if (result is null || !result.Any())
             {
-                Log.Error($"On Get All Objects {nameof(TEntry).GetType()}, Message Error : items Not found");
+                Log.Error($"On Get All Objects {typeof(TEntry)}, Message Error : items Not found");
                 return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.NotFound<TEntry>());
             }
 
@@ -58,7 +57,7 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
 
             if (result is null || !result.Any())
             {
-                Log.Error($"On Get All Objects {nameof(TEntry).GetType()}, Message Error : items Not found");
+                Log.Error($"On Get {typeof(TEntry)} filter, Message Error : items Not found");
                 return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.NotFound<TEntry>());
             }
 

@@ -12,7 +12,7 @@ namespace App.InterViews.Report.Library.Entities
         public DateTime DateInterView { get; set; }
         public string? Email { get; set; }
         public string? Observations { get; set; }
-       
+
         [Column(TypeName = "nvarchar(20)")]
         public TypeInterview TypeInterView { get; set; }
 
