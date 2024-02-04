@@ -32,6 +32,8 @@ RUN dotnet publish "./App.InterViews.Report.csproj" -c $BUILD_CONFIGURATION -o /
 
 FROM base AS final
 WORKDIR /app
+
+COPY App.InterViews.Report.pfx /app
 COPY --from=publish /app/publish .
 
 
