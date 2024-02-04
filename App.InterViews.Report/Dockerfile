@@ -8,6 +8,19 @@ EXPOSE 443:443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
+# Install OpenSSL
+RUN apt-get update && \
+    apt-get install -y openssl
+
+# Generate SSL certificate
+RUN openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout key.pem -out cert.pem -days 365 -subj "/CN=App.InterViews.Report.com"
+
+# Convert SSL certificate to PKCS#12 format (optional)
+RUN openssl pkcs12 -export -out App.InterViews.Report.pfx -inkey key.pem -in cert.pem -passout pass:12345678
+
+# (Optional) Clean up unnecessary files
+RUN rm key.pem cert.pem
+
 ARG BUILD_CONFIGURATION=Release
 
 WORKDIR /src
@@ -26,15 +39,14 @@ WORKDIR "/src/App.InterViews.Report"
 RUN dotnet build "./App.InterViews.Report.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./App.InterViews.Report.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
+RUN dotnet publish "./App.InterViews.Report.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+COPY --from=build /App.InterViews.Report.pfx .
 
 FROM base AS final
 WORKDIR /app
 
-COPY App.InterViews.Report.pfx /app
 COPY --from=publish /app/publish .
-
+COPY --from=publish ./App.InterViews.Report.pfx /root/.aspnet/https/
 
 ENTRYPOINT ["dotnet", "App.InterViews.Report.dll"]
