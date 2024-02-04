@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Extensions\**" />
+    <EmbeddedResource Remove="Extensions\**" />
+    <None Remove="Extensions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CSharpFunctionalExtensions" Version="2.37.0" />
     <PackageReference Include="FluentValidation" Version="11.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
@@ -14,10 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\App.InterViews.Report.CrossCutting\App.InterViews.Report.CrossCutting.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>
