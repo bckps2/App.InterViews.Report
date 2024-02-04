@@ -6,8 +6,8 @@ namespace App.InterViews.Report.Service.Dtos;
 public class InterviewDto
 {
     [Required]
-    public int Id { get; set; }
-    public int IdInterview { get; set; }
+    public Guid Id { get; set; }
+    public Guid IdInterview { get; set; }
     [Required]
     public InterviewType TypeInterView { get; set; }
     [Required]

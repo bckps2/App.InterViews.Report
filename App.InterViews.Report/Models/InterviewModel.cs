@@ -5,11 +5,10 @@ namespace App.InterViews.Report.Models
 {
     public class InterviewModel
     {
-
         [Required]
-        public int IdInterview { get; set; }
+        public Guid IdInterview { get; set; }
         [Required]
-        public int IdProcess { get; set; }
+        public Guid IdProcess { get; set; }
         [Required]
         public InterviewType TypeInterView { get; set; }
         [Required]
@@ -20,6 +19,5 @@ namespace App.InterViews.Report.Models
         [Required]
         public string? Email { get; set; }
         public string? Observations { get; set; }
-        public DateTime DateCreated { get; } = DateTime.Now;
     }
 }

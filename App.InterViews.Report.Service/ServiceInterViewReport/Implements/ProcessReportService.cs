@@ -30,7 +30,7 @@ public class ProcessReportService : IProcessReportService
         });
     }
 
-    public async Task<Result<ProcessDto, ErrorResult>> Delete(int id)
+    public async Task<Result<ProcessDto, ErrorResult>> Delete(Guid id)
     {
         var processDto = await _iRepositoryBase.GetByIdAsync(id);
 
@@ -67,7 +67,7 @@ public class ProcessReportService : IProcessReportService
         });
     }
 
-    public async Task<Result<ProcessDto, ErrorResult>> GetById(int id)
+    public async Task<Result<ProcessDto, ErrorResult>> GetById(Guid id)
     {
         var value = await _iRepositoryBase.GetByIdAsync(id);
 

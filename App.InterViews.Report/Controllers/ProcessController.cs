@@ -49,7 +49,7 @@ public class ProcessController : ControllerBase
 
     [HttpDelete("DeleteProcess/{idProcess}")]
     [ProducesResponseType(typeof(ProcessDto), (int)HttpStatusCode.OK)]
-    public async Task<IResult> DeleteProcess(int idProcess)
+    public async Task<IResult> DeleteProcess(Guid idProcess)
     {
         var result = await _iProcessService.Delete(idProcess);
         return _iAutoMapperHttp.Ok(result);

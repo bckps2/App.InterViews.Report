@@ -7,7 +7,7 @@ namespace App.InterViews.Report.Db.Infrastructure.Contracts;
 public interface IRepositoryBase<TEntry>
 {
     Task<Result<TEntry, ErrorResult>> AddAsync(TEntry item);
-    Task<Result<TEntry, ErrorResult>> GetByIdAsync(int id);
+    Task<Result<TEntry, ErrorResult>> GetByIdAsync(Guid id);
     Result<IEnumerable<TEntry>, ErrorResult> GetAll();
     Result<TEntry, ErrorResult> Update(TEntry item);
     Result<TEntry, ErrorResult> Delete(TEntry item);

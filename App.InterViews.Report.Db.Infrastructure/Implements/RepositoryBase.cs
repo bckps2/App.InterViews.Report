@@ -23,7 +23,7 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             _iValidator = iValidator;
         }
 
-        public async Task<Result<TEntry, ErrorResult>> GetByIdAsync(int id)
+        public async Task<Result<TEntry, ErrorResult>> GetByIdAsync(Guid id)
         {
             var result = await _set.FindAsync(id);
 

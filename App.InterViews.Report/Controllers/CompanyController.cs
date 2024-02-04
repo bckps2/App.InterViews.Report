@@ -25,7 +25,7 @@ public class CompanyController : Controller
 
     [HttpGet("GetCompanyById/{idCompany}")]
     [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.OK)]
-    public async Task<IResult> GetCompanyById(int idCompany)
+    public async Task<IResult> GetCompanyById(Guid idCompany)
     {
         var result = await _iServiceCompany.GetById(idCompany);
         return _iAutoMapperHttp.Ok(result);
@@ -49,7 +49,7 @@ public class CompanyController : Controller
 
     [HttpDelete("DeleteCompany/{idCompany}")]
     [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.OK)]
-    public async Task<IResult> DeleteCompany(int idCompany)
+    public async Task<IResult> DeleteCompany(Guid idCompany)
     {
         var result = await _iServiceCompany.Delete(idCompany);
         return _iAutoMapperHttp.Ok(result);

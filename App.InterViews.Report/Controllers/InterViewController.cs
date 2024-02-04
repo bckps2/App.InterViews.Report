@@ -39,7 +39,7 @@ public class InterviewController : Controller
 
     [HttpGet("GetInterviewById/{idInterview}")]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.OK)]
-    public async Task<IResult> GetInterviewById(int idInterview)
+    public async Task<IResult> GetInterviewById(Guid idInterview)
     {
         var result = await _iInterviewService.GetById(idInterview);
         return _iAutoMapperHttp.Ok(result);
@@ -65,7 +65,7 @@ public class InterviewController : Controller
 
     [HttpDelete("DeleteInterview/{idInterview}")]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.OK)]
-    public async Task<IResult> DeleteInterview(int idInterview)
+    public async Task<IResult> DeleteInterview(Guid idInterview)
     {
         var result = await _iInterviewService.Delete(idInterview);
         return _iAutoMapperHttp.Ok(result);
