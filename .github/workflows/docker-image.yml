@@ -32,12 +32,12 @@ jobs:
         name: ssl-certificate
         path: certificate.pfx
         
+    - name: Set up Docker Build context
+      run: mkdir -p docker-context && cp App.InterViews.Report.pfx docker-context/
+    
     - name: Build Docker image
       run: |
-        mkdir -p docker-context
-        cp $GITHUB_WORKSPACE/App.InterViews.Report.pfx docker-context/
         cd docker-context
-        # Build your Docker image here, referencing the certificate.pfx in the context
         docker build -t interviewreportapp .
 
     - name: Install GitVersion
