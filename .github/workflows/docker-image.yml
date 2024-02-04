@@ -41,4 +41,4 @@ jobs:
       run: docker tag interviewreportapp ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:${{ steps.version.outputs.majorMinorPatch  }}
     
     - name: Push Docker image to Docker Hub
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:${{ steps.version.outputs.majorMinorPatch  }}
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:${{ steps.version.outputs.buildMetaData  }}
