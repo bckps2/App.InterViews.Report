@@ -3,7 +3,6 @@ using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
 using App.InterViews.Report.Library.Entities;
 using CSharpFunctionalExtensions;
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Linq.Expressions;
@@ -14,13 +13,11 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
     {
         private readonly DbSet<TEntry> _set;
         private readonly DbDataContext _context;
-        private readonly IValidator<TEntry> _iValidator;
 
-        public RepositoryBase(DbDataContext context, IValidator<TEntry> iValidator)
+        public RepositoryBase(DbDataContext context)
         {
             _context = context;
             _set = context.Set<TEntry>();
-            _iValidator = iValidator;
         }
 
         public async Task<Result<TEntry, ErrorResult>> GetByIdAsync(Guid id)
@@ -84,11 +81,6 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
 
         public async Task<Result<TEntry, ErrorResult>> AddAsync(TEntry item)
         {
-            var validator = await _iValidator.ValidateAsync(item);
-
-            if (!validator.IsValid)
-                return ErrorResult.Validation(validator.Errors);
-
             try
             {
                 item.DateCreated = DateTime.UtcNow;
