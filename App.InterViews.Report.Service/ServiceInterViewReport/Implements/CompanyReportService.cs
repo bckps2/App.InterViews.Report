@@ -20,7 +20,7 @@ public class CompanyReportService : ICompanyReportService
         _iRepositoryBase = iRepositoryBase;
     }
 
-    public async Task<Result<CompanyDto, ErrorResult>> GetById(int id)
+    public async Task<Result<CompanyDto, ErrorResult>> GetById(Guid id)
     {
         var value = await _iRepositoryBase.GetByIdAsync(id);
 
@@ -51,7 +51,7 @@ public class CompanyReportService : ICompanyReportService
         });
     }
 
-    public async Task<Result<CompanyDto, ErrorResult>> Delete(int id)
+    public async Task<Result<CompanyDto, ErrorResult>> Delete(Guid id)
     {
         var company = await _iRepositoryBase.GetByIdAsync(id);
 

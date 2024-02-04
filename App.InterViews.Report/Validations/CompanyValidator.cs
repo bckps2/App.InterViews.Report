@@ -1,9 +1,10 @@
 ﻿using App.InterViews.Report.Library.Entities;
+using App.InterViews.Report.Models;
 using FluentValidation;
 
 namespace App.InterViews.Report.Validations
 {
-    public class CompanyValidator : AbstractValidator<Company>
+    public class CompanyValidator : AbstractValidator<CompanyModel>
     {
         public CompanyValidator()
         {

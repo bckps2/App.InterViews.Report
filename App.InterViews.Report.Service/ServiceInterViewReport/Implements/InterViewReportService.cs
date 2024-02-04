@@ -30,7 +30,7 @@ public class InterViewReportService : IInterViewReportService
         });
     }
 
-    public async Task<Result<InterviewDto, ErrorResult>> Delete(int id)
+    public async Task<Result<InterviewDto, ErrorResult>> Delete(Guid id)
     {
         var company = await _iRepositoryBase.GetByIdAsync(id);
 
@@ -70,7 +70,7 @@ public class InterViewReportService : IInterViewReportService
         });
     }
 
-    public async Task<Result<InterviewDto, ErrorResult>> GetById(int id)
+    public async Task<Result<InterviewDto, ErrorResult>> GetById(Guid id)
     {
         var value = await _iRepositoryBase.GetByIdAsync(id);
 
@@ -82,7 +82,7 @@ public class InterViewReportService : IInterViewReportService
 
     public async Task<Result<InterviewDto, ErrorResult>> Update(InterviewDto dto)
     {
-        var value = await _iRepositoryBase.GetByIdAsync(dto.IdInterview);
+        var value = await _iRepositoryBase.GetByIdAsync(dto.Id);
 
         if (value.IsSuccess)
         {
