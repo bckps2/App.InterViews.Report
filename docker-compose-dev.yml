@@ -15,7 +15,7 @@ services:
       - "8081:80"
       - "443:443"
     networks:
-      - app-network-public
+      - servicenetwork
     volumes:
       - type: bind
         source: C:\Users\baflo\AppData\Roaming\Microsoft\UserSecrets
@@ -25,17 +25,6 @@ services:
         target: /root/.aspnet/https
     command: /bin/sh -c "chmod 644 /root/.aspnet/https/App.InterViews.Report.pfx"
 
-  sqldata:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    networks:
-      - app-network-public
-    environment:
-      - SA_PASSWORD=12345678.Abc
-      - ACCEPT_EULA=Y
-    ports:
-      - "1433:1433"
-
 networks:
-  app-network-public:
-    name: reportnetwork
-    driver: bridge
+  servicenetwork:
+    external: true
