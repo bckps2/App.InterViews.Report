@@ -18,21 +18,21 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Build Docker image
+      run: docker build -t interviewreportapp .
+      
     - name: Install OpenSSL
       run: sudo apt-get install openssl
 
     - name: Generate private key and CSR
-      run: openssl req -newkey rsa:2048 -nodes -keyout key.pem -out csr.pem -subj "/CN=example.com"
+      run: openssl req -newkey rsa:2048 -nodes -keyout key.pem -out csr.pem -subj "/CN=App.InterViews.Report.com"
 
     - name: Self-sign certificate
       run: openssl x509 -req -days 365 -in csr.pem -signkey key.pem -out cert.pem
 
     - name: Convert certificate and private key to PKCS#12 (PFX) format
-      run: openssl pkcs12 -export -out certificate.pfx -inkey key.pem -in cert.pem -password pass:12345678
+      run: openssl pkcs12 -export -out App.InterViews.Report.pfx -inkey key.pem -in cert.pem -password pass:12345678
       
-    - name: Build Docker image
-      run: docker build -t interviewreportapp .
-
     - name: Install GitVersion
       uses: gittools/actions/gitversion/setup@v0
       with:
