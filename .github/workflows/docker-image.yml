@@ -19,7 +19,7 @@ jobs:
         fetch-depth: 0
 
     - name: Build Docker image
-      run: docker build -t interviewreportapp:${{ steps.version.outputs.version }} .
+      run: docker build -t interviewreportapp .
 
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1
