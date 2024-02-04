@@ -35,7 +35,7 @@ jobs:
     - name: Set up Docker Build context
       run: |
         mkdir -p docker-context
-        cp Dockerfile docker-context/
+        cp -R* docker-context/
         
     - name: Copy SSL certificate to Docker build context
       run: cp App.InterViews.Report.pfx docker-context/
