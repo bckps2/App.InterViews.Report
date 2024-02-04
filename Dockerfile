@@ -1,8 +1,11 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-ARG CERTIFICATE_PASSWORD
+
+ARG ENV_CERTIFICATE_PASSWORD=default_value
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+
+ENV CERTIFICATE_PASSWORD=$ENV_CERTIFICATE_PASSWORD
 
 WORKDIR /app
 EXPOSE 80:8080
