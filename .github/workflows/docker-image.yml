@@ -26,7 +26,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     
     - name: Tag Docker image
-      run: docker tag interviewreportapp ${DOCKER_USERNAME }/interviewreportapp:latest
+      run: docker tag interviewreportapp ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:latest
     
     - name: Push Docker image to Docker Hub
-      run: docker push ${DOCKER_USERNAME}/interviewreportapp:latest
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:latest
