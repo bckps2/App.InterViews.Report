@@ -18,33 +18,8 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install OpenSSL
-      run: sudo apt-get install openssl
-      
-    - name: Generate SSL certificate
-      run: |
-        openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout key.pem -out cert.pem -days 365 -subj "/CN=App.InterViews.Report.com"
-        openssl pkcs12 -export -out App.InterViews.Report.pfx -inkey key.pem -in cert.pem -passout pass:12345678
-
-    - name: Archive SSL certificate as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: ssl-certificate
-        path: App.InterViews.Report.pfx
-
-    - name: Set up Docker Build context
-      run: |
-        mkdir -p docker-context
-        shopt -s extglob
-        cp -R !(docker-context) docker-context/
-        
-    - name: Copy SSL certificate to Docker build context
-      run: cp App.InterViews.Report.pfx docker-context/
-    
     - name: Build Docker image
-      run: |
-        cd docker-context
-        docker build -t interviewreportapp .
+      run: docker build -t interviewreportapp --build-arg CERTIFICATE_PASSWORD=${{ secrets.CERTIFICATE_PASSWORD }} .
 
     - name: Install GitVersion
       uses: gittools/actions/gitversion/setup@v0
