@@ -35,7 +35,7 @@ jobs:
     - name: Build Docker image
       run: |
         mkdir -p docker-context
-        cp $GITHUB_WORKSPACE/certificate.pfx docker-context/
+        cp $GITHUB_WORKSPACE/App.InterViews.Report.pfx docker-context/
         cd docker-context
         # Build your Docker image here, referencing the certificate.pfx in the context
         docker build -t interviewreportapp .
