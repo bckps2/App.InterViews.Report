@@ -31,9 +31,14 @@ jobs:
       with:
         name: ssl-certificate
         path: App.InterViews.Report.pfx
-        
+
     - name: Set up Docker Build context
-      run: mkdir -p docker-context && cp App.InterViews.Report.pfx docker-context/
+      run: |
+        mkdir -p docker-context
+        cp Dockerfile docker-context/
+        
+    - name: Copy SSL certificate to Docker build context
+      run: cp certificate.pfx docker-context/
     
     - name: Build Docker image
       run: |
