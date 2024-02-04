@@ -32,7 +32,7 @@ public class ProcessController : ControllerBase
 
     [HttpGet("GetProcessesByIdCompany/{idCompany}")]
     [ProducesResponseType(typeof(IEnumerable<ProcessDto>), (int)HttpStatusCode.OK)]
-    public Task<IResult> GetProcessesByIdCompany(int idCompany)
+    public Task<IResult> GetProcessesByIdCompany(Guid idCompany)
     {
         var result = _iProcessService.GetProcessesByIdCompany(idCompany);
         return Task.FromResult(_iAutoMapperHttp.Ok(result));

@@ -7,5 +7,5 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
 public interface IProcessReportService : IReportServiceBase<Process, ProcessDto>
 {
-    Result<IEnumerable<ProcessDto>, ErrorResult> GetProcessesByIdCompany(int idCompany);
+    Result<IEnumerable<ProcessDto>, ErrorResult> GetProcessesByIdCompany(Guid idCompany);
 }
