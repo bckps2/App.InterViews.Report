@@ -57,16 +57,16 @@ public class InterViewReportService : IInterViewReportService
         });
     }
 
-    public Result<IEnumerable<InterviewDto>, ErrorResult> GetAllByIdProcess(int idProcess)
+    public Result<IEnumerable<InterviewDto>, ErrorResult> GetAllByIdProcess(Guid idProcess)
     {
-        var interviews = _iRepositoryBase.GetAll();
+        var interviews = _iRepositoryBase.GetEntitiesByFilter(interview => interview.IdProcess == idProcess);
 
         if (interviews.IsFailure)
             return interviews.Error;
 
         return interviews.Map(value =>
         {
-            return _mapper.Map<IEnumerable<InterviewDto>>(value).Where(c => c.IdProcess == idProcess);
+            return _mapper.Map<IEnumerable<InterviewDto>>(value);
         });
     }
 

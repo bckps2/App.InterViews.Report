@@ -32,7 +32,7 @@ public class InterviewController : Controller
 
     [HttpGet("GetByIdProcess/{idProcess}")]
     [ProducesResponseType(typeof(IEnumerable<InterviewDto>), (int)HttpStatusCode.OK)]
-    public IResult GetByIdProcess(int idProcess)
+    public IResult GetByIdProcess(Guid idProcess)
     {
         return _iAutoMapperHttp.Ok(_iInterviewService.GetAllByIdProcess(idProcess));
     }
