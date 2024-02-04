@@ -20,7 +20,17 @@ jobs:
 
     - name: Build Docker image
       run: docker build -t interviewreportapp .
-      
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0
+      with:
+        versionSpec: '5.x'
+        preferLatestVersion: true
+
+    - name: Determine Version
+      id: version
+      uses: gittools/actions/gitversion/execute@v0
+    
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
@@ -28,7 +38,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     
     - name: Tag Docker image
-      run: docker tag interviewreportapp ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:latest
+      run: docker tag interviewreportapp ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:${{ steps.version.outputs.legacySemVerPadded }}
     
     - name: Push Docker image to Docker Hub
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:latest
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:${{ steps.version.outputs.legacySemVerPadded }}
