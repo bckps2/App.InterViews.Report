@@ -7,7 +7,6 @@ public class InterviewDto
 {
     [Required]
     public Guid Id { get; set; }
-    public Guid IdInterview { get; set; }
     [Required]
     public InterviewType TypeInterView { get; set; }
     [Required]
