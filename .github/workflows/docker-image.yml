@@ -16,7 +16,7 @@ jobs:
         fetch-depth: 0
 
     - name: Build Docker image
-      run: docker build -t interviewreportapp --build-arg CERTIFICATE_PASSWORD=${{ secrets.CERTIFICATE_PASSWORD }} .
+      run: docker build --build-arg CERTIFICATE_PASSWORD=${{ secrets.CERTIFICATE_PASSWORD }} -t interviewreportapp .
 
     - name: Install GitVersion
       uses: gittools/actions/gitversion/setup@v0
