@@ -19,6 +19,7 @@ RUN openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout key.pem -out cert.
 
 # Convert SSL certificate to PKCS#12 format (optional)
 RUN openssl pkcs12 -export -out App.InterViews.Report.pfx -inkey key.pem -in cert.pem -passout pass:$CERTIFICATE_PASSWORD
+RUN echo "The value of CERTIFICATE_PASSWORD is: $CERTIFICATE_PASSWORD"
 
 # (Optional) Clean up unnecessary files
 RUN rm key.pem cert.pem
