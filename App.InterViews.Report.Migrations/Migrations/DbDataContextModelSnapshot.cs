@@ -24,12 +24,9 @@ namespace App.InterViews.Report.Migrations.Migrations
 
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.Company", b =>
                 {
-                    b.Property<int>("IdCompany")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCompany"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(450)");
@@ -37,7 +34,7 @@ namespace App.InterViews.Report.Migrations.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("IdCompany");
+                    b.HasKey("Id");
 
                     b.HasIndex("CompanyName")
                         .IsUnique()
@@ -48,11 +45,9 @@ namespace App.InterViews.Report.Migrations.Migrations
 
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.InterView", b =>
                 {
-                    b.Property<int>("IdInterview")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdInterview"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -63,8 +58,8 @@ namespace App.InterViews.Report.Migrations.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdProcess")
-                        .HasColumnType("int");
+                    b.Property<Guid>("IdProcess")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("InterViewersName")
                         .HasColumnType("nvarchar(max)");
@@ -76,7 +71,7 @@ namespace App.InterViews.Report.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("IdInterview");
+                    b.HasKey("Id");
 
                     b.HasIndex("IdProcess");
 
@@ -85,11 +80,9 @@ namespace App.InterViews.Report.Migrations.Migrations
 
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.Process", b =>
                 {
-                    b.Property<int>("IdProcess")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProcess"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -97,8 +90,8 @@ namespace App.InterViews.Report.Migrations.Migrations
                     b.Property<string>("ExternalCompany")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdCompany")
-                        .HasColumnType("int");
+                    b.Property<Guid>("IdCompany")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("JobPosition")
                         .HasColumnType("nvarchar(max)");
@@ -106,7 +99,7 @@ namespace App.InterViews.Report.Migrations.Migrations
                     b.Property<string>("RangeSalarial")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdProcess");
+                    b.HasKey("Id");
 
                     b.HasIndex("IdCompany");
 

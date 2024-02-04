@@ -11,8 +11,7 @@ namespace App.InterViews.Report.Library.Entities
         }
 
         [Key]
-        [Column(Order = 1)]
-        public int IdCompany { get; set; }
+        public Guid Id { get; set; }
         public string? CompanyName { get; set; }
         public virtual ICollection<Process>? Process { get; set; }
     }

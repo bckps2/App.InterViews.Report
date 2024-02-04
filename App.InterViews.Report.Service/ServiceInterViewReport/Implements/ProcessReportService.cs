@@ -57,7 +57,7 @@ public class ProcessReportService : IProcessReportService
         });
     }
 
-    public Result<IEnumerable<ProcessDto>, ErrorResult> GetProcessesByIdCompany(int idCompany)
+    public Result<IEnumerable<ProcessDto>, ErrorResult> GetProcessesByIdCompany(Guid idCompany)
     {
         var companies = _iRepositoryBase.GetEntitiesByFilter(c => c.IdCompany == idCompany);
 

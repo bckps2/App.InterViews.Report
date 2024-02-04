@@ -7,7 +7,7 @@ namespace App.InterViews.Report.Library.Entities
     public class InterView : BaseEntity
     {
         [Key]
-        public int IdInterview { get; set; }
+        public Guid Id { get; set; }
         public string? InterViewersName { get; set; }
         public DateTime DateInterView { get; set; }
         public string? Email { get; set; }
@@ -17,7 +17,7 @@ namespace App.InterViews.Report.Library.Entities
         public InterviewType TypeInterView { get; set; }
 
         [ForeignKey("Process")]
-        public int IdProcess { get; set; }
+        public Guid IdProcess { get; set; }
         public Process? Process { get; set; }
     }
 }
