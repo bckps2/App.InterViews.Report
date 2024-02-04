@@ -4,7 +4,7 @@
     {
         public string? JobPosition { get; set; }
         public string? ExternalCompany { get; set; }
-        public int IdCompany { get; set; }
+        public Guid IdCompany { get; set; }
         public string? RangeSalarial { get; set; }
     }
 }

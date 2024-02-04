@@ -40,7 +40,10 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
 
         public Result<IEnumerable<TEntry>, ErrorResult> GetAll()
         {
-            var result = _set.AsEnumerable();
+            var result = _set
+                .AsNoTracking()
+                .AsSplitQuery()
+                .AsEnumerable();
 
             if (result is null || !result.Any())
             {

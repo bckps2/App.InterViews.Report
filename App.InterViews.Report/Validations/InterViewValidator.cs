@@ -1,9 +1,9 @@
-﻿using App.InterViews.Report.Library.Entities;
+﻿using App.InterViews.Report.Models;
 using FluentValidation;
 
 namespace App.InterViews.Report.Validations
 {
-    public class InterViewValidator : AbstractValidator<InterView>
+    public class InterViewValidator : AbstractValidator<InterviewModel>
     {
         public InterViewValidator()
         {
