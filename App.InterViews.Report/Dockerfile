@@ -1,5 +1,7 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
+ARG CERTIFICATE_PASSWORD
+
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 
 WORKDIR /app
@@ -16,7 +18,7 @@ RUN apt-get update && \
 RUN openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout key.pem -out cert.pem -days 365 -subj "/CN=App.InterViews.Report.com"
 
 # Convert SSL certificate to PKCS#12 format (optional)
-RUN openssl pkcs12 -export -out App.InterViews.Report.pfx -inkey key.pem -in cert.pem -passout pass:12345678
+RUN openssl pkcs12 -export -out App.InterViews.Report.pfx -inkey key.pem -in cert.pem -passout pass:$CERTIFICATE_PASSWORD
 
 # (Optional) Clean up unnecessary files
 RUN rm key.pem cert.pem
