@@ -20,18 +20,6 @@ jobs:
 
     - name: Build Docker image
       run: docker build -t interviewreportapp .
-
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '6.0' # Ajusta según tu versión de .NET
-
-    - name: Install GitVersion
-      run: dotnet tool install -g GitVersion.Tool
-
-    - name: Get version
-      id: version
-      run: echo "VERSION=$(dotnet-gitversion)"
       
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
@@ -40,7 +28,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     
     - name: Tag Docker image
-      run: docker tag interviewreportapp ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:${{ steps.version.outputs.version }}
+      run: docker tag interviewreportapp ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:latest
     
     - name: Push Docker image to Docker Hub
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:${{ steps.version.outputs.version }}
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:latest
