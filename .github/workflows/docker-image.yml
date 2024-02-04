@@ -19,16 +19,17 @@ jobs:
     - name: Build Docker image
       run: docker build -t interviewreportapp .
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v1
       with:
-        node-version: '14'
+        dotnet-version: '6.0' # Ajusta según tu versión de .NET
 
-    - name: Install dependencies
-      run: npm install
+    - name: Install GitVersion
+      run: dotnet tool install -g GitVersion.Tool
 
-    - name: Run semantic-release
-      run: npx semantic-release
+    - name: Get version
+      id: version
+      run: gitversion
       
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
