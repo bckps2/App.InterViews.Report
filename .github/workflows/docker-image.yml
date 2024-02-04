@@ -38,7 +38,7 @@ jobs:
         cp Dockerfile docker-context/
         
     - name: Copy SSL certificate to Docker build context
-      run: cp certificate.pfx docker-context/
+      run: cp App.InterViews.Report.pfx docker-context/
     
     - name: Build Docker image
       run: |
