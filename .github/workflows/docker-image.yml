@@ -35,6 +35,7 @@ jobs:
     - name: Set up Docker Build context
       run: |
         mkdir -p docker-context
+        shopt -s extglob
         cp -R !(docker-context) docker-context/
         
     - name: Copy SSL certificate to Docker build context
