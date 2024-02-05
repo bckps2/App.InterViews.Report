@@ -17,9 +17,9 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build --build-arg ENV_CERTIFICATE_PASSWORD=${{ secrets.CERTIFICATE_PASSWORD }} -t interviewreportapp .
+        docker build --build-arg CERTIFICATE_PASSWORD=${{ secrets.CERTIFICATE_PASSWORD }} -t interviewreportapp .
       env:
-        ENV_CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
+        CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
 
     - name: Install GitVersion
       uses: gittools/actions/gitversion/setup@v0
