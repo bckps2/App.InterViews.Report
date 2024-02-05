@@ -16,7 +16,10 @@ jobs:
         fetch-depth: 0
 
     - name: Build Docker image
-      run: docker build --build-arg ENV_CERTIFICATE_PASSWORD=${{ secrets.CERTIFICATE_PASSWORD }} -t interviewreportapp .
+      run: |
+        docker build --build-arg ENV_CERTIFICATE_PASSWORD=${{ secrets.CERTIFICATE_PASSWORD }} -t interviewreportapp .
+      env:
+        ENV_CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
 
     - name: Install GitVersion
       uses: gittools/actions/gitversion/setup@v0
@@ -36,7 +39,7 @@ jobs:
     
     - name: Tag Docker image
       run: docker tag interviewreportapp ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:${{ steps.version.outputs.buildMetaData  }}
-    
+
     - name: Push Docker image to Docker Hub
       run: docker push ${{ secrets.DOCKER_USERNAME }}/interviewreportapp:${{ steps.version.outputs.buildMetaData  }}
 
