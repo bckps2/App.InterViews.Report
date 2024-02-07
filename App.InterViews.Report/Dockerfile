@@ -35,6 +35,7 @@ COPY ["App.InterViews.Report.Library/App.InterViews.Report.Library.csproj", "App
 COPY ["App.InterViews.Report.Service/App.InterViews.Report.Service.csproj", "App.InterViews.Report.Service/"]
 
 
+
 RUN dotnet restore "./App.InterViews.Report/./App.InterViews.Report.csproj"
 COPY . .
 WORKDIR "/src/App.InterViews.Report"
