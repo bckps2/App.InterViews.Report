@@ -1,3 +1,5 @@
+name: Build and Publish Image Dev Version
+
 on:
   push:
     branches:
