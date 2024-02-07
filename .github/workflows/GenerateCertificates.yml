@@ -15,12 +15,3 @@ jobs:
 
     - name: Install OpenSSL
       run: sudo apt-get install openssl
-
-    - name: Generate private key and CSR
-      run: openssl req -newkey rsa:2048 -nodes -keyout key.pem -out csr.pem -subj "/CN=example.com"
-
-    - name: Self-sign certificate
-      run: openssl x509 -req -days 365 -in csr.pem -signkey key.pem -out cert.pem
-
-    - name: Convert certificate and private key to PKCS#12 (PFX) format
-      run: openssl pkcs12 -export -out certificate.pfx -inkey key.pem -in cert.pem -password pass:your_password_here
