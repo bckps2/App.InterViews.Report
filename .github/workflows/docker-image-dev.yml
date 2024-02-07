@@ -3,7 +3,7 @@ name: Build and Publish Image Dev Version
 on:
   push:
     branches:
-      - feature/dev
+      - dev
 
 jobs:
   build_and_publish:
