@@ -53,18 +53,11 @@ public class CompanyReportService : ICompanyReportService
 
     public async Task<Result<CompanyDto, ErrorResult>> Delete(Guid id)
     {
-        var company = await _iRepositoryBase.GetByIdAsync(id);
+        var response = await _iRepositoryBase.DeleteAsync(id);
 
-        if (company.IsSuccess)
+        return response.Map(val =>
         {
-            var response = _iRepositoryBase.Delete(company.Value);
-
-            return response.Map(val =>
-            {
-                return _mapper.Map<CompanyDto>(val);
-            });
-        }
-
-        return company.Map(val => _mapper.Map<CompanyDto>(val));
+            return _mapper.Map<CompanyDto>(val);
+        });
     }
 }

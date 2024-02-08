@@ -10,6 +10,6 @@ public interface IRepositoryBase<TEntry>
     Task<Result<TEntry, ErrorResult>> GetByIdAsync(Guid id);
     Result<IEnumerable<TEntry>, ErrorResult> GetAll();
     Result<TEntry, ErrorResult> Update(TEntry item);
-    Result<TEntry, ErrorResult> Delete(TEntry item);
+    Task<Result<TEntry, ErrorResult>> DeleteAsync(Guid id);
     Result<IEnumerable<TEntry>, ErrorResult> GetEntitiesByFilter(Expression<Func<TEntry, bool>> expression);
 }

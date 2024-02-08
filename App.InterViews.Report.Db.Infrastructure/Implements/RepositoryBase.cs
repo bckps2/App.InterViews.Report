@@ -22,15 +22,15 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
 
         public async Task<Result<TEntry, ErrorResult>> GetByIdAsync(Guid id)
         {
-            var result = await _set.FindAsync(id);
+            var result = await _set
+                                .AsNoTracking()
+                                .FirstOrDefaultAsync(entity => entity.Id.Equals(id));
 
             if (result is null)
             {
                 Log.Error($"On Get Object By Id {typeof(TEntry)}, Message Error : item Not found");
                 return Result.Failure<TEntry, ErrorResult>(ErrorResult.NotFound<TEntry>());
             }
-
-            _context.Entry(result).State = EntityState.Detached;
 
             return Result.Success<TEntry, ErrorResult>(result); ;
         }
@@ -95,19 +95,37 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements
             }
         }
 
-        public Result<TEntry, ErrorResult> Delete(TEntry item)
+        public async Task<Result<TEntry, ErrorResult>> DeleteAsync(Guid id)
         {
             try
             {
-                var response = _set.Remove(item);
-                _context.SaveChanges();
+                var entityToRemove = await GetByIdAsyncAtached(id);
+
+                if (entityToRemove.IsFailure)
+                    return entityToRemove.Error;
+
+                var response = _set.Remove(entityToRemove.Value);
+                await _context.SaveChangesAsync();
                 return response.Entity;
             }
             catch (Exception ex)
             {
-                Log.Error($"On Delete Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
+                Log.Error($"On Delete Object {typeof(TEntry)}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
                 return Result.Failure<TEntry, ErrorResult>(ErrorResult.Exception<TEntry>(ex.Message));
             }
+        }
+
+        private async Task<Result<TEntry, ErrorResult>> GetByIdAsyncAtached(Guid id)
+        {
+            var result = await _set.FirstOrDefaultAsync(entity => entity.Id.Equals(id));
+
+            if (result is null)
+            {
+                Log.Error($"On Get Object By Id {typeof(TEntry)}, Message Error : item Not found");
+                return Result.Failure<TEntry, ErrorResult>(ErrorResult.NotFound<TEntry>());
+            }
+
+            return Result.Success<TEntry, ErrorResult>(result); ;
         }
     }
 }

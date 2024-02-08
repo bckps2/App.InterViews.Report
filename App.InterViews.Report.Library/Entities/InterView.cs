@@ -6,8 +6,6 @@ namespace App.InterViews.Report.Library.Entities
 {
     public class InterView : BaseEntity
     {
-        [Key]
-        public Guid Id { get; set; }
         public string? InterViewersName { get; set; }
         public DateTime DateInterView { get; set; }
         public string? Email { get; set; }
