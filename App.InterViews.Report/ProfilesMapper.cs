@@ -38,8 +38,7 @@ public class ProfilesMapper : Profile
             .ForMember(c => c.Users, opt => opt.MapFrom(d => GetUsersFromUserCompanies(d.UserCompanies)));
             
         CreateMap<CompanyDto, CompanyModel>()
-            .ReverseMap()
-            .ForMember(c => c.Users, opt => opt.MapFrom(d => new List<UserDto> { new() { Id = d.UserId} }));
+            .ReverseMap();
     }
 
     private void MapperProcess()
@@ -94,22 +93,5 @@ public class ProfilesMapper : Profile
             companies.Add(userCompany.Company);
 
         return companies;
-    }
-
-    private static User GetUser(ICollection<UserDto> userDtos)
-    {
-        var user = new User();
-        var userDto = userDtos.FirstOrDefault();
-
-        if (userDto is null)
-            return user;
-
-        user.Name = userDto.Name;
-        user.City = userDto.City;
-        user.Email = userDto.Email;
-        user.Surnames = userDto.Surnames;
-        user.Id = userDto.Id;
-
-        return user;
     }
 }

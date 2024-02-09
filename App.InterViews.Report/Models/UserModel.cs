@@ -4,5 +4,6 @@ namespace App.InterViews.Report.Models;
 
 public class UserModel
 {
-    public List<UserCompanyDto> UserCompanies { get; set; }
+    public Guid Id { get; set; }
+    public CompanyModel Company { get; set; }
 }
