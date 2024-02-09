@@ -43,4 +43,18 @@ public class UserReportService : IUserReportService
             return _mapper.Map<UserDto>(val);
         });
     }
+
+    public async Task<Result<List<UserDto>, ErrorResult>> GetByIds(ICollection<Guid> ids)
+    {
+        var users = new List<UserDto>();
+
+        foreach (var id in ids)
+        {
+            var user = await GetById(id);
+            if (user.IsSuccess)
+                users.Add(user.Value);
+        }
+
+        return users;
+    }
 }

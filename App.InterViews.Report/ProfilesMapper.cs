@@ -33,10 +33,10 @@ public class ProfilesMapper : Profile
         CreateMap<CompanyModel, Company>().ReverseMap();
 
         CreateMap<CompanyDto, Company>()
-            .ForMember(c => c.UserCompanies, opt => opt.MapFrom(d => new List<UserCompany> { new() {UserId = d.Users.FirstOrDefault()!.Id } }))
+            .ForMember(c => c.UserCompanies, opt => opt.Ignore())
             .ReverseMap()
-            .ForMember(c => c.Users, opt => opt.MapFrom(d => GetUsersFromUserCompanies(d.UserCompanies)));
-            
+            .ForMember(c => c.Users, opt => opt.MapFrom(d => d.UserCompanies.Select(company => company.User)));
+
         CreateMap<CompanyDto, CompanyModel>()
             .ReverseMap();
     }
@@ -51,8 +51,9 @@ public class ProfilesMapper : Profile
     private void MapperUser()
     {
         CreateMap<UserDto, User>()
+            .ForMember(c => c.UserCompanies, opt => opt.Ignore())
             .ReverseMap()
-            .ForMember(c => c.Companies, opt => opt.MapFrom(d => GetCompaniesFromUserCompanies(d.UserCompanies)));
+            .ForMember(c => c.Companies, opt => opt.MapFrom(d => d.UserCompanies.Select(uc => uc.Company)));
     }
 
     private void MapperUserCompany()
@@ -73,25 +74,5 @@ public class ProfilesMapper : Profile
         if (serviceInterview.NameInterViewers != null && serviceInterview.NameInterViewers.Any())
             return string.Join(',', serviceInterview.NameInterViewers);
         return default;
-    }
-
-    private static ICollection<User> GetUsersFromUserCompanies(ICollection<UserCompany> userCompanies) 
-    { 
-        var users = new List<User>();
-
-        foreach (var userCompany in userCompanies)
-            users.Add(userCompany.User);
-
-        return users;
-    }
-
-    private static ICollection<Company> GetCompaniesFromUserCompanies(ICollection<UserCompany> userCompanies)
-    {
-        var companies = new List<Company>();
-
-        foreach (var userCompany in userCompanies)
-            companies.Add(userCompany.Company);
-
-        return companies;
     }
 }

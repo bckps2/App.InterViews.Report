@@ -1,14 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace App.InterViews.Report.Library.Entities;
 
-namespace App.InterViews.Report.Library.Entities
+public class Process : BaseEntity
 {
-    public class Process : BaseEntity
-    {
-        public string? RangeSalarial { get; set; }
-        public string? ExternalCompany { get; set; }
-        public string? JobPosition { get; set; }
-        public Guid IdCompany { get; set; }
-        public Company? Company { get; set; }
-        public IList<InterView>? Interviews { get; set; }
-    }
+    public string? RangeSalarial { get; set; }
+    public string? ExternalCompany { get; set; }
+    public string? JobPosition { get; set; }
+    public Guid IdCompany { get; set; }
+    public Company? Company { get; set; }
+    public IList<InterView>? Interviews { get; set; }
 }

@@ -1,6 +1,4 @@
 ﻿using App.InterViews.Report.CrossCutting.Enums;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace App.InterViews.Report.Library.Entities
 {

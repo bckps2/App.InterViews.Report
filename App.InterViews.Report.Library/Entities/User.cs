@@ -6,5 +6,5 @@ public class User : BaseEntity
     public string Surnames { get; set; }
     public string City { get; set; }
     public string Email { get; set; }
-    public List<UserCompany> UserCompanies { get; set; }
+    public ICollection<UserCompany> UserCompanies { get; set; }
 }

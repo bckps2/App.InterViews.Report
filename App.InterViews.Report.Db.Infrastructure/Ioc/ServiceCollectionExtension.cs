@@ -2,13 +2,12 @@
 using App.InterViews.Report.Db.Infrastructure.Implements;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace App.InterViews.Report.Db.Infrastructure.Ioc
+namespace App.InterViews.Report.Db.Infrastructure.Ioc;
+
+public static class ServiceCollectionExtension
 {
-    public static class ServiceCollectionExtension
+    public static void InitializeInfrastructure(this IServiceCollection services)
     {
-        public static void InitializeInfrastructure(this IServiceCollection services)
-        {
-            services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
-        }
+        services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
     }
 }

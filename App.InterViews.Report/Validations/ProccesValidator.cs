@@ -1,13 +1,12 @@
 ﻿using App.InterViews.Report.Models;
 using FluentValidation;
 
-namespace App.InterViews.Report.Validations
+namespace App.InterViews.Report.Validations;
+
+public class ProccesValidator : AbstractValidator<ProcessModel>
 {
-    public class ProccesValidator : AbstractValidator<ProcessModel>
+    public ProccesValidator()
     {
-        public ProccesValidator()
-        {
-            //TODO => Add Rules
-        }
+        //TODO => Add Rules
     }
 }

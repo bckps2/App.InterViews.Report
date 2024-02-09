@@ -1,7 +1,6 @@
 ﻿using App.InterViews.Report.CrossCutting.Helper;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
-using IResult = Microsoft.AspNetCore.Http.IResult;
 
 namespace App.InterViews.Report.Http;
 

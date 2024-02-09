@@ -1,4 +1,4 @@
-﻿using App.InterViews.Report.Library.Entities;
+﻿using System.Text.Json.Serialization;
 
 namespace App.InterViews.Report.Service.Dtos;
 
@@ -10,4 +10,7 @@ public class UserDto
     public string City { get; set; }
     public string Email { get; set; }
     public List<CompanyDto> Companies { get; set; }
+
+    [JsonIgnore]
+    public Guid CompanyId { get; set; }
 }

@@ -12,12 +12,14 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 public class CompanyReportService : ICompanyReportService
 {
     private readonly IMapper _mapper;
+    private readonly IRepositoryBase<User> _irepositoryUser;
     private readonly IRepositoryBase<Company> _iRepositoryBase;
 
-    public CompanyReportService(IRepositoryBase<Company> iRepositoryBase, IMapper mapper)
+    public CompanyReportService(IRepositoryBase<Company> iRepositoryBase, IRepositoryBase<User> irepositoryUser, IMapper mapper)
     {
         _mapper = mapper;
         _iRepositoryBase = iRepositoryBase;
+        _irepositoryUser = irepositoryUser;
     }
 
     public async Task<Result<CompanyDto, ErrorResult>> GetById(Guid id)
@@ -43,6 +45,11 @@ public class CompanyReportService : ICompanyReportService
     public async Task<Result<CompanyDto, ErrorResult>> Add(CompanyDto dto)
     {
         var company = _mapper.Map<Company>(dto);
+        var user = await _irepositoryUser.GetByIdAsync(dto.UserId);
+
+        if (user.IsSuccess)
+            company.UserCompanies.Add(new UserCompany { UserId = user.Value.Id });
+
         var result = await _iRepositoryBase.AddAsync(company);
 
         return result.Map(val =>
