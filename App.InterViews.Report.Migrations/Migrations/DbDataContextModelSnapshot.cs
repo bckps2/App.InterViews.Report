@@ -138,18 +138,20 @@ namespace App.InterViews.Report.Migrations.Migrations
 
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.UserCompany", b =>
                 {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CompanyId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("UserId", "CompanyId");
+                    b.HasKey("Id", "UserId", "CompanyId");
 
                     b.HasIndex("CompanyId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserCompanies");
                 });
