@@ -10,11 +10,7 @@ namespace App.InterViews.Report.Library.Entities
         public DateTime DateInterView { get; set; }
         public string? Email { get; set; }
         public string? Observations { get; set; }
-
-        [Column(TypeName = "nvarchar(20)")]
         public InterviewType TypeInterView { get; set; }
-
-        [ForeignKey("Process")]
         public Guid IdProcess { get; set; }
         public Process? Process { get; set; }
     }

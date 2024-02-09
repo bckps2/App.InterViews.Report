@@ -12,6 +12,8 @@ public class ProfilesMapper : Profile
         MapperProcess();
         MapperInterview();
         MapperCompany();
+        MapperUser();
+        MapperUserCompany();
     }
 
     private void MapperInterview()
@@ -29,8 +31,15 @@ public class ProfilesMapper : Profile
     private void MapperCompany()
     {
         CreateMap<CompanyModel, Company>().ReverseMap();
-        CreateMap<CompanyDto, Company>().ReverseMap();
-        CreateMap<CompanyDto, CompanyModel>().ReverseMap();
+
+        CreateMap<CompanyDto, Company>()
+            .ForMember(c => c.UserCompanies, opt => opt.MapFrom(d => new List<UserCompany> { new() {UserId = d.Users.FirstOrDefault()!.Id } }))
+            .ReverseMap()
+            .ForMember(c => c.Users, opt => opt.MapFrom(d => GetUsersFromUserCompanies(d.UserCompanies)));
+            
+        CreateMap<CompanyDto, CompanyModel>()
+            .ReverseMap()
+            .ForMember(c => c.Users, opt => opt.MapFrom(d => new List<UserDto> { new() { Id = d.UserId} }));
     }
 
     private void MapperProcess()
@@ -38,6 +47,19 @@ public class ProfilesMapper : Profile
         CreateMap<ProcessModel, Process>().ReverseMap();
         CreateMap<ProcessDto, Process>().ReverseMap();
         CreateMap<ProcessDto, ProcessModel>().ReverseMap();
+    }
+
+    private void MapperUser()
+    {
+        CreateMap<UserDto, User>()
+            .ReverseMap()
+            .ForMember(c => c.Companies, opt => opt.MapFrom(d => GetCompaniesFromUserCompanies(d.UserCompanies)));
+    }
+
+    private void MapperUserCompany()
+    {
+        CreateMap<UserCompanyDto, UserCompany>()
+            .ReverseMap();
     }
 
     private static List<string>? SplitNames(InterView interView)
@@ -52,5 +74,42 @@ public class ProfilesMapper : Profile
         if (serviceInterview.NameInterViewers != null && serviceInterview.NameInterViewers.Any())
             return string.Join(',', serviceInterview.NameInterViewers);
         return default;
+    }
+
+    private static ICollection<User> GetUsersFromUserCompanies(ICollection<UserCompany> userCompanies) 
+    { 
+        var users = new List<User>();
+
+        foreach (var userCompany in userCompanies)
+            users.Add(userCompany.User);
+
+        return users;
+    }
+
+    private static ICollection<Company> GetCompaniesFromUserCompanies(ICollection<UserCompany> userCompanies)
+    {
+        var companies = new List<Company>();
+
+        foreach (var userCompany in userCompanies)
+            companies.Add(userCompany.Company);
+
+        return companies;
+    }
+
+    private static User GetUser(ICollection<UserDto> userDtos)
+    {
+        var user = new User();
+        var userDto = userDtos.FirstOrDefault();
+
+        if (userDto is null)
+            return user;
+
+        user.Name = userDto.Name;
+        user.City = userDto.City;
+        user.Email = userDto.Email;
+        user.Surnames = userDto.Surnames;
+        user.Id = userDto.Id;
+
+        return user;
     }
 }

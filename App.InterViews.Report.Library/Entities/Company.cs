@@ -3,6 +3,7 @@
     public class Company : BaseEntity
     {
         public string? CompanyName { get; set; }
+        public ICollection<UserCompany> UserCompanies { get; set; }
         public virtual ICollection<Process>? Process { get; set; }
     }
 }
