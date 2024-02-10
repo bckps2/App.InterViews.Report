@@ -3,7 +3,7 @@ using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
-public interface IReportServiceBase<TEntry, TOut>
+public interface IReportServiceBase<TOut>
 {
     Result<IEnumerable<TOut>, ErrorResult> GetAll();
     Task<Result<TOut, ErrorResult>> GetById(Guid id);

@@ -2,9 +2,8 @@
 
 namespace App.InterViews.Report.Service.Dtos;
 
-public class CompanyDto
+public class CompanyDto : BaseDto
 {
-    public Guid Id { get; set; }
     public string? CompanyName { get; set; }
     public DateTime DateCreated { get; set; }
     public ICollection<UserDto> Users { get; set; }

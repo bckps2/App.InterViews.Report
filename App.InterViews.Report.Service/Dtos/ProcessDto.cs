@@ -3,9 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace App.InterViews.Report.Service.Dtos;
 
-public class ProcessDto
+public class ProcessDto : BaseDto
 {
-    public Guid Id { get; set; }
     public string? JobPosition { get; set; }
     public Guid IdCompany { get; set; }
     public string? ExternalCompany { get; set; }

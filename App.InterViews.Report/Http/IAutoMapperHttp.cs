@@ -8,6 +8,9 @@ public interface IAutoMapperHttp
 {
     IActionResult Ok<TOutput, TValidation>(Result<TOutput, TValidation> result)
         where TOutput : class where TValidation : ErrorResult;
+    
+    IActionResult Created<TOutput, TValidation>(Result<TOutput, TValidation> result)
+        where TOutput : class where TValidation : ErrorResult;
 
     IActionResult NoContent<TOutput, TValidation>(Result<TOutput, TValidation> result)
         where TOutput : class where TValidation : ErrorResult;

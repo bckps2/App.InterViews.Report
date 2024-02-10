@@ -8,40 +8,10 @@ using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
-public class UserReportService : IUserReportService
+public class UserReportService : BaseReportService<User, UserDto>, IUserReportService
 {
-    private readonly IMapper _mapper;
-    private readonly IRepositoryBase<User> _iRepositoryBase;
-
-    public UserReportService(IRepositoryBase<User> iRepositoryBase, IMapper mapper)
+    public UserReportService(IRepositoryBase<User> iRepositoryBase, IMapper mapper) : base(iRepositoryBase, mapper)
     {
-        _mapper = mapper;
-        _iRepositoryBase = iRepositoryBase;
-    }
-
-    public Task<Result<UserDto, ErrorResult>> Add(UserDto dto)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Result<UserDto, ErrorResult>> Delete(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Result<IEnumerable<UserDto>, ErrorResult> GetAll()
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<Result<UserDto, ErrorResult>> GetById(Guid id)
-    {
-        var value = await _iRepositoryBase.GetByIdAsync(id);
-
-        return value.Map(val =>
-        {
-            return _mapper.Map<UserDto>(val);
-        });
     }
 
     public async Task<Result<List<UserDto>, ErrorResult>> GetByIds(ICollection<Guid> ids)

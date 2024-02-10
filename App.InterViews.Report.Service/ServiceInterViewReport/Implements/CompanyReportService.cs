@@ -9,40 +9,20 @@ using CSharpFunctionalExtensions.ValueTasks;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
-public class CompanyReportService : ICompanyReportService
+public class CompanyReportService : BaseReportService<Company, CompanyDto>, ICompanyReportService
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryBase<User> _irepositoryUser;
     private readonly IRepositoryBase<Company> _iRepositoryBase;
 
-    public CompanyReportService(IRepositoryBase<Company> iRepositoryBase, IRepositoryBase<User> irepositoryUser, IMapper mapper)
+    public CompanyReportService(IRepositoryBase<Company> iRepositoryBase, IRepositoryBase<User> irepositoryUser, IMapper mapper):base(iRepositoryBase, mapper)
     {
         _mapper = mapper;
         _iRepositoryBase = iRepositoryBase;
         _irepositoryUser = irepositoryUser;
     }
 
-    public async Task<Result<CompanyDto, ErrorResult>> GetById(Guid id)
-    {
-        var value = await _iRepositoryBase.GetByIdAsync(id);
-
-        return value.Map(val =>
-        {
-            return _mapper.Map<CompanyDto>(val);
-        });
-    }
-
-    public Result<IEnumerable<CompanyDto>, ErrorResult> GetAll()
-    {
-        var companies = _iRepositoryBase.GetAll();
-
-        return companies.Map(value =>
-        {
-            return _mapper.Map<IEnumerable<CompanyDto>>(value);
-        });
-    }
-
-    public async Task<Result<CompanyDto, ErrorResult>> Add(CompanyDto dto)
+    public override async Task<Result<CompanyDto, ErrorResult>> Add(CompanyDto dto)
     {
         var company = _mapper.Map<Company>(dto);
         var user = await _irepositoryUser.GetByIdAsync(dto.UserId);
@@ -53,16 +33,6 @@ public class CompanyReportService : ICompanyReportService
         var result = await _iRepositoryBase.AddAsync(company);
 
         return result.Map(val =>
-        {
-            return _mapper.Map<CompanyDto>(val);
-        });
-    }
-
-    public async Task<Result<CompanyDto, ErrorResult>> Delete(Guid id)
-    {
-        var response = await _iRepositoryBase.DeleteAsync(id);
-
-        return response.Map(val =>
         {
             return _mapper.Map<CompanyDto>(val);
         });

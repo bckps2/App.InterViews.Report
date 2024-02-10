@@ -21,6 +21,13 @@ public sealed class AutoMapperHttp : ControllerBase, IAutoMapperHttp
             onFailure: HttpResult
        );
 
+    public IActionResult Created<TOutput, TValidation>(Result<TOutput, TValidation> result)
+       where TOutput : class where TValidation : ErrorResult
+       => result.Match(
+           onSuccess: value => Created(string.Empty, value),
+           onFailure: HttpResult
+      );
+
     private IActionResult HttpResult<TValidation>(TValidation validation) where TValidation : ErrorResult
     => validation.StatusCode switch
     {

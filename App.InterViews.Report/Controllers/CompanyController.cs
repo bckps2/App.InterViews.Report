@@ -44,11 +44,11 @@ public class CompanyController
     {
         var company = _mapper.Map<CompanyDto>(companyModel);
         var result = await _iServiceCompany.Add(company);
-        return _iAutoMapperHttp.Ok(result);
+        return _iAutoMapperHttp.Created(result);
     }
 
     [HttpDelete("DeleteCompany/{idCompany}")]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteCompany(Guid idCompany)
     {
         var result = await _iServiceCompany.Delete(idCompany);

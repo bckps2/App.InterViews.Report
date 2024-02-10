@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace App.InterViews.Report.Service.Dtos;
 
-public class InterviewDto
+public class InterviewDto : BaseDto
 {
     [Required]
     public Guid Id { get; set; }

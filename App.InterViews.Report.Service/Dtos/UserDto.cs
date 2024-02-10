@@ -2,9 +2,8 @@
 
 namespace App.InterViews.Report.Service.Dtos;
 
-public class UserDto
+public class UserDto : BaseDto
 {
-    public Guid Id { get; set; }
     public string Name { get; set; }
     public string Surnames { get; set; }
     public string City { get; set; }

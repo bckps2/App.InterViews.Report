@@ -8,46 +8,15 @@ using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
-public class ProcessReportService : IProcessReportService
+public class ProcessReportService : BaseReportService<Process, ProcessDto>, IProcessReportService
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryBase<Process> _iRepositoryBase;
 
-    public ProcessReportService(IMapper mapper, IRepositoryBase<Process> iRepositoryBase)
+    public ProcessReportService(IMapper mapper, IRepositoryBase<Process> iRepositoryBase) : base(iRepositoryBase, mapper)
     {
         _mapper = mapper;
         _iRepositoryBase = iRepositoryBase;
-    }
-
-    public async Task<Result<ProcessDto, ErrorResult>> Add(ProcessDto dto)
-    {
-        var company = _mapper.Map<Process>(dto);
-        var result = await _iRepositoryBase.AddAsync(company);
-
-        return result.Map(val =>
-        {
-            return _mapper.Map<ProcessDto>(val);
-        });
-    }
-
-    public async Task<Result<ProcessDto, ErrorResult>> Delete(Guid id)
-    {
-        var response = await _iRepositoryBase.DeleteAsync(id);
-
-        return response.Map(val =>
-        {
-            return _mapper.Map<ProcessDto>(val);
-        });
-    }
-
-    public Result<IEnumerable<ProcessDto>, ErrorResult> GetAll()
-    {
-        var companies = _iRepositoryBase.GetAll();
-
-        return companies.Map(value =>
-        {
-            return _mapper.Map<IEnumerable<ProcessDto>>(value);
-        });
     }
 
     public Result<IEnumerable<ProcessDto>, ErrorResult> GetProcessesByIdCompany(Guid idCompany)
@@ -57,16 +26,6 @@ public class ProcessReportService : IProcessReportService
         return companies.Map(value =>
         {
             return _mapper.Map<IEnumerable<ProcessDto>>(value);
-        });
-    }
-
-    public async Task<Result<ProcessDto, ErrorResult>> GetById(Guid id)
-    {
-        var value = await _iRepositoryBase.GetByIdAsync(id);
-
-        return value.Map(val =>
-        {
-            return _mapper.Map<ProcessDto>(val);
         });
     }
 }
