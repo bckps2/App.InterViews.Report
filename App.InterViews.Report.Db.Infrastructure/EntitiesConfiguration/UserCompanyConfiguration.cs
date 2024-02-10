@@ -9,7 +9,7 @@ public class UserCompanyConfiguration : IEntityTypeConfiguration<UserCompany>
     public void Configure(EntityTypeBuilder<UserCompany> builder)
     {
         builder
-            .HasKey(userCompany => new { userCompany.Id, userCompany.UserId, userCompany.CompanyId });
+            .HasKey(userCompany => new { userCompany.UserId, userCompany.CompanyId });
 
         builder
             .HasOne(userCompany => userCompany.Company)

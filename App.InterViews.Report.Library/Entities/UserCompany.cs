@@ -1,10 +1,15 @@
 ﻿namespace App.InterViews.Report.Library.Entities;
 
-public class UserCompany
+public class UserCompany : BaseEntity
 {
-    public Guid Id { get; set; }
+    public UserCompany()
+    {
+        Id = Guid.NewGuid();
+        DateCreated = DateTime.UtcNow;
+    }
+
     public Guid UserId { get; set; }
-    public User User { get; set; }
+    public User? User { get; set; }
     public Guid CompanyId { get; set; }
-    public Company Company { get; set; }
+    public Company? Company { get; set; }
 }
