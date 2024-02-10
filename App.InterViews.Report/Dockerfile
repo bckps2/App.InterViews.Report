@@ -15,10 +15,10 @@ RUN apt-get update && \
     apt-get install -y openssl
 
 # Generate SSL certificate
-RUN openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout key.pem -out cert.pem -days 365 -subj "/CN=App.InterViews.Report.com"
+RUN openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout key.pem -out cert.pem -days 365 -subj "/CN=interview.apireport.com"
 
 # Convert SSL certificate to PKCS#12 format (optional)
-RUN openssl pkcs12 -export -out App.InterViews.Report.pfx -inkey key.pem -in cert.pem -passout pass:$CERTIFICATE_PASSWORD
+RUN openssl pkcs12 -export -out interview.apireport.pfx -inkey key.pem -in cert.pem -passout pass:$CERTIFICATE_PASSWORD
 
 # (Optional) Clean up unnecessary files
 RUN rm key.pem cert.pem
