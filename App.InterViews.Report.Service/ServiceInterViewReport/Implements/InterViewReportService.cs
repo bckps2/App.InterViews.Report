@@ -10,13 +10,8 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
 public class InterViewReportService : BaseReportService<InterView, InterviewDto>, IInterViewReportService
 {
-    private readonly IMapper _mapper;
-    private readonly IRepositoryBase<InterView> _iRepositoryBase;
-
     public InterViewReportService(IMapper mapper, IRepositoryBase<InterView> iRepositoryBase) : base(iRepositoryBase, mapper)
     {
-        _mapper = mapper;
-        _iRepositoryBase = iRepositoryBase;
     }
 
     public Result<IEnumerable<InterviewDto>, ErrorResult> GetAllByIdProcess(Guid idProcess)

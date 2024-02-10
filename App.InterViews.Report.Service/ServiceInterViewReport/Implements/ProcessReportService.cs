@@ -10,13 +10,8 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
 public class ProcessReportService : BaseReportService<Process, ProcessDto>, IProcessReportService
 {
-    private readonly IMapper _mapper;
-    private readonly IRepositoryBase<Process> _iRepositoryBase;
-
     public ProcessReportService(IMapper mapper, IRepositoryBase<Process> iRepositoryBase) : base(iRepositoryBase, mapper)
     {
-        _mapper = mapper;
-        _iRepositoryBase = iRepositoryBase;
     }
 
     public Result<IEnumerable<ProcessDto>, ErrorResult> GetProcessesByIdCompany(Guid idCompany)

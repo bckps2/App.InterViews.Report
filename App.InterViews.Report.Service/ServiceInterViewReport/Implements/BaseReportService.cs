@@ -9,8 +9,8 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements
 {
     public class BaseReportService<Entity, TOut> : IReportServiceBase<TOut> where TOut : BaseDto
     {
-        private readonly IMapper _mapper;
-        private readonly IRepositoryBase<Entity> _iRepositoryBase;
+        protected readonly IMapper _mapper;
+        protected readonly IRepositoryBase<Entity> _iRepositoryBase;
 
         public BaseReportService(IRepositoryBase<Entity> iRepositoryBase, IMapper mapper)
         {

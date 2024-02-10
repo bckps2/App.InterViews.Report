@@ -11,14 +11,10 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
 public class CompanyReportService : BaseReportService<Company, CompanyDto>, ICompanyReportService
 {
-    private readonly IMapper _mapper;
     private readonly IRepositoryBase<User> _irepositoryUser;
-    private readonly IRepositoryBase<Company> _iRepositoryBase;
 
-    public CompanyReportService(IRepositoryBase<Company> iRepositoryBase, IRepositoryBase<User> irepositoryUser, IMapper mapper):base(iRepositoryBase, mapper)
+    public CompanyReportService(IRepositoryBase<Company> iRepositoryBase, IRepositoryBase<User> irepositoryUser, IMapper mapper) : base(iRepositoryBase, mapper)
     {
-        _mapper = mapper;
-        _iRepositoryBase = iRepositoryBase;
         _irepositoryUser = irepositoryUser;
     }
 
