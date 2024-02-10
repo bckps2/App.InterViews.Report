@@ -4,9 +4,9 @@ using AutoMapper;
 
 namespace App.InterViews.Report.Service.Mappers;
 
-public class CompanyProfileMapper : Profile
+public class CompanyProfileMapperService : Profile
 {
-    public CompanyProfileMapper()
+    public CompanyProfileMapperService()
     {
         CreateMap<CompanyDto, Company>()
         .ForMember(c => c.UserCompanies, opt => opt.Ignore())

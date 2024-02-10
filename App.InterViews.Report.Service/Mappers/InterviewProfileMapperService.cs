@@ -4,9 +4,9 @@ using AutoMapper;
 
 namespace App.InterViews.Report.Service.Mappers;
 
-public class InterviewProfileMapper : Profile
+public class InterviewProfileMapperService : Profile
 {
-    public InterviewProfileMapper()
+    public InterviewProfileMapperService()
     {
         CreateMap<InterviewDto, InterView>()
          .ForMember(interview => interview.InterViewersName, opt => opt.MapFrom(service => ListToToString(service)))
