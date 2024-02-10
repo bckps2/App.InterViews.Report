@@ -32,19 +32,12 @@ public class ProcessReportService : IProcessReportService
 
     public async Task<Result<ProcessDto, ErrorResult>> Delete(Guid id)
     {
-        var processDto = await _iRepositoryBase.GetByIdAsync(id);
+        var response = await _iRepositoryBase.DeleteAsync(id);
 
-        if (processDto.IsSuccess)
+        return response.Map(val =>
         {
-            var response = _iRepositoryBase.Delete(processDto.Value);
-
-            return response.Map(val =>
-            {
-                return _mapper.Map<ProcessDto>(val);
-            });
-        }
-
-        return processDto.Error;
+            return _mapper.Map<ProcessDto>(val);
+        });
     }
 
     public Result<IEnumerable<ProcessDto>, ErrorResult> GetAll()

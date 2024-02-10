@@ -7,107 +7,124 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Linq.Expressions;
 
-namespace App.InterViews.Report.Db.Infrastructure.Implements
+namespace App.InterViews.Report.Db.Infrastructure.Implements;
+
+public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : BaseEntity, new()
 {
-    public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : BaseEntity, new()
+    private readonly DbSet<TEntry> _set;
+    private readonly DbDataContext _context;
+
+    public RepositoryBase(DbDataContext context)
     {
-        private readonly DbSet<TEntry> _set;
-        private readonly DbDataContext _context;
+        _context = context;
+        _set = context.Set<TEntry>();
+    }
 
-        public RepositoryBase(DbDataContext context)
+    public async Task<Result<TEntry, ErrorResult>> GetByIdAsync(Guid id)
+    {
+        var result = await _set
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(entity => entity.Id.Equals(id));
+
+        if (result is null)
         {
-            _context = context;
-            _set = context.Set<TEntry>();
+            Log.Error($"On Get Object By Id {typeof(TEntry)}, Message Error : item Not found");
+            return Result.Failure<TEntry, ErrorResult>(ErrorResult.NotFound<TEntry>());
         }
 
-        public async Task<Result<TEntry, ErrorResult>> GetByIdAsync(Guid id)
+        return Result.Success<TEntry, ErrorResult>(result); ;
+    }
+
+    public Result<IEnumerable<TEntry>, ErrorResult> GetAll()
+    {
+        var result = _set
+            .AsNoTracking()
+            .AsSplitQuery()
+            .AsEnumerable();
+
+        if (result is null || !result.Any())
         {
-            var result = await _set.FindAsync(id);
-
-            if (result is null)
-            {
-                Log.Error($"On Get Object By Id {typeof(TEntry)}, Message Error : item Not found");
-                return Result.Failure<TEntry, ErrorResult>(ErrorResult.NotFound<TEntry>());
-            }
-
-            _context.Entry(result).State = EntityState.Detached;
-
-            return Result.Success<TEntry, ErrorResult>(result); ;
+            Log.Error($"On Get All Objects {typeof(TEntry)}, Message Error : items Not found");
+            return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.NotFound<TEntry>());
         }
 
-        public Result<IEnumerable<TEntry>, ErrorResult> GetAll()
+        return Result.Success<IEnumerable<TEntry>, ErrorResult>(result);
+    }
+
+    public Result<IEnumerable<TEntry>, ErrorResult> GetEntitiesByFilter(Expression<Func<TEntry, bool>> expression)
+    {
+        var result = _set.Where(expression);
+
+        if (result is null || !result.Any())
         {
-            var result = _set
-                .AsNoTracking()
-                .AsSplitQuery()
-                .AsEnumerable();
-
-            if (result is null || !result.Any())
-            {
-                Log.Error($"On Get All Objects {typeof(TEntry)}, Message Error : items Not found");
-                return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.NotFound<TEntry>());
-            }
-
-            return Result.Success<IEnumerable<TEntry>, ErrorResult>(result);
+            Log.Error($"On Get {typeof(TEntry)} filter, Message Error : items Not found");
+            return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.NotFound<TEntry>());
         }
 
-        public Result<IEnumerable<TEntry>, ErrorResult> GetEntitiesByFilter(Expression<Func<TEntry, bool>> expression)
+        return Result.Success<IEnumerable<TEntry>, ErrorResult>(result);
+    }
+
+    public Result<TEntry, ErrorResult> Update(TEntry item)
+    {
+        try
         {
-            var result = _set.Where(expression);
+            var response = _set.Update(item);
+            _context.SaveChanges();
+            return Result.Success<TEntry, ErrorResult>(response.Entity);
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"On update Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
+            return Result.Failure<TEntry, ErrorResult>(ErrorResult.Exception<TEntry>(ex.Message));
+        }
+    }
 
-            if (result is null || !result.Any())
-            {
-                Log.Error($"On Get {typeof(TEntry)} filter, Message Error : items Not found");
-                return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.NotFound<TEntry>());
-            }
+    public async Task<Result<TEntry, ErrorResult>> AddAsync(TEntry item)
+    {
+        try
+        {
+            item.DateCreated = DateTime.UtcNow;
+            var response = await _set.AddAsync(item);
+            await _context.SaveChangesAsync();
+            return response.Entity;
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"On Add Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
+            return Result.Failure<TEntry, ErrorResult>(ErrorResult.Exception<TEntry>(ex.Message));
+        }
+    }
 
-            return Result.Success<IEnumerable<TEntry>, ErrorResult>(result);
+    public async Task<Result<TEntry, ErrorResult>> DeleteAsync(Guid id)
+    {
+        try
+        {
+            var entityToRemove = await GetByIdAsyncAtached(id);
+
+            if (entityToRemove.IsFailure)
+                return entityToRemove.Error;
+
+            var response = _set.Remove(entityToRemove.Value);
+            await _context.SaveChangesAsync();
+            return response.Entity;
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"On Delete Object {typeof(TEntry)}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
+            return Result.Failure<TEntry, ErrorResult>(ErrorResult.Exception<TEntry>(ex.Message));
+        }
+    }
+
+    private async Task<Result<TEntry, ErrorResult>> GetByIdAsyncAtached(Guid id)
+    {
+        var result = await _set.FirstOrDefaultAsync(entity => entity.Id.Equals(id));
+
+        if (result is null)
+        {
+            Log.Error($"On Get Object By Id {typeof(TEntry)}, Message Error : item Not found");
+            return Result.Failure<TEntry, ErrorResult>(ErrorResult.NotFound<TEntry>());
         }
 
-        public Result<TEntry, ErrorResult> Update(TEntry item)
-        {
-            try
-            {
-                var response = _set.Update(item);
-                _context.SaveChanges();
-                return Result.Success<TEntry, ErrorResult>(response.Entity);
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"On update Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
-                return Result.Failure<TEntry, ErrorResult>(ErrorResult.Exception<TEntry>(ex.Message));
-            }
-        }
-
-        public async Task<Result<TEntry, ErrorResult>> AddAsync(TEntry item)
-        {
-            try
-            {
-                item.DateCreated = DateTime.UtcNow;
-                var response = await _set.AddAsync(item);
-                await _context.SaveChangesAsync();
-                return response.Entity;
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"On Add Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
-                return Result.Failure<TEntry, ErrorResult>(ErrorResult.Exception<TEntry>(ex.Message));
-            }
-        }
-
-        public Result<TEntry, ErrorResult> Delete(TEntry item)
-        {
-            try
-            {
-                var response = _set.Remove(item);
-                _context.SaveChanges();
-                return response.Entity;
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"On Delete Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
-                return Result.Failure<TEntry, ErrorResult>(ErrorResult.Exception<TEntry>(ex.Message));
-            }
-        }
+        return Result.Success<TEntry, ErrorResult>(result); ;
     }
 }

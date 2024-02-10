@@ -1,23 +1,31 @@
 ﻿using App.InterViews.Report.CrossCutting.Helper;
 using CSharpFunctionalExtensions;
-using IResult = Microsoft.AspNetCore.Http.IResult;
+using CSharpFunctionalExtensions.ValueTasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace App.InterViews.Report.Http;
 
-public sealed class AutoMapperHttp : IAutoMapperHttp
+public sealed class AutoMapperHttp : ControllerBase, IAutoMapperHttp
 {
-    public IResult Ok<TOutput, TValidation>(Result<TOutput, TValidation> result)
+    public IActionResult Ok<TOutput, TValidation>(Result<TOutput, TValidation> result)
         where TOutput : class where TValidation : ErrorResult
         => result.Match(
-            onSuccess: Results.Ok,
+            onSuccess: Ok,
             onFailure: HttpResult
        );
 
-    public IResult HttpResult<TValidation>(TValidation validation) where TValidation : ErrorResult
+    public IActionResult NoContent<TOutput, TValidation>(Result<TOutput, TValidation> result)
+        where TOutput : class where TValidation : ErrorResult
+        => result.Match(
+            onSuccess: value => NoContent(),
+            onFailure: HttpResult
+       );
+
+    private IActionResult HttpResult<TValidation>(TValidation validation) where TValidation : ErrorResult
     => validation.StatusCode switch
     {
-        System.Net.HttpStatusCode.NotFound => Results.NotFound(validation.Errors.Select(c => c.ErrorMessage)),
-        System.Net.HttpStatusCode.BadRequest => Results.BadRequest(validation.Errors.Select(c => c.ErrorMessage)),
-        _ => Results.Problem(validation.Errors.FirstOrDefault()?.ErrorMessage)
+        System.Net.HttpStatusCode.NotFound => NotFound(validation.Errors.Select(c => c.ErrorMessage)),
+        System.Net.HttpStatusCode.BadRequest => BadRequest(validation.Errors.Select(c => c.ErrorMessage)),
+        _ => Problem(validation.Errors.FirstOrDefault()?.ErrorMessage)
     };
 }

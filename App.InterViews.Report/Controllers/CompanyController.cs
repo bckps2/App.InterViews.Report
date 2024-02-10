@@ -10,7 +10,7 @@ namespace App.InterViews.Report.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CompanyController : Controller
+public class CompanyController
 {
     private readonly IMapper _mapper;
     private readonly IAutoMapperHttp _iAutoMapperHttp;
@@ -25,7 +25,7 @@ public class CompanyController : Controller
 
     [HttpGet("GetCompanyById/{idCompany}")]
     [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.OK)]
-    public async Task<IResult> GetCompanyById(Guid idCompany)
+    public async Task<IActionResult> GetCompanyById(Guid idCompany)
     {
         var result = await _iServiceCompany.GetById(idCompany);
         return _iAutoMapperHttp.Ok(result);
@@ -33,14 +33,14 @@ public class CompanyController : Controller
 
     [HttpGet("GetAllCompanies")]
     [ProducesResponseType(typeof(IEnumerable<CompanyDto>), (int)HttpStatusCode.OK)]
-    public IResult GetAllCompanies()
+    public IActionResult GetAllCompanies()
     {
         return _iAutoMapperHttp.Ok(_iServiceCompany.GetAll());
     }
 
     [HttpPost("AddCompany")]
-    [ProducesResponseType(typeof(IEnumerable<CompanyDto>), (int)HttpStatusCode.Created)]
-    public async Task<IResult> AddCompany(CompanyModel companyModel)
+    [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.Created)]
+    public async Task<IActionResult> AddCompany(CompanyModel companyModel)
     {
         var company = _mapper.Map<CompanyDto>(companyModel);
         var result = await _iServiceCompany.Add(company);
@@ -48,10 +48,10 @@ public class CompanyController : Controller
     }
 
     [HttpDelete("DeleteCompany/{idCompany}")]
-    [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.OK)]
-    public async Task<IResult> DeleteCompany(Guid idCompany)
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> DeleteCompany(Guid idCompany)
     {
         var result = await _iServiceCompany.Delete(idCompany);
-        return _iAutoMapperHttp.Ok(result);
+        return _iAutoMapperHttp.NoContent(result);
     }
 }

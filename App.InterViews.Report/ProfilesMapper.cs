@@ -12,6 +12,8 @@ public class ProfilesMapper : Profile
         MapperProcess();
         MapperInterview();
         MapperCompany();
+        MapperUser();
+        MapperUserCompany();
     }
 
     private void MapperInterview()
@@ -29,8 +31,14 @@ public class ProfilesMapper : Profile
     private void MapperCompany()
     {
         CreateMap<CompanyModel, Company>().ReverseMap();
-        CreateMap<CompanyDto, Company>().ReverseMap();
-        CreateMap<CompanyDto, CompanyModel>().ReverseMap();
+
+        CreateMap<CompanyDto, Company>()
+            .ForMember(c => c.UserCompanies, opt => opt.Ignore())
+            .ReverseMap()
+            .ForMember(c => c.Users, opt => opt.MapFrom(d => d.UserCompanies.Select(company => company.User)));
+
+        CreateMap<CompanyDto, CompanyModel>()
+            .ReverseMap();
     }
 
     private void MapperProcess()
@@ -38,6 +46,20 @@ public class ProfilesMapper : Profile
         CreateMap<ProcessModel, Process>().ReverseMap();
         CreateMap<ProcessDto, Process>().ReverseMap();
         CreateMap<ProcessDto, ProcessModel>().ReverseMap();
+    }
+
+    private void MapperUser()
+    {
+        CreateMap<UserDto, User>()
+            .ForMember(c => c.UserCompanies, opt => opt.Ignore())
+            .ReverseMap()
+            .ForMember(c => c.Companies, opt => opt.MapFrom(d => d.UserCompanies.Select(uc => uc.Company)));
+    }
+
+    private void MapperUserCompany()
+    {
+        CreateMap<UserCompanyDto, UserCompany>()
+            .ReverseMap();
     }
 
     private static List<string>? SplitNames(InterView interView)

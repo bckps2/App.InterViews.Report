@@ -32,19 +32,12 @@ public class InterViewReportService : IInterViewReportService
 
     public async Task<Result<InterviewDto, ErrorResult>> Delete(Guid id)
     {
-        var company = await _iRepositoryBase.GetByIdAsync(id);
+        var response = await _iRepositoryBase.DeleteAsync(id);
 
-        if (company.IsSuccess)
+        return response.Map(val =>
         {
-            var response = _iRepositoryBase.Delete(company.Value);
-
-            return response.Map(val =>
-            {
-                return _mapper.Map<InterviewDto>(val);
-            });
-        }
-
-        return company.Error;
+            return _mapper.Map<InterviewDto>(val);
+        });
     }
 
     public Result<IEnumerable<InterviewDto>, ErrorResult> GetAll()

@@ -106,6 +106,57 @@ namespace App.InterViews.Report.Migrations.Migrations
                     b.ToTable("Process");
                 });
 
+            modelBuilder.Entity("App.InterViews.Report.Library.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surnames")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("App.InterViews.Report.Library.Entities.UserCompany", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "CompanyId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("UserCompanies");
+                });
+
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.InterView", b =>
                 {
                     b.HasOne("App.InterViews.Report.Library.Entities.Process", "Process")
@@ -128,14 +179,40 @@ namespace App.InterViews.Report.Migrations.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("App.InterViews.Report.Library.Entities.UserCompany", b =>
+                {
+                    b.HasOne("App.InterViews.Report.Library.Entities.Company", "Company")
+                        .WithMany("UserCompanies")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("App.InterViews.Report.Library.Entities.User", "User")
+                        .WithMany("UserCompanies")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.Company", b =>
                 {
                     b.Navigation("Process");
+
+                    b.Navigation("UserCompanies");
                 });
 
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.Process", b =>
                 {
                     b.Navigation("Interviews");
+                });
+
+            modelBuilder.Entity("App.InterViews.Report.Library.Entities.User", b =>
+                {
+                    b.Navigation("UserCompanies");
                 });
 #pragma warning restore 612, 618
         }

@@ -10,7 +10,7 @@ namespace App.InterViews.Report.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProcessController : ControllerBase
+public class ProcessController
 {
     private readonly IMapper _mapper;
     private readonly IAutoMapperHttp _iAutoMapperHttp;
@@ -25,14 +25,14 @@ public class ProcessController : ControllerBase
 
     [HttpGet("GetAllProcess")]
     [ProducesResponseType(typeof(IEnumerable<ProcessDto>), (int)HttpStatusCode.OK)]
-    public Task<IResult> GetAllProcess()
+    public Task<IActionResult> GetAllProcess()
     {
         return Task.FromResult(_iAutoMapperHttp.Ok(_iProcessService.GetAll()));
     }
 
     [HttpGet("GetProcessesByIdCompany/{idCompany}")]
     [ProducesResponseType(typeof(IEnumerable<ProcessDto>), (int)HttpStatusCode.OK)]
-    public Task<IResult> GetProcessesByIdCompany(Guid idCompany)
+    public Task<IActionResult> GetProcessesByIdCompany(Guid idCompany)
     {
         var result = _iProcessService.GetProcessesByIdCompany(idCompany);
         return Task.FromResult(_iAutoMapperHttp.Ok(result));
@@ -40,7 +40,7 @@ public class ProcessController : ControllerBase
 
     [HttpPost("AddProcess")]
     [ProducesResponseType(typeof(ProcessDto), (int)HttpStatusCode.Created)]
-    public async Task<IResult> AddProcess(ProcessModel processModel)
+    public async Task<IActionResult> AddProcess(ProcessModel processModel)
     {
         var process = _mapper.Map<ProcessDto>(processModel);
         var result = await _iProcessService.Add(process);
@@ -48,8 +48,8 @@ public class ProcessController : ControllerBase
     }
 
     [HttpDelete("DeleteProcess/{idProcess}")]
-    [ProducesResponseType(typeof(ProcessDto), (int)HttpStatusCode.OK)]
-    public async Task<IResult> DeleteProcess(Guid idProcess)
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> DeleteProcess(Guid idProcess)
     {
         var result = await _iProcessService.Delete(idProcess);
         return _iAutoMapperHttp.Ok(result);
