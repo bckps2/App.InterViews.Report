@@ -42,12 +42,12 @@ RUN dotnet build "./App.InterViews.Report.csproj" -c $BUILD_CONFIGURATION -o /ap
 FROM build AS publish
 
 RUN dotnet publish "./App.InterViews.Report.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-COPY --from=build /App.InterViews.Report.pfx .
+COPY --from=build /interview.apireport.pfx .
 
 FROM base AS final
 WORKDIR /app
 
 COPY --from=publish /app/publish .
-COPY --from=publish ./App.InterViews.Report.pfx /root/.aspnet/https/
+COPY --from=publish ./interview.apireport.pfx /root/.aspnet/https/
 
 ENTRYPOINT ["dotnet", "App.InterViews.Report.dll"]
