@@ -9,62 +9,38 @@ using CSharpFunctionalExtensions.ValueTasks;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
-public class CompanyReportService : ICompanyReportService
+public class CompanyReportService : BaseReportService<Company, CompanyDto>, ICompanyReportService
 {
-    private readonly IMapper _mapper;
-    private readonly IRepositoryBase<Company> _iRepositoryBase;
+    private readonly IUserRepository _iuserRepository;
 
-    public CompanyReportService(IRepositoryBase<Company> iRepositoryBase, IMapper mapper)
+    public CompanyReportService(IUserRepository iuserRepository, ICompanyRepository iCompanyRepository, IMapper mapper): base(iCompanyRepository, mapper)
     {
-        _mapper = mapper;
-        _iRepositoryBase = iRepositoryBase;
+        _iuserRepository = iuserRepository;
     }
 
-    public async Task<Result<CompanyDto, ErrorResult>> GetById(Guid id)
+    public override async Task<Result<IEnumerable<CompanyDto>, ErrorResult>> GetAll()
     {
-        var value = await _iRepositoryBase.GetByIdAsync(id);
+        var results = await _iRepository.GetAllAsync();
 
-        return value.Map(val =>
+        return results.Map(val =>
         {
-            return _mapper.Map<CompanyDto>(val);
+            return _mapper.Map<IEnumerable<CompanyDto>>(val);
         });
     }
 
-    public Result<IEnumerable<CompanyDto>, ErrorResult> GetAll()
-    {
-        var companies = _iRepositoryBase.GetAll();
-
-        return companies.Map(value =>
-        {
-            return _mapper.Map<IEnumerable<CompanyDto>>(value);
-        });
-    }
-
-    public async Task<Result<CompanyDto, ErrorResult>> Add(CompanyDto dto)
+    public override async Task<Result<CompanyDto, ErrorResult>> Add(CompanyDto dto)
     {
         var company = _mapper.Map<Company>(dto);
-        var result = await _iRepositoryBase.AddAsync(company);
+        var user = await _iuserRepository.GetByIdAsync(dto.UserId ?? Guid.Empty);
+
+        if (user.IsSuccess)
+            company.UserCompanies.Add(new UserCompany { UserId = user.Value.Id });
+
+        var result = await _iRepository.AddAsync(company);
 
         return result.Map(val =>
         {
             return _mapper.Map<CompanyDto>(val);
         });
-    }
-
-    public async Task<Result<CompanyDto, ErrorResult>> Delete(Guid id)
-    {
-        var company = await _iRepositoryBase.GetByIdAsync(id);
-
-        if (company.IsSuccess)
-        {
-            var response = _iRepositoryBase.Delete(company.Value);
-
-            return response.Map(val =>
-            {
-                return _mapper.Map<CompanyDto>(val);
-            });
-        }
-
-        return company.Map(val => _mapper.Map<CompanyDto>(val));
     }
 }

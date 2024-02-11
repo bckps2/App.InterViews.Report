@@ -39,7 +39,6 @@ public static class ConfigurationApp
             .Build();
 
         var logDB = configurationManager?.GetSection("ConnectionStrings:DbInterviews").Value;
-        Console.WriteLine("####################### => ESTA ES LA CONNECTION ACTUAL => " + logDB);
         var sinkOpts = new MSSqlServerSinkOptions { TableName = "LogRecords", AutoCreateSqlTable = true };
 
         var columnOptions = new ColumnOptions
