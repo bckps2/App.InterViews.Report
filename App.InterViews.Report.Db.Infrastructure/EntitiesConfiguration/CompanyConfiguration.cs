@@ -19,5 +19,10 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
         builder
           .HasIndex(c => new { c.CompanyName })
           .IsUnique();
+
+        builder
+            .Property(e => e.CompanyName)
+            .HasMaxLength(100)
+            .IsRequired();
     }
 }

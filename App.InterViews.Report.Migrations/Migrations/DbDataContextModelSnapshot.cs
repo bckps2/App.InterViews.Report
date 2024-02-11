@@ -29,7 +29,9 @@ namespace App.InterViews.Report.Migrations.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -37,8 +39,7 @@ namespace App.InterViews.Report.Migrations.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyName")
-                        .IsUnique()
-                        .HasFilter("[CompanyName] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Companies");
                 });
@@ -123,7 +124,8 @@ namespace App.InterViews.Report.Migrations.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("IdentificationDocumentNumber")
                         .HasColumnType("nvarchar(max)");

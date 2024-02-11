@@ -8,7 +8,6 @@ public class DbDataContext : DbContext
 {
     public DbDataContext(DbContextOptions<DbDataContext> options) : base(options)
     {
-        Database.EnsureCreated();
         Database.Migrate();
     }
 
