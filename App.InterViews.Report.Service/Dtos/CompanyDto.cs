@@ -10,5 +10,5 @@ public class CompanyDto : BaseDto
     public IList<ProcessDto>? Process { get; set; }
 
     [JsonIgnore]
-    public Guid UserId { get; set; }
+    public Guid? UserId { get; set; }
 }

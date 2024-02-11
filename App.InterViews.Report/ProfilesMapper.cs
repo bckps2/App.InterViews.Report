@@ -11,6 +11,7 @@ public class ProfilesMapper : Profile
         MapperProcess();
         MapperInterview();
         MapperCompany();
+        MapperUser();
     }
 
     private void MapperInterview()
@@ -27,5 +28,10 @@ public class ProfilesMapper : Profile
     private void MapperProcess()
     {
         CreateMap<ProcessDto, ProcessModel>().ReverseMap();
+    }
+
+    private void MapperUser()
+    {
+        CreateMap<UserDto, UserModel>().ReverseMap();
     }
 }

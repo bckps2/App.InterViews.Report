@@ -6,9 +6,6 @@ namespace App.InterViews.Report.Service.Dtos;
 public class InterviewDto : BaseDto
 {
     [Required]
-    public Guid Id { get; set; }
-
-    [Required]
     public Guid IdProcess { get; set; }
 
     [Required]

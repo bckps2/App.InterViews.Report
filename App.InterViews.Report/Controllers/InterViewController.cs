@@ -25,16 +25,18 @@ public class InterviewController
 
     [HttpGet("GetInterviews")]
     [ProducesResponseType(typeof(IEnumerable<InterviewDto>), (int)HttpStatusCode.OK)]
-    public IActionResult GetInterviews()
+    public async Task<IActionResult> GetInterviews()
     {
-        return _iAutoMapperHttp.Ok(_iInterviewService.GetAll());
+        var result = await _iInterviewService.GetAll();
+        return _iAutoMapperHttp.Ok(result);
     }
 
     [HttpGet("GetByIdProcess/{idProcess}")]
     [ProducesResponseType(typeof(IEnumerable<InterviewDto>), (int)HttpStatusCode.OK)]
-    public IActionResult GetByIdProcess(Guid idProcess)
+    public async Task<IActionResult> GetByIdProcess(Guid idProcess)
     {
-        return _iAutoMapperHttp.Ok(_iInterviewService.GetAllByIdProcess(idProcess));
+        var result = await _iInterviewService.GetAllByIdProcess(idProcess);
+        return _iAutoMapperHttp.Ok(result);
     }
 
     [HttpGet("GetInterviewById/{idInterview}")]

@@ -8,8 +8,8 @@ public interface IRepositoryBase<TEntry>
 {
     Task<Result<TEntry, ErrorResult>> AddAsync(TEntry item);
     Task<Result<TEntry, ErrorResult>> GetByIdAsync(Guid id);
-    Result<IEnumerable<TEntry>, ErrorResult> GetAll();
+    Task<Result<IEnumerable<TEntry>, ErrorResult>> GetAllAsync();
     Result<TEntry, ErrorResult> Update(TEntry item);
     Task<Result<TEntry, ErrorResult>> DeleteAsync(Guid id);
-    Result<IEnumerable<TEntry>, ErrorResult> GetEntitiesByFilter(Expression<Func<TEntry, bool>> expression);
+    Task<Result<IEnumerable<TEntry>, ErrorResult>> GetEntitiesByFilter(Expression<Func<TEntry, bool>> expression);
 }

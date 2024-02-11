@@ -15,6 +15,7 @@ public class DbDataContext : DbContext
     public DbSet<Process>? Process { get; set; }
     public DbSet<Company>? Companies { get; set; }
     public DbSet<UserCompany>? UserCompanies { get; set; }
+    public DbSet<User>? Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

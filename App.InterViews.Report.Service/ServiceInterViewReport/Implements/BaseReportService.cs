@@ -7,21 +7,21 @@ using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements
 {
-    public class BaseReportService<Entity, TOut> : IReportServiceBase<TOut> where TOut : BaseDto
+    public class BaseReportService<Entity, TOut> : IBaseReportService<TOut> where TOut : BaseDto
     {
         protected readonly IMapper _mapper;
-        protected readonly IRepositoryBase<Entity> _iRepositoryBase;
+        protected readonly IRepositoryBase<Entity> _iRepository;
 
         public BaseReportService(IRepositoryBase<Entity> iRepositoryBase, IMapper mapper)
         {
             _mapper = mapper;
-            _iRepositoryBase = iRepositoryBase;
+            _iRepository = iRepositoryBase;
         }
 
         public virtual async Task<Result<TOut, ErrorResult>> Add(TOut dto)
         {
-            var entity = _mapper.Map<Entity>(dto);
-            var result = await _iRepositoryBase.AddAsync(entity);
+            var entity = _mapper.Map<Entity>(dto); 
+            var result = await _iRepository.AddAsync(entity);
 
             return result.Map(val =>
             {
@@ -31,7 +31,7 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements
 
         public virtual async Task<Result<TOut, ErrorResult>> Delete(Guid id)
         {
-            var response = await _iRepositoryBase.DeleteAsync(id);
+            var response = await _iRepository.DeleteAsync(id);
 
             return response.Map(val =>
             {
@@ -39,9 +39,9 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements
             });
         }
 
-        public virtual Result<IEnumerable<TOut>, ErrorResult> GetAll()
+        public virtual async Task<Result<IEnumerable<TOut>, ErrorResult>> GetAll()
         {
-            var entities = _iRepositoryBase.GetAll();
+            var entities = await _iRepository.GetAllAsync();
 
             return entities.Map(value =>
             {
@@ -51,7 +51,7 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements
 
         public virtual async Task<Result<TOut, ErrorResult>> GetById(Guid id)
         {
-            var value = await _iRepositoryBase.GetByIdAsync(id);
+            var value = await _iRepository.GetByIdAsync(id);
 
             return value.Map(val =>
             {
@@ -61,12 +61,12 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements
 
         public async Task<Result<TOut, ErrorResult>> Update(TOut dto)
         {
-            var value = await _iRepositoryBase.GetByIdAsync(dto.Id);
+            var value = await _iRepository.GetByIdAsync(dto.Id);
 
             if (value.IsSuccess)
             {
                 var entity = _mapper.Map<Entity>(dto);
-                var response = _iRepositoryBase.Update(entity);
+                var response = _iRepository.Update(entity);
 
                 return response.Map(val =>
                 {

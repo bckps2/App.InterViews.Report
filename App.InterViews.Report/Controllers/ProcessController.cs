@@ -25,17 +25,18 @@ public class ProcessController
 
     [HttpGet("GetAllProcess")]
     [ProducesResponseType(typeof(IEnumerable<ProcessDto>), (int)HttpStatusCode.OK)]
-    public Task<IActionResult> GetAllProcess()
+    public async Task<IActionResult> GetAllProcess()
     {
-        return Task.FromResult(_iAutoMapperHttp.Ok(_iProcessService.GetAll()));
+        var result = await _iProcessService.GetAll();
+        return _iAutoMapperHttp.Ok(result);
     }
 
     [HttpGet("GetProcessesByIdCompany/{idCompany}")]
     [ProducesResponseType(typeof(IEnumerable<ProcessDto>), (int)HttpStatusCode.OK)]
-    public Task<IActionResult> GetProcessesByIdCompany(Guid idCompany)
+    public async Task<IActionResult> GetProcessesByIdCompany(Guid idCompany)
     {
-        var result = _iProcessService.GetProcessesByIdCompany(idCompany);
-        return Task.FromResult(_iAutoMapperHttp.Ok(result));
+        var result = await _iProcessService.GetProcessesByIdCompany(idCompany);
+        return _iAutoMapperHttp.Ok(result);
     }
 
     [HttpPost("AddProcess")]

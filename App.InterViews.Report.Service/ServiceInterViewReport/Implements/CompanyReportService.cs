@@ -11,22 +11,32 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
 public class CompanyReportService : BaseReportService<Company, CompanyDto>, ICompanyReportService
 {
-    private readonly IRepositoryBase<User> _irepositoryUser;
+    private readonly IUserRepository _iuserRepository;
 
-    public CompanyReportService(IRepositoryBase<Company> iRepositoryBase, IRepositoryBase<User> irepositoryUser, IMapper mapper) : base(iRepositoryBase, mapper)
+    public CompanyReportService(IUserRepository iuserRepository, ICompanyRepository iCompanyRepository, IMapper mapper): base(iCompanyRepository, mapper)
     {
-        _irepositoryUser = irepositoryUser;
+        _iuserRepository = iuserRepository;
+    }
+
+    public override async Task<Result<IEnumerable<CompanyDto>, ErrorResult>> GetAll()
+    {
+        var results = await _iRepository.GetAllAsync();
+
+        return results.Map(val =>
+        {
+            return _mapper.Map<IEnumerable<CompanyDto>>(val);
+        });
     }
 
     public override async Task<Result<CompanyDto, ErrorResult>> Add(CompanyDto dto)
     {
         var company = _mapper.Map<Company>(dto);
-        var user = await _irepositoryUser.GetByIdAsync(dto.UserId);
+        var user = await _iuserRepository.GetByIdAsync(dto.UserId ?? Guid.Empty);
 
         if (user.IsSuccess)
             company.UserCompanies.Add(new UserCompany { UserId = user.Value.Id });
 
-        var result = await _iRepositoryBase.AddAsync(company);
+        var result = await _iRepository.AddAsync(company);
 
         return result.Map(val =>
         {

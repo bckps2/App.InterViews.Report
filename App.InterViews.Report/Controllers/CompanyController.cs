@@ -33,9 +33,10 @@ public class CompanyController
 
     [HttpGet("GetAllCompanies")]
     [ProducesResponseType(typeof(IEnumerable<CompanyDto>), (int)HttpStatusCode.OK)]
-    public IActionResult GetAllCompanies()
+    public async Task<IActionResult> GetAllCompanies()
     {
-        return _iAutoMapperHttp.Ok(_iServiceCompany.GetAll());
+        var result = await _iServiceCompany.GetAll();
+        return _iAutoMapperHttp.Ok(result);
     }
 
     [HttpPost("AddCompany")]

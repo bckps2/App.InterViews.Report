@@ -11,8 +11,8 @@ namespace App.InterViews.Report.Db.Infrastructure.Implements;
 
 public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : BaseEntity, new()
 {
-    private readonly DbSet<TEntry> _set;
-    private readonly DbDataContext _context;
+    protected readonly DbSet<TEntry> _set;
+    protected readonly DbDataContext _context;
 
     public RepositoryBase(DbDataContext context)
     {
@@ -20,7 +20,7 @@ public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : Bas
         _set = context.Set<TEntry>();
     }
 
-    public async Task<Result<TEntry, ErrorResult>> GetByIdAsync(Guid id)
+    public virtual async Task<Result<TEntry, ErrorResult>> GetByIdAsync(Guid id)
     {
         var result = await _set
                             .AsNoTracking()
@@ -35,12 +35,12 @@ public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : Bas
         return Result.Success<TEntry, ErrorResult>(result); ;
     }
 
-    public Result<IEnumerable<TEntry>, ErrorResult> GetAll()
+    public virtual async Task<Result<IEnumerable<TEntry>, ErrorResult>> GetAllAsync()
     {
-        var result = _set
+        var result = await _set
             .AsNoTracking()
             .AsSplitQuery()
-            .AsEnumerable();
+            .ToListAsync();
 
         if (result is null || !result.Any())
         {
@@ -51,9 +51,9 @@ public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : Bas
         return Result.Success<IEnumerable<TEntry>, ErrorResult>(result);
     }
 
-    public Result<IEnumerable<TEntry>, ErrorResult> GetEntitiesByFilter(Expression<Func<TEntry, bool>> expression)
+    public virtual async Task<Result<IEnumerable<TEntry>, ErrorResult>> GetEntitiesByFilter(Expression<Func<TEntry, bool>> expression)
     {
-        var result = _set.Where(expression);
+        var result = await _set.Where(expression).ToListAsync();
 
         if (result is null || !result.Any())
         {
@@ -64,7 +64,7 @@ public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : Bas
         return Result.Success<IEnumerable<TEntry>, ErrorResult>(result);
     }
 
-    public Result<TEntry, ErrorResult> Update(TEntry item)
+    public virtual Result<TEntry, ErrorResult> Update(TEntry item)
     {
         try
         {
@@ -79,7 +79,7 @@ public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : Bas
         }
     }
 
-    public async Task<Result<TEntry, ErrorResult>> AddAsync(TEntry item)
+    public virtual async Task<Result<TEntry, ErrorResult>> AddAsync(TEntry item)
     {
         try
         {
@@ -95,7 +95,7 @@ public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : Bas
         }
     }
 
-    public async Task<Result<TEntry, ErrorResult>> DeleteAsync(Guid id)
+    public virtual async Task<Result<TEntry, ErrorResult>> DeleteAsync(Guid id)
     {
         try
         {

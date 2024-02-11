@@ -13,10 +13,6 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
             .AutoInclude();
 
         builder
-            .Navigation(e => e.UserCompanies)
-            .AutoInclude();
-
-        builder
             .HasMany(c => c.Process)
             .WithOne(c => c.Company);
 

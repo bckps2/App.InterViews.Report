@@ -20,13 +20,5 @@ public class UserCompanyConfiguration : IEntityTypeConfiguration<UserCompany>
             .HasOne(userCompany => userCompany.User)
             .WithMany(company => company.UserCompanies)
             .HasForeignKey(userCompany => userCompany.UserId);
-
-        builder
-            .Navigation(userCompany => userCompany.User)
-            .AutoInclude();
-
-        builder
-            .Navigation(userCompany => userCompany.Company)
-            .AutoInclude();
     }
 }

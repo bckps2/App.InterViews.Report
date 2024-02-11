@@ -10,13 +10,13 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
 public class InterViewReportService : BaseReportService<InterView, InterviewDto>, IInterViewReportService
 {
-    public InterViewReportService(IMapper mapper, IRepositoryBase<InterView> iRepositoryBase) : base(iRepositoryBase, mapper)
+    public InterViewReportService(IMapper mapper, IInterviewRepository interviewRepository) : base(interviewRepository, mapper)
     {
     }
 
-    public Result<IEnumerable<InterviewDto>, ErrorResult> GetAllByIdProcess(Guid idProcess)
+    public async Task<Result<IEnumerable<InterviewDto>, ErrorResult>> GetAllByIdProcess(Guid idProcess)
     {
-        var interviews = _iRepositoryBase.GetEntitiesByFilter(interview => interview.IdProcess == idProcess);
+        var interviews = await _iRepository.GetEntitiesByFilter(interview => interview.IdProcess == idProcess);
 
         if (interviews.IsFailure)
             return interviews.Error;

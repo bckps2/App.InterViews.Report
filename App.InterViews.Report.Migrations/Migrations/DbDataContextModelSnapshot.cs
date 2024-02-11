@@ -113,14 +113,19 @@ namespace App.InterViews.Report.Migrations.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DocumentType")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("IdentificationDocumentNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -133,7 +138,10 @@ namespace App.InterViews.Report.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.UserCompany", b =>

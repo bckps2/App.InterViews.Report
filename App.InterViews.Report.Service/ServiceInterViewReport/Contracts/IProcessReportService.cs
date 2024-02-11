@@ -4,7 +4,7 @@ using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
-public interface IProcessReportService : IReportServiceBase<ProcessDto>
+public interface IProcessReportService : IBaseReportService<ProcessDto>
 {
-    Result<IEnumerable<ProcessDto>, ErrorResult> GetProcessesByIdCompany(Guid idCompany);
+    Task<Result<IEnumerable<ProcessDto>, ErrorResult>> GetProcessesByIdCompany(Guid idCompany);
 }

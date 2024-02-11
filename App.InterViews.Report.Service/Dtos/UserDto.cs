@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using App.InterViews.Report.CrossCutting.Enums;
+using System.Text.Json.Serialization;
 
 namespace App.InterViews.Report.Service.Dtos;
 
@@ -9,7 +10,9 @@ public class UserDto : BaseDto
     public string City { get; set; }
     public string Email { get; set; }
     public List<CompanyDto> Companies { get; set; }
+    public DocumentType? DocumentType { get; set; }
+    public string? IdentificationDocumentNumber { get; set; }
 
     [JsonIgnore]
-    public Guid CompanyId { get; set; }
+    public Guid? CompanyId { get; set; }
 }
