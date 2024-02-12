@@ -22,7 +22,6 @@ public class UserRepository : RepositoryBase<User>, IUserRepository
                                 .AsSplitQuery()
                                 .Where(c => c.Id.Equals(c.UserCompanies.FirstOrDefault(uc => uc.CompanyId == companyId).UserId))
                                 .Include(c => c.UserCompanies)
-                                .ThenInclude(uc => uc.Company)
                                 .ToListAsync();
 
         if (result is null || !result.Any())
