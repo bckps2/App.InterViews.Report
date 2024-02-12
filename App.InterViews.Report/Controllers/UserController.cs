@@ -31,6 +31,14 @@ public class UserController
         return _iAutoMapperHttp.Ok(result);
     }
 
+    [HttpGet("GetAllUsersByCompany/{companyId}")]
+    [ProducesResponseType(typeof(IEnumerable<UserDto>), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetAllUsersByCompanyId(Guid companyId)
+    {
+        var result = await _iuserReportService.GetAllUsersByCompanyId(companyId);
+        return _iAutoMapperHttp.Ok(result);
+    }
+
     [HttpGet("GetAllUsers")]
     [ProducesResponseType(typeof(IEnumerable<UserDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllUsers()
@@ -45,7 +53,7 @@ public class UserController
     {
         var user = _mapper.Map<UserDto>(usermodel);
         var result = await _iuserReportService.Add(user);
-        return _iAutoMapperHttp.Ok(result);
+        return _iAutoMapperHttp.Created(result);
     }
 
     [HttpPut("UpudateUser")]
