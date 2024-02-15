@@ -8,4 +8,5 @@ public interface IUserReportService : IBaseReportService<UserDto>
 {
     Task<Result<UserDto, ErrorResult>> Update(UserDto dto);
     Task<Result<List<UserDto>, ErrorResult>> GetByIds(ICollection<Guid> ids);
+    Task<Result<IEnumerable<UserDto>, ErrorResult>> GetAllUsersByCompanyId(Guid companyId);
 }

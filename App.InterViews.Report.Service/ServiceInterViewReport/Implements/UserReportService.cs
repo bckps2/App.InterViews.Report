@@ -1,5 +1,6 @@
 ﻿using App.InterViews.Report.CrossCutting.Helper;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
+using App.InterViews.Report.Db.Infrastructure.Implements;
 using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
@@ -10,16 +11,28 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
 public class UserReportService : BaseReportService<User, UserDto>, IUserReportService
 {
+    private readonly IUserRepository _iUserRepository;
     private readonly ICompanyRepository _iCompanyRepository;
 
     public UserReportService(ICompanyRepository iCompanyRepository, IUserRepository userRepository, IMapper mapper) : base(userRepository, mapper)
     {
+        _iUserRepository = userRepository;
         _iCompanyRepository = iCompanyRepository;
     }
 
     public override async Task<Result<IEnumerable<UserDto>, ErrorResult>> GetAll()
     {
-        var results = await _iRepository.GetAllAsync();
+        var results = await _iUserRepository.GetAllAsync();
+
+        return results.Map(val =>
+        {
+            return _mapper.Map<IEnumerable<UserDto>>(val);
+        });
+    }
+    
+    public async Task<Result<IEnumerable<UserDto>, ErrorResult>> GetAllUsersByCompanyId(Guid companyId)
+    {
+        var results = await _iUserRepository.GetAllUserByCompanyByIdAsync(companyId);
 
         return results.Map(val =>
         {
@@ -42,6 +55,7 @@ public class UserReportService : BaseReportService<User, UserDto>, IUserReportSe
             return _mapper.Map<UserDto>(val);
         });
     }
+
 
     public async Task<Result<List<UserDto>, ErrorResult>> GetByIds(ICollection<Guid> ids)
     {

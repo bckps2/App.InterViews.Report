@@ -1,6 +1,6 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-ARG CERTIFICATE_PASSWORD
+
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 
@@ -9,6 +9,9 @@ EXPOSE 80:8080
 EXPOSE 443:443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+
+ARG CERTIFICATE_PASSWORD=default_value
+ENV CERTIFICATE_PASSWORD=$CERTIFICATE_PASSWORD
 
 # Install OpenSSL
 RUN apt-get update && \
@@ -42,12 +45,12 @@ RUN dotnet build "./App.InterViews.Report.csproj" -c $BUILD_CONFIGURATION -o /ap
 FROM build AS publish
 
 RUN dotnet publish "./App.InterViews.Report.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-COPY --from=build /App.InterViews.Report.pfx .
+COPY --from=build /interview.apireport.pfx .
 
 FROM base AS final
 WORKDIR /app
 
 COPY --from=publish /app/publish .
-COPY --from=publish ./App.InterViews.Report.pfx /root/.aspnet/https/
+COPY --from=publish ./interview.apireport.pfx /root/.aspnet/https/
 
 ENTRYPOINT ["dotnet", "App.InterViews.Report.dll"]

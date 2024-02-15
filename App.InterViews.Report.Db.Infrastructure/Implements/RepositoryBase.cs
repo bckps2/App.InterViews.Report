@@ -91,7 +91,7 @@ public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : Bas
         catch (Exception ex)
         {
             Log.Error($"On Add Object {item.GetType()}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
-            return Result.Failure<TEntry, ErrorResult>(ErrorResult.Exception<TEntry>(ex.Message));
+            return Result.Failure<TEntry, ErrorResult>(ErrorResult.Exception<TEntry>($"{ex.Message}, {ex.InnerException?.Message}"));
         }
     }
 

@@ -15,10 +15,10 @@ RUN apt-get update && \
     apt-get install -y openssl
 
 # Generate SSL certificate
-RUN openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout key.pem -out cert.pem -days 365 -subj "/CN=App.InterViews.Report.com"
+RUN openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout key.pem -out cert.pem -days 365 -subj "/CN=interview.apireport.com"
 
 # Convert SSL certificate to PKCS#12 format (optional)
-RUN openssl pkcs12 -export -out App.InterViews.Report.pfx -inkey key.pem -in cert.pem -passout pass:$CERTIFICATE_PASSWORD
+RUN openssl pkcs12 -export -out interview.apireport.pfx -inkey key.pem -in cert.pem -passout pass:$CERTIFICATE_PASSWORD
 RUN echo "The value of CERTIFICATE_PASSWORD is: $CERTIFICATE_PASSWORD"
 
 # (Optional) Clean up unnecessary files
@@ -35,7 +35,6 @@ COPY ["App.InterViews.Report.Db.Infrastructure/App.InterViews.Report.Db.Infrastr
 COPY ["App.InterViews.Report.Library/App.InterViews.Report.Library.csproj", "App.InterViews.Report.Library/"]
 COPY ["App.InterViews.Report.Service/App.InterViews.Report.Service.csproj", "App.InterViews.Report.Service/"]
 
-
 RUN dotnet restore "./App.InterViews.Report/./App.InterViews.Report.csproj"
 COPY . .
 WORKDIR "/src/App.InterViews.Report"
@@ -44,12 +43,12 @@ RUN dotnet build "./App.InterViews.Report.csproj" -c $BUILD_CONFIGURATION -o /ap
 FROM build AS publish
 
 RUN dotnet publish "./App.InterViews.Report.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-COPY --from=build /App.InterViews.Report.pfx .
+COPY --from=build /interview.apireport.pfx .
 
 FROM base AS final
 WORKDIR /app
 
 COPY --from=publish /app/publish .
-COPY --from=publish ./App.InterViews.Report.pfx /root/.aspnet/https/
+COPY --from=publish ./interview.apireport.pfx /root/.aspnet/https/
 
 ENTRYPOINT ["dotnet", "App.InterViews.Report.dll"]

@@ -4,6 +4,7 @@ using App.InterViews.Report.Db.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.InterViews.Report.Migrations.Migrations
 {
     [DbContext(typeof(DbDataContext))]
-    partial class DbDataContextModelSnapshot : ModelSnapshot
+    [Migration("20240212002458_migration3")]
+    partial class migration3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,9 +102,14 @@ namespace App.InterViews.Report.Migrations.Migrations
                     b.Property<string>("RangeSalarial")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IdCompany");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Process");
                 });
@@ -186,7 +193,15 @@ namespace App.InterViews.Report.Migrations.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("App.InterViews.Report.Library.Entities.User", "User")
+                        .WithMany("Processes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Company");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.UserCompany", b =>
@@ -222,6 +237,8 @@ namespace App.InterViews.Report.Migrations.Migrations
 
             modelBuilder.Entity("App.InterViews.Report.Library.Entities.User", b =>
                 {
+                    b.Navigation("Processes");
+
                     b.Navigation("UserCompanies");
                 });
 #pragma warning restore 612, 618
