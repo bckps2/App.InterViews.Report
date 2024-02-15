@@ -20,7 +20,6 @@ public class CompanyRepository : RepositoryBase<Company>, ICompanyRepository
                                 .AsNoTracking()
                                 .AsSplitQuery()
                                 .Where(c => c.Id.Equals(c.UserCompanies.FirstOrDefault(uc => uc.UserId == userId).CompanyId))
-                                .Include(c => c.UserCompanies)
                                 .ToListAsync();
 
         if (result is null || !result.Any())
