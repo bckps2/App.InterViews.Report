@@ -53,7 +53,7 @@ public class InterviewController
     {
         var interview = _mapper.Map<InterviewDto>(interviewModel);
         var result = await _iInterviewService.Add(interview);
-        return _iAutoMapperHttp.Ok(result);
+        return _iAutoMapperHttp.Created(result);
     }
 
     [HttpPut("UpdateInterview")]
@@ -66,10 +66,10 @@ public class InterviewController
     }
 
     [HttpDelete("DeleteInterview/{idInterview}")]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteInterview(Guid idInterview)
     {
         var result = await _iInterviewService.Delete(idInterview);
-        return _iAutoMapperHttp.Ok(result);
+        return _iAutoMapperHttp.NoContent(result);
     }
 }

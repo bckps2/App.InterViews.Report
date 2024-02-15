@@ -10,5 +10,5 @@ public class User : BaseEntity
     public string Email { get; set; }
     public string? IdentificationDocumentNumber { get; set; }
     public DocumentType? DocumentType { get; set; }
-    public ICollection<UserCompany>? UserCompanies { get; set; }
+    public ICollection<UserCompany> UserCompanies { get; set; } = new List<UserCompany>();
 }

@@ -45,14 +45,14 @@ public class ProcessController
     {
         var process = _mapper.Map<ProcessDto>(processModel);
         var result = await _iProcessService.Add(process);
-        return _iAutoMapperHttp.Ok(result);
+        return _iAutoMapperHttp.Created(result);
     }
 
     [HttpDelete("DeleteProcess/{idProcess}")]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteProcess(Guid idProcess)
     {
         var result = await _iProcessService.Delete(idProcess);
-        return _iAutoMapperHttp.Ok(result);
+        return _iAutoMapperHttp.NoContent(result);
     }
 }

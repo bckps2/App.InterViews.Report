@@ -31,6 +31,14 @@ public class CompanyController
         return _iAutoMapperHttp.Ok(result);
     }
 
+    [HttpGet("GetCompaniesByUserId/{userId}")]
+    [ProducesResponseType(typeof(IEnumerable<CompanyDto>), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetCompaniesByUserId(Guid userId)
+    {
+        var result = await _iServiceCompany.GetAllCompaniesByUser(userId);
+        return _iAutoMapperHttp.Ok(result);
+    }
+
     [HttpGet("GetAllCompanies")]
     [ProducesResponseType(typeof(IEnumerable<CompanyDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllCompanies()
