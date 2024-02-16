@@ -12,6 +12,7 @@ public class UserDto : BaseDto
     public List<CompanyDto> Companies { get; set; }
     public DocumentType? DocumentType { get; set; }
     public string? IdentificationDocumentNumber { get; set; }
+    public RoleDto? Role { get; set; }
 
     [JsonIgnore]
     public Guid? CompanyId { get; set; }

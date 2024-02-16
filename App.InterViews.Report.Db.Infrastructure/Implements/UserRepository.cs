@@ -39,6 +39,7 @@ public class UserRepository : RepositoryBase<User>, IUserRepository
                                 .AsSplitQuery()
                                 .Include(c => c.UserCompanies)
                                 .ThenInclude(u => u.Company)
+                                .Include(u => u.Role)
                                 .ToListAsync();
 
         if (result is null || !result.Any())
