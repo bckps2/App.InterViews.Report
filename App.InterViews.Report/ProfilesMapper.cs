@@ -12,6 +12,7 @@ public class ProfilesMapper : Profile
         MapperInterview();
         MapperCompany();
         MapperUser();
+        MapperRole();
     }
 
     private void MapperInterview()
@@ -33,5 +34,10 @@ public class ProfilesMapper : Profile
     private void MapperUser()
     {
         CreateMap<UserDto, UserModel>().ReverseMap();
+    }
+
+    private void MapperRole() 
+    { 
+        CreateMap<RoleDto, RoleModel>().ReverseMap();
     }
 }

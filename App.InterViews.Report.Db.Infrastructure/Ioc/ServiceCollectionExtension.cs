@@ -11,7 +11,6 @@ public static class ServiceCollectionExtension
         services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
         services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
         services.AddScoped(typeof(ICompanyRepository), typeof(CompanyRepository));
-        services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
         services.AddScoped(typeof(IInterviewRepository), typeof(InterviewRepository));
     }
 }
