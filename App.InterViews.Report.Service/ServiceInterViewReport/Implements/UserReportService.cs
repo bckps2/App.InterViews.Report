@@ -2,7 +2,7 @@
 using App.InterViews.Report.Db.Infrastructure.Contracts;
 using App.InterViews.Report.Db.Infrastructure.Implements;
 using App.InterViews.Report.Library.Entities;
-using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Service.Dtos.User;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
 using CSharpFunctionalExtensions;

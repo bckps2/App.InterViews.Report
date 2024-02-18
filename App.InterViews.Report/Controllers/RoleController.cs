@@ -37,4 +37,12 @@ public class RoleController
         var result = await _iRoleReportService.Add(role);
         return _iAutoMapperHttp.Ok(result);
     }
+
+    [HttpDelete("DeleteRole")]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    public async Task<IActionResult> DeleteRole(Guid roleId)
+    {
+        var result = await _iRoleReportService.Delete(roleId);
+        return _iAutoMapperHttp.NoContent(result);
+    }
 }

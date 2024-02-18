@@ -1,6 +1,6 @@
 ﻿using App.InterViews.Report.Http;
 using App.InterViews.Report.Models;
-using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Service.Dtos.User;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;

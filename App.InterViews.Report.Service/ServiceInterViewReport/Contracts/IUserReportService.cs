@@ -1,5 +1,5 @@
 ﻿using App.InterViews.Report.CrossCutting.Helper;
-using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Service.Dtos.User;
 using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
