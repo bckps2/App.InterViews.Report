@@ -1,0 +1,42 @@
+name: Build And Test
+
+on:
+  pull_request:
+    branches: [ "master", "dev"]
+  push:
+    branches: ["master", "dev"]
+
+jobs:
+
+  build-test-application:
+    runs-on: ubuntu-latest
+    outputs:
+      build_id: ${{ steps.build_step.outputs.build_id }}
+      
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+
+    # Restoring Dependencies
+    - name: Restore dependencies
+      run: dotnet restore
+
+    # Build Application
+    - name: Build
+      id: build_step
+      run: dotnet build --configuration Release
+      
+    - name: Exportar variable de entorno
+      run: echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+
+    # Run Unit Test
+    - name: Test
+      run: dotnet test --verbosity normal

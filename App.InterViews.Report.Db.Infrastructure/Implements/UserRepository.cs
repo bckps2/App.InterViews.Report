@@ -15,7 +15,7 @@ public class UserRepository : RepositoryBase<User>, IUserRepository
     {
     }
 
-    public async Task<Result<IEnumerable<User>, ErrorResult>> GetAllUserByCompanyByIdAsync(Guid companyId)
+    public async Task<Result<IEnumerable<User>, ErrorResult>> GetUsersByCompanyIdAsync(Guid companyId)
     {
         var result = await _context.Users
                                 .AsNoTracking()
@@ -32,6 +32,23 @@ public class UserRepository : RepositoryBase<User>, IUserRepository
         return Result.Success<IEnumerable<User>, ErrorResult>(result);
     }
 
+    public override async Task<Result<User, ErrorResult>> GetByIdAsync(Guid id)
+    {
+        var result = await _set
+                            .AsNoTracking()
+                            .Include(c => c.UserCompanies)
+                            .ThenInclude(uc => uc.Company)
+                            .FirstOrDefaultAsync(entity => entity.Id.Equals(id));
+
+        if (result is null)
+        {
+            Log.Error($"On Get Object By Id {typeof(User)}, Message Error : item Not found");
+            return Result.Failure<User, ErrorResult>(ErrorResult.NotFound<User>());
+        }
+
+        return Result.Success<User, ErrorResult>(result); ;
+    }
+
     public override async Task<Result<IEnumerable<User>, ErrorResult>> GetAllAsync()
     {
         var result = await _context.Users
@@ -39,6 +56,7 @@ public class UserRepository : RepositoryBase<User>, IUserRepository
                                 .AsSplitQuery()
                                 .Include(c => c.UserCompanies)
                                 .ThenInclude(u => u.Company)
+                                .Include(u => u.Role)
                                 .ToListAsync();
 
         if (result is null || !result.Any())

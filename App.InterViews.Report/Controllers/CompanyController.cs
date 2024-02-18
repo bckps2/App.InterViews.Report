@@ -1,6 +1,6 @@
 ﻿using App.InterViews.Report.Http;
 using App.InterViews.Report.Models;
-using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Service.Dtos.Company;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +27,7 @@ public class CompanyController
     [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetCompanyById(Guid idCompany)
     {
-        var result = await _iServiceCompany.GetById(idCompany);
+        var result = await _iServiceCompany.GetCompanyByIdAsync(idCompany);
         return _iAutoMapperHttp.Ok(result);
     }
 
@@ -40,10 +40,10 @@ public class CompanyController
     }
 
     [HttpGet("GetAllCompanies")]
-    [ProducesResponseType(typeof(IEnumerable<CompanyDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<CompanyUserDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllCompanies()
     {
-        var result = await _iServiceCompany.GetAll();
+        var result = await _iServiceCompany.GetAllCompanies();
         return _iAutoMapperHttp.Ok(result);
     }
 
