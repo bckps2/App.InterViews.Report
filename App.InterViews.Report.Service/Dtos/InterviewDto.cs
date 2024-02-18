@@ -16,4 +16,5 @@ public class InterviewDto : BaseDto
     [Required]
     public string? Observations { get; set; }
     public DateTime DateCreated { get; set; }
+    public ICollection<InterviewerDto>? Interviewers { get; set; }
 }
