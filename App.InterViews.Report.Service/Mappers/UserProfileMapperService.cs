@@ -10,6 +10,11 @@ public class UserProfileMapperService : Profile
     {
         CreateMap<UserDto, User>()
           .ForMember(c => c.UserCompanies, opt => opt.Ignore())
-          .ReverseMap();
+          .ReverseMap();  
+        
+        CreateMap<UserCompanyDto, User>()
+          .ForMember(c => c.UserCompanies, opt => opt.Ignore())
+          .ReverseMap()
+          .ForMember(c => c.Companies, opt => opt.MapFrom(d => d.UserCompanies.Select(f => f.Company)));
     }
 }

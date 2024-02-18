@@ -1,5 +1,4 @@
 ﻿using App.InterViews.Report.CrossCutting.Enums;
-using App.InterViews.Report.Service.Dtos.Company;
 using System.Text.Json.Serialization;
 
 namespace App.InterViews.Report.Service.Dtos.User;
@@ -12,6 +11,7 @@ public class UserDto : BaseDto
     public string Email { get; set; }
     public DocumentType? DocumentType { get; set; }
     public string? IdentificationDocumentNumber { get; set; }
+    public RoleDto? Role { get; set; }
 
     [JsonIgnore]
     public Guid? CompanyId { get; set; }

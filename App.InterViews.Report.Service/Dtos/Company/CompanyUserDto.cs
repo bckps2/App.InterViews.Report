@@ -9,8 +9,5 @@ namespace App.InterViews.Report.Service.Dtos.Company
         public DateTime DateCreated { get; set; }
         public ICollection<UserDto> Users { get; set; }
         public IList<ProcessDto>? Process { get; set; }
-
-        [JsonIgnore]
-        public Guid? UserId { get; set; }
     }
 }

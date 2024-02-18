@@ -1,6 +1,5 @@
 ﻿using App.InterViews.Report.CrossCutting.Helper;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
-using App.InterViews.Report.Db.Infrastructure.Implements;
 using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Service.Dtos.User;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
@@ -20,19 +19,19 @@ public class UserReportService : BaseReportService<User, UserDto>, IUserReportSe
         _iCompanyRepository = iCompanyRepository;
     }
 
-    public override async Task<Result<IEnumerable<UserDto>, ErrorResult>> GetAll()
+    public async Task<Result<IEnumerable<UserCompanyDto>, ErrorResult>> GetAllUsers()
     {
         var results = await _iUserRepository.GetAllAsync();
 
         return results.Map(val =>
         {
-            return _mapper.Map<IEnumerable<UserDto>>(val);
+            return _mapper.Map<IEnumerable<UserCompanyDto>>(val);
         });
     }
     
-    public async Task<Result<IEnumerable<UserDto>, ErrorResult>> GetAllUsersByCompanyId(Guid companyId)
+    public async Task<Result<IEnumerable<UserDto>, ErrorResult>> GetUsersByCompanyIdAsync(Guid companyId)
     {
-        var results = await _iUserRepository.GetAllUserByCompanyByIdAsync(companyId);
+        var results = await _iUserRepository.GetUsersByCompanyIdAsync(companyId);
 
         return results.Map(val =>
         {
@@ -56,18 +55,13 @@ public class UserReportService : BaseReportService<User, UserDto>, IUserReportSe
         });
     }
 
-
-    public async Task<Result<List<UserDto>, ErrorResult>> GetByIds(ICollection<Guid> ids)
+    public async Task<Result<UserCompanyDto, ErrorResult>> GetUserByIdAsync(Guid userId)
     {
-        var users = new List<UserDto>();
+        var result = await _iRepository.GetByIdAsync(userId);
 
-        foreach (var id in ids)
+        return result.Map(val =>
         {
-            var user = await GetById(id);
-            if (user.IsSuccess)
-                users.Add(user.Value);
-        }
-
-        return users;
+            return _mapper.Map<UserCompanyDto>(val);
+        });
     }
 }
