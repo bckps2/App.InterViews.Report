@@ -11,11 +11,12 @@ public class DbDataContext : DbContext
         Database.Migrate();
     }
 
-    public DbSet<InterView>? InterViews { get; set; }
+    public DbSet<User>? Users { get; set; }
     public DbSet<Process>? Process { get; set; }
     public DbSet<Company>? Companies { get; set; }
+    public DbSet<InterView>? InterViews { get; set; }
+    public DbSet<Interviewer>? Interviewers { get; set; }
     public DbSet<UserCompany>? UserCompanies { get; set; }
-    public DbSet<User>? Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

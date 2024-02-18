@@ -12,6 +12,5 @@ public class User : BaseEntity
     public DocumentType? DocumentType { get; set; }
     public Guid? RoleId { get; set; }
     public Role? Role { get; set; }
-    public ICollection<Interviewer>? Interviewers {get;set;}
     public ICollection<UserCompany> UserCompanies { get; set; } = new List<UserCompany>();
 }
