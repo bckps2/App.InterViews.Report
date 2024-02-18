@@ -12,9 +12,6 @@ public class InterviewDto : BaseDto
     public InterviewType TypeInterView { get; set; }
     public DateTime DateInterView { get; set; }
     [Required]
-    public string? Email { get; set; }
-    [Required]
     public string? Observations { get; set; }
-    public DateTime DateCreated { get; set; }
     public ICollection<InterviewerDto>? Interviewers { get; set; }
 }

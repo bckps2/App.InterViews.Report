@@ -1,5 +1,6 @@
 ﻿using App.InterViews.Report.CrossCutting.Helper;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
+using App.InterViews.Report.Library.Entities;
 using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
@@ -7,7 +8,7 @@ using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements
 {
-    public class BaseReportService<Entity, TOut> : IBaseReportService<TOut> where TOut : BaseDto
+    public class BaseReportService<Entity, TOut> : IBaseReportService<TOut> where TOut : BaseDto where Entity : BaseEntity 
     {
         protected readonly IMapper _mapper;
         protected readonly IRepositoryBase<Entity> _iRepository;
@@ -65,6 +66,9 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements
 
             if (value.IsSuccess)
             {
+                dto.ModifyDate = DateTime.Now;
+                dto.DateCreated = value.Value.DateCreated;
+
                 var entity = _mapper.Map<Entity>(dto);
                 var response = _iRepository.Update(entity);
 

@@ -10,7 +10,5 @@ public class ProcessDto : BaseDto
     public string? ExternalCompany { get; set; }
     [Required]
     public string? RangeSalarial { get; set; }
-    [JsonIgnore]
-    public DateTime DateCreated { get; set; }
     public IList<InterviewDto>? Interviews { get; set; }
 }
