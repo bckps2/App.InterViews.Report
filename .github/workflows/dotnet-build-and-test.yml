@@ -10,6 +10,9 @@ jobs:
 
   build-test-application:
     runs-on: ubuntu-latest
+    outputs:
+      build_id: ${{ steps.build_step.outputs.build_id }}
+      
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -28,7 +31,11 @@ jobs:
 
     # Build Application
     - name: Build
+      id: build_step
       run: dotnet build --configuration Release
+      
+    - name: Exportar variable de entorno
+      run: echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
 
     # Run Unit Test
     - name: Test
