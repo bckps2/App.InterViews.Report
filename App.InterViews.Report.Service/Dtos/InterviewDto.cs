@@ -10,8 +10,6 @@ public class InterviewDto : BaseDto
 
     [Required]
     public InterviewType TypeInterView { get; set; }
-    [Required]
-    public List<string>? NameInterViewers { get; set; }
     public DateTime DateInterView { get; set; }
     [Required]
     public string? Email { get; set; }
