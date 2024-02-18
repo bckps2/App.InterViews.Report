@@ -9,8 +9,8 @@ public class InterviewerConfiguration : IEntityTypeConfiguration<Interviewer>
     public void Configure(EntityTypeBuilder<Interviewer> builder)
     {
         builder
-            .HasOne(c => c.InterView)
-            .WithMany(u => u.Interviewers)
-            .HasForeignKey(c => c.InterviewId);
+            .HasOne(interviewer => interviewer.Company)
+            .WithMany(company => company.Interviewers)
+            .HasForeignKey(interviewer => interviewer.CompanyId);
     }
 }

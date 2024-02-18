@@ -19,7 +19,8 @@ public class InterviewRepository : RepositoryBase<InterView>, IInterviewReposito
         var results = await _set
                             .AsNoTracking()
                             .AsSplitQuery()
-                            .Include(c => c.Interviewers)
+                            .Include(c => c.InterviewInterviewers)
+                            .ThenInclude(ii => ii.Interviewer)
                             .ToListAsync();
 
         if (results is null)

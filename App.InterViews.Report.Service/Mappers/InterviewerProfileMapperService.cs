@@ -9,6 +9,8 @@ public class InterviewerProfileMapperService : Profile
     public InterviewerProfileMapperService()
     {
         CreateMap<InterviewerDto, Interviewer>()
-            .ReverseMap();
+         .ForMember(c => c.InterviewInterviewers, opt => opt.Ignore())
+         .ReverseMap()
+         .ForMember(c => c.Interviews, opt => opt.MapFrom(d => d.InterviewInterviewers.Select(f => f.InterView)));
     }
 }

@@ -9,5 +9,6 @@ namespace App.InterViews.Report.Service.Dtos
         public string Email { get; set; }
         public JobPositionType JobPosition { get; set; }
         public Guid InterviewId { get; set; }
+        public ICollection<InterviewDto> Interviews { get; set; }
     }
 }

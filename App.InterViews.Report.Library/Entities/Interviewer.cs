@@ -9,7 +9,8 @@ namespace App.InterViews.Report.Library.Entities
         public string Email { get; set; }
         public JobPositionType JobPosition { get; set; }
         public int? Age { get; set; }
-        public Guid InterviewId { get; set; }
-        public InterView InterView { get; set; }
+        public Guid? CompanyId { get; set; }
+        public Company? Company { get; set; }
+        public ICollection<InterviewInterviewer> InterviewInterviewers { get; set; }
     }
 }

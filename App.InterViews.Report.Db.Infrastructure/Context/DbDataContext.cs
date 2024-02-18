@@ -17,6 +17,7 @@ public class DbDataContext : DbContext
     public DbSet<InterView>? InterViews { get; set; }
     public DbSet<Interviewer>? Interviewers { get; set; }
     public DbSet<UserCompany>? UserCompanies { get; set; }
+    public DbSet<InterviewInterviewer>? InterviewInterviewers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
