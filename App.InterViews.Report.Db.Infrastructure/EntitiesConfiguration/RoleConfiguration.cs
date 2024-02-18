@@ -10,7 +10,6 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
         builder
             .HasMany(c => c.Users)
-            .WithOne(u => u.Role)
-            .OnDelete(DeleteBehavior.Restrict);
+            .WithOne(u => u.Role);
     }
 }

@@ -48,4 +48,21 @@ public class CompanyRepository : RepositoryBase<Company>, ICompanyRepository
 
         return Result.Success<IEnumerable<Company>, ErrorResult>(result);
     }
+
+    public override async Task<Result<Company, ErrorResult>> GetByIdAsync(Guid id)
+    {
+        var result = await _set
+                            .AsNoTracking()
+                            .Include (c => c.UserCompanies)
+                            .ThenInclude(uc => uc.User)
+                            .FirstOrDefaultAsync(entity => entity.Id.Equals(id));
+
+        if (result is null)
+        {
+            Log.Error($"On Get Object By Id {typeof(Company)}, Message Error : item Not found");
+            return Result.Failure<Company, ErrorResult>(ErrorResult.NotFound<Company>());
+        }
+
+        return Result.Success<Company, ErrorResult>(result); ;
+    }
 }

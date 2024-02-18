@@ -1,7 +1,7 @@
 ﻿using App.InterViews.Report.CrossCutting.Helper;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
 using App.InterViews.Report.Library.Entities;
-using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Service.Dtos.Company;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
 using CSharpFunctionalExtensions;
@@ -20,6 +20,16 @@ public class CompanyReportService : BaseReportService<Company, CompanyDto>, ICom
         _iCompanyRepository = iCompanyRepository;
     }
 
+    public async Task<Result<CompanyUserDto, ErrorResult>> GetCompanyByIdAsync(Guid companyId)
+    {
+        var results = await _iCompanyRepository.GetByIdAsync(companyId);
+
+        return results.Map(val =>
+        {
+            return _mapper.Map<CompanyUserDto>(val);
+        });
+    }
+    
     public async Task<Result<IEnumerable<CompanyDto>, ErrorResult>> GetAllCompaniesByUser(Guid userId)
     {
         var results = await _iCompanyRepository.GetAllCompaniesByUserAsync(userId);
@@ -30,13 +40,13 @@ public class CompanyReportService : BaseReportService<Company, CompanyDto>, ICom
         });
     }
 
-    public override async Task<Result<IEnumerable<CompanyDto>, ErrorResult>> GetAll()
+    public async Task<Result<IEnumerable<CompanyUserDto>, ErrorResult>> GetAllCompanies()
     {
         var results = await _iCompanyRepository.GetAllAsync();
 
         return results.Map(val =>
         {
-            return _mapper.Map<IEnumerable<CompanyDto>>(val);
+            return _mapper.Map<IEnumerable<CompanyUserDto>>(val);
         });
     }
 

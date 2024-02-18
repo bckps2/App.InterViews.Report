@@ -1,6 +1,6 @@
 ﻿using App.InterViews.Report.Http;
 using App.InterViews.Report.Models;
-using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Service.Dtos.User;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -24,26 +24,26 @@ public class UserController
     }
 
     [HttpGet("GetUserById/{userId}")]
-    [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(UserCompanyDto), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetUserById(Guid userId)
     {
-        var result = await _iuserReportService.GetById(userId);
+        var result = await _iuserReportService.GetUserByIdAsync(userId);
         return _iAutoMapperHttp.Ok(result);
     }
 
-    [HttpGet("GetAllUsersByCompany/{companyId}")]
+    [HttpGet("GetUsersByCompanyId/{companyId}")]
     [ProducesResponseType(typeof(IEnumerable<UserDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetAllUsersByCompanyId(Guid companyId)
+    public async Task<IActionResult> GetUsersByCompanyId(Guid companyId)
     {
-        var result = await _iuserReportService.GetAllUsersByCompanyId(companyId);
+        var result = await _iuserReportService.GetUsersByCompanyIdAsync(companyId);
         return _iAutoMapperHttp.Ok(result);
     }
 
     [HttpGet("GetAllUsers")]
-    [ProducesResponseType(typeof(IEnumerable<UserDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<UserCompanyDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllUsers()
     {
-        var result = await _iuserReportService.GetAll();
+        var result = await _iuserReportService.GetAllUsers();
         return _iAutoMapperHttp.Ok(result);
     }
 
