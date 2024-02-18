@@ -66,10 +66,10 @@ public class UserController
     }
 
     [HttpDelete("DeleteUser/{userId}")]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteUser(Guid userId)
     {
         var result = await _iuserReportService.Delete(userId);
-        return _iAutoMapperHttp.Ok(result);
+        return _iAutoMapperHttp.NoContent(result);
     }
 }
