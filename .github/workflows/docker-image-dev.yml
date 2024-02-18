@@ -6,7 +6,7 @@ on:
       - dev
 
 jobs:
-  build_and_publish:
+  build_and_publish_dev:
     runs-on: ubuntu-latest
     environment: Dev
     steps:
