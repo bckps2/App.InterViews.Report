@@ -11,5 +11,6 @@ namespace App.InterViews.Report.Library.Entities
         public InterviewType TypeInterView { get; set; }
         public Guid IdProcess { get; set; }
         public Process? Process { get; set; }
+        public ICollection<Interviewer> Interviewers { get; set; }
     }
 }
