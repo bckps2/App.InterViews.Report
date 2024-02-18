@@ -32,7 +32,10 @@ jobs:
     # Build Application
     - name: Build
       id: build_step
-      run: dotnet build --configuration Release echo "build_id=$BUILD_ID" >> $GITHUB_ENV
+      run: dotnet build --configuration Release
+      
+    - name: Exportar variable de entorno
+      run: echo "build_id=$BUILD_ID" >> $GITHUB_ENV
 
     # Run Unit Test
     - name: Test
