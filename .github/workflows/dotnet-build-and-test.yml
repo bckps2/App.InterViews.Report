@@ -32,7 +32,7 @@ jobs:
     # Build Application
     - name: Build
       id: build_step
-      run: dotnet build --configuration Release echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+      run: dotnet build --configuration Release echo "build_id=$BUILD_ID" >> $GITHUB_ENV
 
     # Run Unit Test
     - name: Test
