@@ -22,46 +22,70 @@ public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : Bas
 
     public virtual async Task<Result<TEntry, ErrorResult>> GetByIdAsync(Guid id)
     {
-        var result = await _set
-                            .AsNoTracking()
-                            .FirstOrDefaultAsync(entity => entity.Id.Equals(id));
-
-        if (result is null)
+        try
         {
-            Log.Error($"On Get Object By Id {typeof(TEntry)}, Message Error : item Not found");
-            return Result.Failure<TEntry, ErrorResult>(ErrorResult.NotFound<TEntry>());
-        }
+            var result = await _set
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(entity => entity.Id.Equals(id));
 
-        return Result.Success<TEntry, ErrorResult>(result); ;
+            if (result is null)
+            {
+                Log.Error($"On Get Object By Id {typeof(TEntry)}, Message Error : item Not found");
+                return Result.Failure<TEntry, ErrorResult>(ErrorResult.NotFound<TEntry>());
+            }
+
+            return Result.Success<TEntry, ErrorResult>(result);
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"On update Object {typeof(TEntry)}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
+            return Result.Failure<TEntry, ErrorResult>(ErrorResult.Exception<TEntry>(ex.Message));
+        }
     }
 
     public virtual async Task<Result<IEnumerable<TEntry>, ErrorResult>> GetAllAsync()
     {
-        var result = await _set
-            .AsNoTracking()
-            .AsSplitQuery()
-            .ToListAsync();
-
-        if (result is null || !result.Any())
+        try
         {
-            Log.Error($"On Get All Objects {typeof(TEntry)}, Message Error : items Not found");
-            return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.NotFound<TEntry>());
-        }
+            var result = await _set
+               .AsNoTracking()
+               .AsSplitQuery()
+               .ToListAsync();
 
-        return Result.Success<IEnumerable<TEntry>, ErrorResult>(result);
+            if (result is null || !result.Any())
+            {
+                Log.Error($"On Get All Objects {typeof(TEntry)}, Message Error : items Not found");
+                return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.NotFound<TEntry>());
+            }
+
+            return Result.Success<IEnumerable<TEntry>, ErrorResult>(result);
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"On Add Object {typeof(TEntry)}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
+            return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.Exception<TEntry>($"{ex.Message}, {ex.InnerException?.Message}"));
+        }
     }
 
     public virtual async Task<Result<IEnumerable<TEntry>, ErrorResult>> GetEntitiesByFilter(Expression<Func<TEntry, bool>> expression)
     {
-        var result = await _set.Where(expression).ToListAsync();
-
-        if (result is null || !result.Any())
+        try
         {
-            Log.Error($"On Get {typeof(TEntry)} filter, Message Error : items Not found");
-            return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.NotFound<TEntry>());
-        }
+            var result = await _set.Where(expression).ToListAsync();
 
-        return Result.Success<IEnumerable<TEntry>, ErrorResult>(result);
+            if (result is null || !result.Any())
+            {
+                Log.Error($"On Get {typeof(TEntry)} filter, Message Error : items Not found");
+                return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.NotFound<TEntry>());
+            }
+
+            return Result.Success<IEnumerable<TEntry>, ErrorResult>(result);
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"On Add Object {typeof(TEntry)}, Message Error : {ex.Message}, Stacktrace: {ex.InnerException}");
+            return Result.Failure<IEnumerable<TEntry>, ErrorResult>(ErrorResult.Exception<TEntry>($"{ex.Message}, {ex.InnerException?.Message}"));
+        }
     }
 
     public virtual Result<TEntry, ErrorResult> Update(TEntry item)
@@ -117,14 +141,21 @@ public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : Bas
 
     private async Task<Result<TEntry, ErrorResult>> GetByIdAsyncAtached(Guid id)
     {
-        var result = await _set.FirstOrDefaultAsync(entity => entity.Id.Equals(id));
-
-        if (result is null)
+        try
         {
-            Log.Error($"On Get Object By Id {typeof(TEntry)}, Message Error : item Not found");
-            return Result.Failure<TEntry, ErrorResult>(ErrorResult.NotFound<TEntry>());
-        }
+            var result = await _set.FirstOrDefaultAsync(entity => entity.Id.Equals(id));
 
-        return Result.Success<TEntry, ErrorResult>(result); ;
+            if (result is null)
+            {
+                Log.Error($"On Get Object By Id {typeof(TEntry)}, Message Error : item Not found");
+                return Result.Failure<TEntry, ErrorResult>(ErrorResult.NotFound<TEntry>());
+            }
+
+            return Result.Success<TEntry, ErrorResult>(result); ;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 }

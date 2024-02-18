@@ -59,7 +59,7 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements
             });
         }
 
-        public async Task<Result<TOut, ErrorResult>> Update(TOut dto)
+        public virtual async Task<Result<TOut, ErrorResult>> Update(TOut dto)
         {
             var value = await _iRepository.GetByIdAsync(dto.Id);
 

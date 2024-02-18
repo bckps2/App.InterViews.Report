@@ -1,13 +1,14 @@
 ﻿using App.InterViews.Report.CrossCutting.Enums;
 
-namespace App.InterViews.Report.Service.Dtos
+namespace App.InterViews.Report.Models.Interviewer
 {
-    public class InterviewerDto : BaseDto
+    public class InterviewerModel
     {
         public string Name { get; set; }
         public string Surnames { get; set; }
         public string Email { get; set; }
-        public JobPositionType JobPosition { get; set; }
+        public int? Age { get; set; }
         public Guid InterviewId { get; set; }
+        public JobPositionType JobPosition { get; set; }
     }
 }

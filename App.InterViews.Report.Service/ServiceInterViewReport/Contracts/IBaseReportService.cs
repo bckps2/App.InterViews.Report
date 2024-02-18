@@ -9,4 +9,5 @@ public interface IBaseReportService<TOut>
     Task<Result<TOut, ErrorResult>> GetById(Guid id);
     Task<Result<TOut, ErrorResult>> Add(TOut dto);
     Task<Result<TOut, ErrorResult>> Delete(Guid id);
+    Task<Result<TOut, ErrorResult>> Update(TOut dto);
 }
