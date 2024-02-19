@@ -8,7 +8,8 @@ namespace App.InterViews.Report.Service.Dtos
         public string Surnames { get; set; }
         public string Email { get; set; }
         public JobPositionType JobPosition { get; set; }
-        public Guid InterviewId { get; set; }
+        public Guid CompanyId { get; set; }
+        public int? Age { get; set; }
         public ICollection<InterviewDto> Interviews { get; set; }
     }
 }

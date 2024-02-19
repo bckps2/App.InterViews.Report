@@ -1,4 +1,5 @@
 ﻿using App.InterViews.Report.Models;
+using App.InterViews.Report.Models.Interview;
 using App.InterViews.Report.Models.Interviewer;
 using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Service.Dtos.Company;
@@ -21,6 +22,7 @@ public class ProfilesMapper : Profile
     private void MapperInterview()
     {
         CreateMap<InterviewDto, InterviewModel>().ReverseMap();
+        CreateMap<InterviewDto, InterviewUpdateModel>().ReverseMap();
     }
 
     private void MapperCompany()

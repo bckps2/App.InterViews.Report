@@ -1,5 +1,5 @@
 ﻿using App.InterViews.Report.Http;
-using App.InterViews.Report.Models;
+using App.InterViews.Report.Models.Interview;
 using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
@@ -58,7 +58,7 @@ public class InterviewController
 
     [HttpPut("UpdateInterview")]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> UpdateInterview(InterviewModel interviewModel)
+    public async Task<IActionResult> UpdateInterview(InterviewUpdateModel interviewModel)
     {
         var interview = _mapper.Map<InterviewDto>(interviewModel);
         var result = await _iInterviewService.Update(interview);

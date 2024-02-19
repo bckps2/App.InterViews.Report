@@ -8,7 +8,7 @@ namespace App.InterViews.Report.Models.Interviewer
         public string Surnames { get; set; }
         public string Email { get; set; }
         public int? Age { get; set; }
-        public Guid InterviewId { get; set; }
+        public Guid CompanyId { get; set; }
         public JobPositionType JobPosition { get; set; }
     }
 }

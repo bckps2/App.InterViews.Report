@@ -12,5 +12,9 @@ public class InterviewerConfiguration : IEntityTypeConfiguration<Interviewer>
             .HasOne(interviewer => interviewer.Company)
             .WithMany(company => company.Interviewers)
             .HasForeignKey(interviewer => interviewer.CompanyId);
+
+        builder
+          .HasIndex(interviewer => new { interviewer.Email })
+          .IsUnique();
     }
 }

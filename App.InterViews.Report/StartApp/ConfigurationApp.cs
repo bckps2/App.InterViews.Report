@@ -2,6 +2,7 @@
 using App.InterViews.Report.Db.Infrastructure.Ioc;
 using App.InterViews.Report.Http;
 using App.InterViews.Report.Models;
+using App.InterViews.Report.Models.Interview;
 using App.InterViews.Report.Service.Ioc;
 using App.InterViews.Report.Validations;
 using FluentValidation;
