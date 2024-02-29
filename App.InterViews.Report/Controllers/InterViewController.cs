@@ -1,6 +1,6 @@
 ﻿using App.InterViews.Report.Http;
 using App.InterViews.Report.Models.Interview;
-using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Service.Dtos.Interview;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -24,15 +24,15 @@ public class InterviewController
     }
 
     [HttpGet("GetInterviews")]
-    [ProducesResponseType(typeof(IEnumerable<InterviewDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<InterviewInterviewerDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetInterviews()
     {
-        var result = await _iInterviewService.GetAll();
+        var result = await _iInterviewService.GetAllInterviewsAsync();
         return _iAutoMapperHttp.Ok(result);
     }
 
     [HttpGet("GetByIdProcess/{idProcess}")]
-    [ProducesResponseType(typeof(IEnumerable<InterviewDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<InterviewInterviewerDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetByIdProcess(Guid idProcess)
     {
         var result = await _iInterviewService.GetAllByIdProcess(idProcess);
@@ -43,7 +43,7 @@ public class InterviewController
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetInterviewById(Guid idInterview)
     {
-        var result = await _iInterviewService.GetById(idInterview);
+        var result = await _iInterviewService.GetInterviewByIdAsync(idInterview);
         return _iAutoMapperHttp.Ok(result);
     }
 

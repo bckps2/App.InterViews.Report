@@ -3,6 +3,8 @@ using App.InterViews.Report.Models.Interview;
 using App.InterViews.Report.Models.Interviewer;
 using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Service.Dtos.Company;
+using App.InterViews.Report.Service.Dtos.Interview;
+using App.InterViews.Report.Service.Dtos.Interviewer;
 using App.InterViews.Report.Service.Dtos.User;
 using AutoMapper;
 

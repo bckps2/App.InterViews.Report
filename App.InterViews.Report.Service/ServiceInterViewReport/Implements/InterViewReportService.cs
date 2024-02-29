@@ -1,7 +1,7 @@
 ﻿using App.InterViews.Report.CrossCutting.Helper;
 using App.InterViews.Report.Db.Infrastructure.Contracts;
 using App.InterViews.Report.Library.Entities;
-using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Service.Dtos.Interview;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
 using CSharpFunctionalExtensions;
@@ -10,32 +10,30 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
 public class InterViewReportService : BaseReportService<InterView, InterviewDto>, IInterViewReportService
 {
-    private readonly IRepositoryBase<Interviewer> _interviewerRepository;
-    private readonly IRepositoryBase<InterviewInterviewer> _interviewInterviewerRepository;
+    private readonly IInterviewRepository _interviewRepository;
 
-    public InterViewReportService(IMapper mapper,
-        IRepositoryBase<Interviewer> interviewerRepository,
-        IInterviewRepository interviewRepository,
-        IRepositoryBase<InterviewInterviewer> interviewInterviewerRepository
-        ) : base(interviewRepository, mapper)
+    public InterViewReportService(IMapper mapper,IInterviewRepository interviewRepository) : base(interviewRepository, mapper)
     {
-        _interviewerRepository = interviewerRepository;
-        _interviewInterviewerRepository = interviewInterviewerRepository;
+        _interviewRepository = interviewRepository;
+    }
+
+    public async Task<Result<IEnumerable<InterviewDto>, ErrorResult>> GetAllInterviewsAsync() 
+    {
+        var results = await _iRepository.GetAllAsync();
+
+        return results.Map(value =>
+        {
+            return _mapper.Map<IEnumerable<InterviewDto>>(value);
+        });
     }
 
     public override async Task<Result<InterviewDto, ErrorResult>> Add(InterviewDto interviewDto)
     {
-        var (interviewers, interviewInterviewers) = await GetInterviewersAsync(interviewDto);
-
-        interviewDto.Interviewers = interviewers;
-        
         var interview = _mapper.Map<InterView>(interviewDto);
         var interviewEntity = await _iRepository.AddAsync(interview);
 
         if (interviewEntity.IsFailure)
             return interviewEntity.Error;
-
-        await SaveInterviewInterviewersAsync(interviewInterviewers, interviewEntity.Value.Id);
 
         return interviewEntity.Map(value =>
         {
@@ -43,47 +41,23 @@ public class InterViewReportService : BaseReportService<InterView, InterviewDto>
         });
     }
 
-    public async Task<Result<IEnumerable<InterviewDto>, ErrorResult>> GetAllByIdProcess(Guid idProcess)
+    public async Task<Result<IEnumerable<InterviewInterviewerDto>, ErrorResult>> GetAllByIdProcess(Guid idProcess)
     {
-        var interviews = await _iRepository.GetEntitiesByFilter(interview => interview.IdProcess == idProcess);
-
-        if (interviews.IsFailure)
-            return interviews.Error;
-
+        var interviews = await _interviewRepository.GetAllByIdProcessAsync(idProcess);
+        
         return interviews.Map(value =>
         {
-            return _mapper.Map<IEnumerable<InterviewDto>>(value);
+            return _mapper.Map<IEnumerable<InterviewInterviewerDto>>(value);
         });
     }
-
-    private async Task<(List<InterviewerDto>, List<InterviewInterviewer>)> GetInterviewersAsync(InterviewDto interviewDto) 
+    
+    public async Task<Result<InterviewInterviewerDto, ErrorResult>> GetInterviewByIdAsync(Guid interviewId)
     {
-        var interviewers = new List<InterviewerDto>();
-        var interviewInterviewers = new List<InterviewInterviewer>();
-
-        if (interviewDto.Interviewers != null && interviewDto.Interviewers.Any()) 
+        var interviews = await _interviewRepository.GetByIdAsync(interviewId);
+        
+        return interviews.Map(value =>
         {
-            foreach (var interviewer in interviewDto.Interviewers)
-            {
-                var interviewerEntity = await _interviewerRepository
-                     .GetEntitiesByFilter(c => c.Email.Equals(interviewer.Email));
-
-                if (interviewerEntity.IsFailure)
-                    interviewers.Add(interviewer);
-                else
-                    interviewInterviewers.Add(new InterviewInterviewer { Interviewer = interviewerEntity.Value.FirstOrDefault()! });
-            }
-        }
-
-        return (interviewers, interviewInterviewers);
-    }
-
-    private async Task SaveInterviewInterviewersAsync(List<InterviewInterviewer> interviewInterviewers, Guid interviewId) 
-    {
-        foreach (var item in interviewInterviewers)
-        {
-            item.InterviewId = interviewId;
-            await _interviewInterviewerRepository.AddAsync(item);
-        }
+            return _mapper.Map<InterviewInterviewerDto>(value);
+        });
     }
 }

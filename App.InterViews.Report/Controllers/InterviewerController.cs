@@ -1,6 +1,6 @@
 ﻿using App.InterViews.Report.Http;
 using App.InterViews.Report.Models.Interviewer;
-using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Service.Dtos.Interviewer;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +41,7 @@ namespace App.InterViews.Report.Controllers
             return _iAutoMapperHttp.Ok(result);
         }
 
-        [HttpDelete("DeleteInterview/{idInterview}")]
+        [HttpDelete("DeleteInterview/{interviewerId}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> DeleteInterview(Guid interviewerId)
         {

@@ -1,8 +1,8 @@
 ﻿using App.InterViews.Report.CrossCutting.Enums;
 
-namespace App.InterViews.Report.Service.Dtos
+namespace App.InterViews.Report.Service.Dtos.Interviewer
 {
-    public class InterviewerDto : BaseDto
+    public class InterviewerInterviewDto
     {
         public string Name { get; set; }
         public string Surnames { get; set; }
@@ -10,6 +10,6 @@ namespace App.InterViews.Report.Service.Dtos
         public JobPositionType JobPosition { get; set; }
         public Guid CompanyId { get; set; }
         public int? Age { get; set; }
-        public ICollection<InterviewDto> Interviews { get; set; }
+        public ICollection<Guid> InterviewsId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using App.InterViews.Report.Service.Dtos.Interview;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace App.InterViews.Report.Service.Dtos;

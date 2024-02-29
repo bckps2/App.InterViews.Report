@@ -21,7 +21,7 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements
 
         public virtual async Task<Result<TOut, ErrorResult>> Add(TOut dto)
         {
-            var entity = _mapper.Map<Entity>(dto); 
+            var entity = _mapper.Map<Entity>(dto);
             var result = await _iRepository.AddAsync(entity);
 
             return result.Map(val =>

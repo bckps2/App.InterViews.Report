@@ -1,4 +1,5 @@
 ﻿using App.InterViews.Report.CrossCutting.Enums;
+using App.InterViews.Report.Models.Interview;
 
 namespace App.InterViews.Report.Models.Interviewer
 {
@@ -9,6 +10,7 @@ namespace App.InterViews.Report.Models.Interviewer
         public string Email { get; set; }
         public int? Age { get; set; }
         public Guid CompanyId { get; set; }
+        public ICollection<Guid> InterviewsId { get; set; }
         public JobPositionType JobPosition { get; set; }
     }
 }

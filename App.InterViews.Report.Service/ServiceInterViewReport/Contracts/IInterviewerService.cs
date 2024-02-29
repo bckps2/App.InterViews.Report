@@ -1,4 +1,4 @@
-﻿using App.InterViews.Report.Service.Dtos;
+﻿using App.InterViews.Report.Service.Dtos.Interviewer;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
