@@ -8,7 +8,7 @@ using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
-public class InterViewReportService : BaseReportService<InterView, InterviewDto>, IInterViewReportService
+public class InterViewReportService : BaseReportService<Interview, InterviewDto>, IInterViewReportService
 {
     private readonly IInterviewRepository _interviewRepository;
 
@@ -52,7 +52,7 @@ public class InterViewReportService : BaseReportService<InterView, InterviewDto>
     #region Modify Entities
     public override async Task<Result<InterviewDto, ErrorResult>> AddAsync(InterviewDto interviewDto)
     {
-        var interview = _mapper.Map<InterView>(interviewDto);
+        var interview = _mapper.Map<Interview>(interviewDto);
         var interviewEntity = await _iRepository.AddAsync(interview);
 
         if (interviewEntity.IsFailure)

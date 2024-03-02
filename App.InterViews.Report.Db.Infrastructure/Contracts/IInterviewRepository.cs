@@ -4,7 +4,7 @@ using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Db.Infrastructure.Contracts;
 
-public interface IInterviewRepository : IRepositoryBase<InterView>
+public interface IInterviewRepository : IRepositoryBase<Interview>
 {
-    Task<Result<IEnumerable<InterView>, ErrorResult>> GetAllByIdProcessAsync(Guid processId);
+    Task<Result<IEnumerable<Interview>, ErrorResult>> GetAllByIdProcessAsync(Guid processId);
 }

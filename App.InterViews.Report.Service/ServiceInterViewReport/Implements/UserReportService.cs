@@ -21,7 +21,7 @@ public class UserReportService : BaseReportService<User, UserDto>, IUserReportSe
 
     new public async Task<Result<IEnumerable<UserCompanyDto>, ErrorResult>> GetAllAsync()
     {
-        var results = await _iUserRepository.GetAllAsync();
+        var results = await _iRepository.GetAllAsync();
 
         return results.Map(val =>
         {

@@ -12,7 +12,7 @@ public class InterviewInterviewerConfiguration : IEntityTypeConfiguration<Interv
             .HasKey(x => new { x.InterviewId, x.InterviewerId });
 
         builder
-            .HasOne(ii => ii.InterView)
+            .HasOne(ii => ii.Interview)
             .WithMany(i => i.InterviewInterviewers)
             .HasForeignKey(i => i.InterviewId);
 
