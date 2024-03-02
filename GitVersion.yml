@@ -11,7 +11,8 @@ branches:
   feature/.*:
     mode: ContinuousDeployment
     tag: alpha
-    increment: None   # Do not increment for commits on feature branches
+    increment: None  # Do not increment for commits on feature branches
+    regex: feature/.*
 ignore:
   sha: []
   
