@@ -13,7 +13,7 @@ branches:
     tag: alpha
     increment: None  # Do not increment for commits on feature branches
     regex: feature/.*
-     source-branches:    # Define the source branches for feature branches
+    source-branches:    # Define the source branches for feature branches
       - develop
 ignore:
   sha: []
