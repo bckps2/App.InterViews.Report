@@ -14,13 +14,13 @@ public class CompanyRepository : RepositoryBase<Company>, ICompanyRepository
     {
     }
 
-    public async Task<Result<IEnumerable<Company>, ErrorResult>> GetAllCompaniesByUserAsync(Guid userId)
+    public async Task<Result<IEnumerable<Company>, ErrorResult>> GetAllByUserIdAsync(Guid userId)
     {
-        var result = await _context.Companies
-                                .AsNoTracking()
-                                .AsSplitQuery()
-                                .Where(c => c.Id.Equals(c.UserCompanies.FirstOrDefault(uc => uc.UserId == userId).CompanyId))
-                                .ToListAsync();
+        var result = await _set
+                            .AsNoTracking()
+                            .AsSplitQuery()
+                            .Where(c => c.Id.Equals(c.UserCompanies.FirstOrDefault(uc => uc.UserId == userId).CompanyId))
+                            .ToListAsync();
 
         if (result is null || !result.Any())
         {
@@ -33,12 +33,12 @@ public class CompanyRepository : RepositoryBase<Company>, ICompanyRepository
 
     public override async Task<Result<IEnumerable<Company>, ErrorResult>> GetAllAsync()
     {
-        var result = await _context.Companies
-                                .AsNoTracking()
-                                .AsSplitQuery()
-                                .Include(c => c.UserCompanies)
-                                .ThenInclude(uc => uc.User)
-                                .ToListAsync();
+        var result = await _set
+                            .AsNoTracking()
+                            .AsSplitQuery()
+                            .Include(c => c.UserCompanies)
+                            .ThenInclude(uc => uc.User)
+                            .ToListAsync();
 
         if (result is null || !result.Any())
         {
@@ -63,6 +63,6 @@ public class CompanyRepository : RepositoryBase<Company>, ICompanyRepository
             return Result.Failure<Company, ErrorResult>(ErrorResult.NotFound<Company>());
         }
 
-        return Result.Success<Company, ErrorResult>(result); ;
+        return Result.Success<Company, ErrorResult>(result);
     }
 }

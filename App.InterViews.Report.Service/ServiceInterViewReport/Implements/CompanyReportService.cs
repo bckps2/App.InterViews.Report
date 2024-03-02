@@ -20,27 +20,7 @@ public class CompanyReportService : BaseReportService<Company, CompanyDto>, ICom
         _iCompanyRepository = iCompanyRepository;
     }
 
-    public async Task<Result<CompanyUserDto, ErrorResult>> GetCompanyByIdAsync(Guid companyId)
-    {
-        var results = await _iCompanyRepository.GetByIdAsync(companyId);
-
-        return results.Map(val =>
-        {
-            return _mapper.Map<CompanyUserDto>(val);
-        });
-    }
-    
-    public async Task<Result<IEnumerable<CompanyDto>, ErrorResult>> GetAllCompaniesByUser(Guid userId)
-    {
-        var results = await _iCompanyRepository.GetAllCompaniesByUserAsync(userId);
-
-        return results.Map(val =>
-        {
-            return _mapper.Map<IEnumerable<CompanyDto>>(val);
-        });
-    }
-
-    public async Task<Result<IEnumerable<CompanyUserDto>, ErrorResult>> GetAllCompanies()
+    new public async Task<Result<IEnumerable<CompanyUserDto>, ErrorResult>> GetAllAsync()
     {
         var results = await _iCompanyRepository.GetAllAsync();
 
@@ -50,7 +30,27 @@ public class CompanyReportService : BaseReportService<Company, CompanyDto>, ICom
         });
     }
 
-    public override async Task<Result<CompanyDto, ErrorResult>> Add(CompanyDto dto)
+    new public async Task<Result<CompanyUserDto, ErrorResult>> GetByIdAsync(Guid companyId)
+    {
+        var results = await _iCompanyRepository.GetByIdAsync(companyId);
+
+        return results.Map(val =>
+        {
+            return _mapper.Map<CompanyUserDto>(val);
+        });
+    }
+    
+    public async Task<Result<IEnumerable<CompanyDto>, ErrorResult>> GetAllByUserId(Guid userId)
+    {
+        var results = await _iCompanyRepository.GetAllByUserIdAsync(userId);
+
+        return results.Map(val =>
+        {
+            return _mapper.Map<IEnumerable<CompanyDto>>(val);
+        });
+    }
+
+    public override async Task<Result<CompanyDto, ErrorResult>> AddAsync(CompanyDto dto)
     {
         var company = _mapper.Map<Company>(dto);
         var user = await _iuserRepository.GetByIdAsync(dto.UserId ?? Guid.Empty);
@@ -62,7 +62,7 @@ public class CompanyReportService : BaseReportService<Company, CompanyDto>, ICom
 
         return result.Map(val =>
         {
-            return _mapper.Map<CompanyDto>(val);
+            return _mapper.Map<CompanyDto>(val); 
         });
     }
 }

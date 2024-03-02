@@ -15,13 +15,13 @@ public class UserRepository : RepositoryBase<User>, IUserRepository
     {
     }
 
-    public async Task<Result<IEnumerable<User>, ErrorResult>> GetUsersByCompanyIdAsync(Guid companyId)
+    public async Task<Result<IEnumerable<User>, ErrorResult>> GetAllByCompanyIdAsync(Guid companyId)
     {
-        var result = await _context.Users
-                                .AsNoTracking()
-                                .AsSplitQuery()
-                                .Where(c => c.Id.Equals(c.UserCompanies.FirstOrDefault(uc => uc.CompanyId == companyId).UserId))
-                                .ToListAsync();
+        var result = await _set
+                            .AsNoTracking()
+                            .AsSplitQuery()
+                            .Where(c => c.Id.Equals(c.UserCompanies.FirstOrDefault(uc => uc.CompanyId == companyId).UserId))
+                            .ToListAsync();
 
         if (result is null || !result.Any())
         {
@@ -51,13 +51,13 @@ public class UserRepository : RepositoryBase<User>, IUserRepository
 
     public override async Task<Result<IEnumerable<User>, ErrorResult>> GetAllAsync()
     {
-        var result = await _context.Users
-                                .AsNoTracking()
-                                .AsSplitQuery()
-                                .Include(c => c.UserCompanies)
-                                .ThenInclude(u => u.Company)
-                                .Include(u => u.Role)
-                                .ToListAsync();
+        var result = await _set
+                            .AsNoTracking()
+                            .AsSplitQuery()
+                            .Include(c => c.UserCompanies)
+                            .ThenInclude(u => u.Company)
+                            .Include(u => u.Role)
+                            .ToListAsync();
 
         if (result is null || !result.Any())
         {

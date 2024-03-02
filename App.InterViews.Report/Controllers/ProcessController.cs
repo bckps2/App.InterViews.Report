@@ -23,36 +23,44 @@ public class ProcessController
         _iAutoMapperHttp = iAutoMapperHttp;
     }
 
-    [HttpGet("GetAllProcess")]
-    [ProducesResponseType(typeof(IEnumerable<ProcessDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetAllProcess()
+    [HttpGet("All")]
+    [ProducesResponseType(typeof(ProcessDto), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetByIdAsync(Guid processId)
     {
-        var result = await _iProcessService.GetAll();
+        var result = await _iProcessService.GetByIdAsync(processId);
         return _iAutoMapperHttp.Ok(result);
     }
 
-    [HttpGet("GetProcessesByIdCompany/{idCompany}")]
+    [HttpGet("All")]
     [ProducesResponseType(typeof(IEnumerable<ProcessDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetProcessesByIdCompany(Guid idCompany)
+    public async Task<IActionResult> GetAllAsync()
     {
-        var result = await _iProcessService.GetProcessesByIdCompany(idCompany);
+        var result = await _iProcessService.GetAllAsync();
         return _iAutoMapperHttp.Ok(result);
     }
 
-    [HttpPost("AddProcess")]
+    [HttpGet("companyId/{companyId}")]
+    [ProducesResponseType(typeof(IEnumerable<ProcessDto>), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetAllByCompanyIdAsync(Guid companyId)
+    {
+        var result = await _iProcessService.GetAllByCompanyIdAsync(companyId);
+        return _iAutoMapperHttp.Ok(result);
+    }
+
+    [HttpPost()]
     [ProducesResponseType(typeof(ProcessDto), (int)HttpStatusCode.Created)]
-    public async Task<IActionResult> AddProcess(ProcessModel processModel)
+    public async Task<IActionResult> AddAsync(ProcessModel processModel)
     {
         var process = _mapper.Map<ProcessDto>(processModel);
-        var result = await _iProcessService.Add(process);
+        var result = await _iProcessService.AddAsync(process);
         return _iAutoMapperHttp.Created(result);
     }
 
-    [HttpDelete("DeleteProcess/{idProcess}")]
+    [HttpDelete("{processId}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> DeleteProcess(Guid idProcess)
+    public async Task<IActionResult> DeleteAsync(Guid processId)
     {
-        var result = await _iProcessService.Delete(idProcess);
+        var result = await _iProcessService.DeleteAsync(processId);
         return _iAutoMapperHttp.NoContent(result);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using App.InterViews.Report.Library.Entities;
-using App.InterViews.Report.Service.Dtos;
+using App.InterViews.Report.Service.Dtos.Interview;
 using AutoMapper;
 
 namespace App.InterViews.Report.Service.Mappers;
@@ -9,23 +9,12 @@ public class InterviewProfileMapperService : Profile
     public InterviewProfileMapperService()
     {
         CreateMap<InterviewDto, InterView>()
-         .ForMember(interview => interview.InterViewersName, opt => opt.MapFrom(service => ListToToString(service)))
-         .ReverseMap()
-         .ForMember(service => service.NameInterViewers, opt => opt.MapFrom(interview => SplitNames(interview)))
+         .ForMember(c => c.InterviewInterviewers, opt => opt.Ignore())
          .ReverseMap();
-    }
-
-    private static List<string>? SplitNames(InterView interView)
-    {
-        if (interView.InterViewersName?.Length > 0)
-            return interView.InterViewersName.Split(',').ToList();
-        return default;
-    }
-
-    private static string? ListToToString(InterviewDto serviceInterview)
-    {
-        if (serviceInterview.NameInterViewers != null && serviceInterview.NameInterViewers.Any())
-            return string.Join(',', serviceInterview.NameInterViewers);
-        return default;
+        
+        CreateMap<InterviewInterviewerDto, InterView>()
+         .ForMember(c => c.InterviewInterviewers, opt => opt.Ignore())
+         .ReverseMap()
+         .ForMember(c => c.Interviewers, opt => opt.MapFrom(d => d.InterviewInterviewers.Select(f => f.Interviewer)));
     }
 }

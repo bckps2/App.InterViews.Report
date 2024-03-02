@@ -21,28 +21,28 @@ public class RoleController
         _iRoleReportService = iRoleReportService;
     }
 
-    [HttpGet("GetRoles")]
+    [HttpGet("All")]
     [ProducesResponseType(typeof(IEnumerable<RoleDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetRoles()
+    public async Task<IActionResult> GetAllAsync()
     {
-        var result = await _iRoleReportService.GetAll();
+        var result = await _iRoleReportService.GetAllAsync();
         return _iAutoMapperHttp.Ok(result);
     }
 
-    [HttpPost("AddRole")]
+    [HttpPost()]
     [ProducesResponseType(typeof(RoleDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> AddRole(RoleModel roleModel)
+    public async Task<IActionResult> AddAsync(RoleModel roleModel)
     {
         var role = _mapper.Map<RoleDto>(roleModel);
-        var result = await _iRoleReportService.Add(role);
+        var result = await _iRoleReportService.AddAsync(role);
         return _iAutoMapperHttp.Ok(result);
     }
 
-    [HttpDelete("DeleteRole")]
+    [HttpDelete("{roleId}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> DeleteRole(Guid roleId)
+    public async Task<IActionResult> DeleteAsync(Guid roleId)
     {
-        var result = await _iRoleReportService.Delete(roleId);
+        var result = await _iRoleReportService.DeleteAsync(roleId);
         return _iAutoMapperHttp.NoContent(result);
     }
 }

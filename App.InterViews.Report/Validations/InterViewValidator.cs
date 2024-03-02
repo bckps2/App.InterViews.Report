@@ -1,4 +1,4 @@
-﻿using App.InterViews.Report.Models;
+﻿using App.InterViews.Report.Models.Interview;
 using FluentValidation;
 
 namespace App.InterViews.Report.Validations;
