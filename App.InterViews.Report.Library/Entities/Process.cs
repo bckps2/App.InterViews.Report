@@ -7,5 +7,5 @@ public class Process : BaseEntity
     public string? JobPosition { get; set; }
     public Guid IdCompany { get; set; }
     public Company? Company { get; set; }
-    public IList<InterView>? Interviews { get; set; }
+    public IList<Interview>? Interviews { get; set; }
 }

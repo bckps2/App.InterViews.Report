@@ -8,13 +8,13 @@ using Serilog;
 
 namespace App.InterViews.Report.Db.Infrastructure.Implements;
 
-public class InterviewRepository : RepositoryBase<InterView>, IInterviewRepository
+public class InterviewRepository : RepositoryBase<Interview>, IInterviewRepository
 {
     public InterviewRepository(DbDataContext context) : base(context)
     {
     }
 
-    public override async Task<Result<IEnumerable<InterView>, ErrorResult>> GetAllAsync() 
+    public override async Task<Result<IEnumerable<Interview>, ErrorResult>> GetAllAsync() 
     { 
         var results = await _set
                             .AsNoTracking()
@@ -25,33 +25,33 @@ public class InterviewRepository : RepositoryBase<InterView>, IInterviewReposito
 
         if (results is null)
         {
-            Log.Error($"On Get Object By Id {typeof(InterView)}, Message Error : items Not found");
-            return Result.Failure<IEnumerable<InterView>, ErrorResult>(ErrorResult.NotFound<InterView>());
+            Log.Error($"On Get Object By Id {typeof(Interview)}, Message Error : items Not found");
+            return Result.Failure<IEnumerable<Interview>, ErrorResult>(ErrorResult.NotFound<Interview>());
         }
 
-        return Result.Success<IEnumerable<InterView>, ErrorResult>(results);
+        return Result.Success<IEnumerable<Interview>, ErrorResult>(results);
     }    
     
-    public async Task<Result<IEnumerable<InterView>, ErrorResult>> GetAllByIdProcessAsync(Guid processId)
+    public async Task<Result<IEnumerable<Interview>, ErrorResult>> GetAllByIdProcessAsync(Guid processId)
     { 
         var results = await _set
                             .AsNoTracking()
                             .AsSplitQuery()
                             .Include(c => c.InterviewInterviewers)
                             .ThenInclude(ii => ii.Interviewer)
-                            .Where(interview => interview.IdProcess.Equals(processId))
+                            .Where(interview => interview.ProcessId.Equals(processId))
                             .ToListAsync();
 
         if (results is null)
         {
-            Log.Error($"On Get Object By Id {typeof(InterView)}, Message Error : items Not found");
-            return Result.Failure<IEnumerable<InterView>, ErrorResult>(ErrorResult.NotFound<InterView>());
+            Log.Error($"On Get Object By Id {typeof(Interview)}, Message Error : items Not found");
+            return Result.Failure<IEnumerable<Interview>, ErrorResult>(ErrorResult.NotFound<Interview>());
         }
 
-        return Result.Success<IEnumerable<InterView>, ErrorResult>(results);
+        return Result.Success<IEnumerable<Interview>, ErrorResult>(results);
     }
     
-    public override async Task<Result<InterView, ErrorResult>> GetByIdAsync(Guid interviewId)
+    public override async Task<Result<Interview, ErrorResult>> GetByIdAsync(Guid interviewId)
     {
         var results = await _set
                             .AsNoTracking()
@@ -62,10 +62,10 @@ public class InterviewRepository : RepositoryBase<InterView>, IInterviewReposito
 
         if (results is null)
         {
-            Log.Error($"On Get Object By Id {typeof(InterView)}, Message Error : items Not found");
-            return Result.Failure<InterView, ErrorResult>(ErrorResult.NotFound<InterView>());
+            Log.Error($"On Get Object By Id {typeof(Interview)}, Message Error : items Not found");
+            return Result.Failure<Interview, ErrorResult>(ErrorResult.NotFound<Interview>());
         }
 
-        return Result.Success<InterView, ErrorResult>(results);
+        return Result.Success<Interview, ErrorResult>(results);
     }
 }

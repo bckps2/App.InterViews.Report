@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace App.InterViews.Report.Db.Infrastructure.EntitiesConfiguration;
 
-public class InterviewConfiguration : IEntityTypeConfiguration<InterView>
+public class InterviewConfiguration : IEntityTypeConfiguration<Interview>
 {
-    public void Configure(EntityTypeBuilder<InterView> builder)
+    public void Configure(EntityTypeBuilder<Interview> builder)
     {
         builder
             .HasOne(interview => interview.Process)
             .WithMany(process => process.Interviews)
-            .HasForeignKey(interview => interview.IdProcess);
+            .HasForeignKey(interview => interview.ProcessId);
 
         builder
             .Property(interview => interview.TypeInterView)
