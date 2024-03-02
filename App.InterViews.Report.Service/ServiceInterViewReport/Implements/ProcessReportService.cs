@@ -16,7 +16,7 @@ public class ProcessReportService : BaseReportService<Process, ProcessDto>, IPro
 
     public async Task<Result<IEnumerable<ProcessDto>, ErrorResult>> GetAllByCompanyIdAsync(Guid idCompany)
     {
-        var companies = await _iRepository.GetEntitiesByFilter(c => c.IdCompany == idCompany);
+        var companies = await _iRepository.GetEntitiesByFilter(c => c.CompanyId == idCompany);
 
         return companies.Map(value =>
         {

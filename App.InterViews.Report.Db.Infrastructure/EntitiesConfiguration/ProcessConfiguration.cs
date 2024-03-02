@@ -15,7 +15,7 @@ public class ProcessConfiguration : IEntityTypeConfiguration<Process>
         builder
             .HasOne(p => p.Company)
             .WithMany(c => c.Process)
-            .HasForeignKey(p => p.IdCompany);
+            .HasForeignKey(p => p.CompanyId);
 
         builder
            .Navigation(e => e.Interviews)

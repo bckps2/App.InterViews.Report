@@ -9,7 +9,7 @@ public class InterviewInterviewer : BaseEntity
     }
 
     public Guid? InterviewId { get; set; }
-    public Interview? InterView { get; set; }
+    public Interview? Interview { get; set; }
     public Guid InterviewerId { get; set; }
     public Interviewer Interviewer { get; set; }
 }

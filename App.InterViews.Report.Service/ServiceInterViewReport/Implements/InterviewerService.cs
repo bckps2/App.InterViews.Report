@@ -1,6 +1,5 @@
 ﻿using App.InterViews.Report.Db.Infrastructure.Contracts;
 using App.InterViews.Report.Library.Entities;
-using App.InterViews.Report.Service.Dtos.Company;
 using App.InterViews.Report.Service.Dtos.Interviewer;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
