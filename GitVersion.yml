@@ -3,6 +3,15 @@ branches:
   master:
     mode: ContinuousDeployment
     tag: ''
+    increment: Major
+  develop:
+    mode: ContinuousDeployment
+    tag: ''
     increment: Minor
+  feature/.*:
+    mode: ContinuousDeployment
+    tag: alpha
+    increment: None   # Do not increment for commits on feature branches
 ignore:
   sha: []
+  
