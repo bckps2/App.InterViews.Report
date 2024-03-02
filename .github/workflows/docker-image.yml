@@ -36,7 +36,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        NEW_VERSION=$(echo "${{ steps.version.outputs.version }}" | cut -d'-' -f1)
+        NEW_VERSION=$(echo "${{ steps.version.outputs.SemVer }}" | cut -d'-' -f1)
         git tag $NEW_VERSION -a -m "Version $NEW_VERSION"
         git push origin $NEW_VERSION
         
