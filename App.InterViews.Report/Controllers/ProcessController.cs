@@ -23,7 +23,7 @@ public class ProcessController
         _iAutoMapperHttp = iAutoMapperHttp;
     }
 
-    [HttpGet("All")]
+    [HttpGet("{processId}")]
     [ProducesResponseType(typeof(ProcessDto), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetByIdAsync(Guid processId)
     {
