@@ -6,7 +6,7 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
 public interface IInterViewReportService : IBaseReportService<InterviewDto>
 {
-    Task<Result<IEnumerable<InterviewDto>, ErrorResult>> GetAllInterviewsAsync();
-    Task<Result<InterviewInterviewerDto, ErrorResult>> GetInterviewByIdAsync(Guid interviewId);
-    Task<Result<IEnumerable<InterviewInterviewerDto>, ErrorResult>> GetAllByIdProcess(Guid idProcess);
+    new Task<Result<IEnumerable<InterviewDto>, ErrorResult>> GetAllAsync();
+    new Task<Result<InterviewInterviewerDto, ErrorResult>> GetByIdAsync(Guid interviewId);
+    Task<Result<IEnumerable<InterviewInterviewerDto>, ErrorResult>> GetAllByProcessIdAsync(Guid idProcess);
 }

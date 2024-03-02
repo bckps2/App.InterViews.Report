@@ -6,5 +6,5 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
 public interface IProcessReportService : IBaseReportService<ProcessDto>
 {
-    Task<Result<IEnumerable<ProcessDto>, ErrorResult>> GetProcessesByIdCompany(Guid idCompany);
+    Task<Result<IEnumerable<ProcessDto>, ErrorResult>> GetAllByCompanyIdAsync(Guid idCompany);
 }

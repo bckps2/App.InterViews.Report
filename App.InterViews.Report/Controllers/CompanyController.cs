@@ -23,44 +23,44 @@ public class CompanyController
         _iAutoMapperHttp = iAutoMapperHttp;
     }
 
-    [HttpGet("GetCompanyById/{idCompany}")]
+    [HttpGet("{companyId}")]
     [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetCompanyById(Guid idCompany)
+    public async Task<IActionResult> GetByIdAsync(Guid companyId)
     {
-        var result = await _iServiceCompany.GetCompanyByIdAsync(idCompany);
+        var result = await _iServiceCompany.GetByIdAsync(companyId);
         return _iAutoMapperHttp.Ok(result);
     }
 
-    [HttpGet("GetCompaniesByUserId/{userId}")]
+    [HttpGet("{userId}")]
     [ProducesResponseType(typeof(IEnumerable<CompanyDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetCompaniesByUserId(Guid userId)
+    public async Task<IActionResult> GetAllByUserId(Guid userId)
     {
-        var result = await _iServiceCompany.GetAllCompaniesByUser(userId);
+        var result = await _iServiceCompany.GetAllByUserId(userId);
         return _iAutoMapperHttp.Ok(result);
     }
 
-    [HttpGet("GetAllCompanies")]
+    [HttpGet("All")]
     [ProducesResponseType(typeof(IEnumerable<CompanyUserDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetAllCompanies()
+    public async Task<IActionResult> GetAllAsync()
     {
-        var result = await _iServiceCompany.GetAllCompanies();
+        var result = await _iServiceCompany.GetAllAsync();
         return _iAutoMapperHttp.Ok(result);
     }
 
-    [HttpPost("AddCompany")]
+    [HttpPost()]
     [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.Created)]
-    public async Task<IActionResult> AddCompany(CompanyModel companyModel)
+    public async Task<IActionResult> AddAsync(CompanyModel companyModel)
     {
         var company = _mapper.Map<CompanyDto>(companyModel);
-        var result = await _iServiceCompany.Add(company);
+        var result = await _iServiceCompany.AddAsync(company);
         return _iAutoMapperHttp.Created(result);
     }
 
-    [HttpDelete("DeleteCompany/{idCompany}")]
+    [HttpDelete("{idCompany}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> DeleteCompany(Guid idCompany)
+    public async Task<IActionResult> DeleteAsync(Guid idCompany)
     {
-        var result = await _iServiceCompany.Delete(idCompany);
+        var result = await _iServiceCompany.DeleteAsync(idCompany);
         return _iAutoMapperHttp.NoContent(result);
     }
 }

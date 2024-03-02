@@ -6,8 +6,7 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
 public interface IUserReportService : IBaseReportService<UserDto>
 {
-    Task<Result<UserDto, ErrorResult>> Update(UserDto dto);
-    Task<Result<IEnumerable<UserCompanyDto>, ErrorResult>> GetAllUsers();
-    Task<Result<UserCompanyDto, ErrorResult>> GetUserByIdAsync(Guid userId);
-    Task<Result<IEnumerable<UserDto>, ErrorResult>> GetUsersByCompanyIdAsync(Guid companyId);
+    new Task<Result<UserCompanyDto, ErrorResult>> GetByIdAsync(Guid userId);
+    new Task<Result<IEnumerable<UserCompanyDto>, ErrorResult>> GetAllAsync();
+    Task<Result<IEnumerable<UserDto>, ErrorResult>> GetAllByCompanyIdAsync(Guid companyId);
 }

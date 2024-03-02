@@ -17,7 +17,8 @@ public class InterViewReportService : BaseReportService<InterView, InterviewDto>
         _interviewRepository = interviewRepository;
     }
 
-    public async Task<Result<IEnumerable<InterviewDto>, ErrorResult>> GetAllInterviewsAsync() 
+    #region GETS
+    new public async Task<Result<IEnumerable<InterviewDto>, ErrorResult>> GetAllAsync()
     {
         var results = await _iRepository.GetAllAsync();
 
@@ -27,7 +28,29 @@ public class InterViewReportService : BaseReportService<InterView, InterviewDto>
         });
     }
 
-    public override async Task<Result<InterviewDto, ErrorResult>> Add(InterviewDto interviewDto)
+    new public async Task<Result<InterviewInterviewerDto, ErrorResult>> GetByIdAsync(Guid interviewId)
+    {
+        var interviews = await _iRepository.GetByIdAsync(interviewId);
+
+        return interviews.Map(value =>
+        {
+            return _mapper.Map<InterviewInterviewerDto>(value);
+        });
+    }
+
+    public async Task<Result<IEnumerable<InterviewInterviewerDto>, ErrorResult>> GetAllByProcessIdAsync(Guid idProcess)
+    {
+        var interviews = await _interviewRepository.GetAllByIdProcessAsync(idProcess);
+
+        return interviews.Map(value =>
+        {
+            return _mapper.Map<IEnumerable<InterviewInterviewerDto>>(value);
+        });
+    }
+    #endregion
+
+    #region Modify Entities
+    public override async Task<Result<InterviewDto, ErrorResult>> AddAsync(InterviewDto interviewDto)
     {
         var interview = _mapper.Map<InterView>(interviewDto);
         var interviewEntity = await _iRepository.AddAsync(interview);
@@ -40,24 +63,5 @@ public class InterViewReportService : BaseReportService<InterView, InterviewDto>
             return _mapper.Map<InterviewDto>(value);
         });
     }
-
-    public async Task<Result<IEnumerable<InterviewInterviewerDto>, ErrorResult>> GetAllByIdProcess(Guid idProcess)
-    {
-        var interviews = await _interviewRepository.GetAllByIdProcessAsync(idProcess);
-        
-        return interviews.Map(value =>
-        {
-            return _mapper.Map<IEnumerable<InterviewInterviewerDto>>(value);
-        });
-    }
-    
-    public async Task<Result<InterviewInterviewerDto, ErrorResult>> GetInterviewByIdAsync(Guid interviewId)
-    {
-        var interviews = await _interviewRepository.GetByIdAsync(interviewId);
-        
-        return interviews.Map(value =>
-        {
-            return _mapper.Map<InterviewInterviewerDto>(value);
-        });
-    }
+    #endregion
 }

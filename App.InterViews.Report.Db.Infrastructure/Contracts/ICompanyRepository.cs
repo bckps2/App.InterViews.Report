@@ -6,5 +6,5 @@ namespace App.InterViews.Report.Db.Infrastructure.Contracts;
 
 public interface ICompanyRepository : IRepositoryBase<Company>
 {
-    Task<Result<IEnumerable<Company>, ErrorResult>> GetAllCompaniesByUserAsync(Guid userId);
+    Task<Result<IEnumerable<Company>, ErrorResult>> GetAllByUserIdAsync(Guid userId);
 }

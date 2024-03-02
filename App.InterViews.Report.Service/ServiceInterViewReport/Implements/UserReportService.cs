@@ -19,7 +19,7 @@ public class UserReportService : BaseReportService<User, UserDto>, IUserReportSe
         _iCompanyRepository = iCompanyRepository;
     }
 
-    public async Task<Result<IEnumerable<UserCompanyDto>, ErrorResult>> GetAllUsers()
+    new public async Task<Result<IEnumerable<UserCompanyDto>, ErrorResult>> GetAllAsync()
     {
         var results = await _iUserRepository.GetAllAsync();
 
@@ -28,10 +28,20 @@ public class UserReportService : BaseReportService<User, UserDto>, IUserReportSe
             return _mapper.Map<IEnumerable<UserCompanyDto>>(val);
         });
     }
-    
-    public async Task<Result<IEnumerable<UserDto>, ErrorResult>> GetUsersByCompanyIdAsync(Guid companyId)
+
+    new public async Task<Result<UserCompanyDto, ErrorResult>> GetByIdAsync(Guid userId)
     {
-        var results = await _iUserRepository.GetUsersByCompanyIdAsync(companyId);
+        var result = await _iRepository.GetByIdAsync(userId);
+
+        return result.Map(val =>
+        {
+            return _mapper.Map<UserCompanyDto>(val);
+        });
+    }
+
+    public async Task<Result<IEnumerable<UserDto>, ErrorResult>> GetAllByCompanyIdAsync(Guid companyId)
+    {
+        var results = await _iUserRepository.GetAllByCompanyIdAsync(companyId);
 
         return results.Map(val =>
         {
@@ -39,7 +49,7 @@ public class UserReportService : BaseReportService<User, UserDto>, IUserReportSe
         });
     }
 
-    public override async Task<Result<UserDto, ErrorResult>> Add(UserDto dto)
+    public override async Task<Result<UserDto, ErrorResult>> AddAsync(UserDto dto)
     {
         var user = _mapper.Map<User>(dto);
         var company = await _iCompanyRepository.GetByIdAsync(dto.CompanyId ?? Guid.Empty);
@@ -52,16 +62,6 @@ public class UserReportService : BaseReportService<User, UserDto>, IUserReportSe
         return result.Map(val =>
         {
             return _mapper.Map<UserDto>(val);
-        });
-    }
-
-    public async Task<Result<UserCompanyDto, ErrorResult>> GetUserByIdAsync(Guid userId)
-    {
-        var result = await _iRepository.GetByIdAsync(userId);
-
-        return result.Map(val =>
-        {
-            return _mapper.Map<UserCompanyDto>(val);
         });
     }
 }

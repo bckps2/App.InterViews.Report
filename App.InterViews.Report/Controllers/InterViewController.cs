@@ -23,53 +23,53 @@ public class InterviewController
         _iInterviewService = iInterviewService;
     }
 
-    [HttpGet("GetInterviews")]
+    [HttpGet("All")]
     [ProducesResponseType(typeof(IEnumerable<InterviewInterviewerDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetInterviews()
+    public async Task<IActionResult> GetAllAsync()
     {
-        var result = await _iInterviewService.GetAllInterviewsAsync();
+        var result = await _iInterviewService.GetAllAsync();
         return _iAutoMapperHttp.Ok(result);
     }
 
-    [HttpGet("GetByIdProcess/{idProcess}")]
+    [HttpGet("processId/{processId}")]
     [ProducesResponseType(typeof(IEnumerable<InterviewInterviewerDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetByIdProcess(Guid idProcess)
+    public async Task<IActionResult> GetAllByProcessIdAsync(Guid processId)
     {
-        var result = await _iInterviewService.GetAllByIdProcess(idProcess);
+        var result = await _iInterviewService.GetAllByProcessIdAsync(processId);
         return _iAutoMapperHttp.Ok(result);
     }
 
-    [HttpGet("GetInterviewById/{idInterview}")]
+    [HttpGet("{interviewId}")]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetInterviewById(Guid idInterview)
+    public async Task<IActionResult> GetByIdAsync(Guid interviewId)
     {
-        var result = await _iInterviewService.GetInterviewByIdAsync(idInterview);
+        var result = await _iInterviewService.GetByIdAsync(interviewId);
         return _iAutoMapperHttp.Ok(result);
     }
 
-    [HttpPost("AddInterview")]
+    [HttpPost()]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.Created)]
-    public async Task<IActionResult> AddInterview(InterviewModel interviewModel)
+    public async Task<IActionResult> AddAsync(InterviewModel interviewModel)
     {
         var interview = _mapper.Map<InterviewDto>(interviewModel);
-        var result = await _iInterviewService.Add(interview);
+        var result = await _iInterviewService.AddAsync(interview);
         return _iAutoMapperHttp.Created(result);
     }
 
-    [HttpPut("UpdateInterview")]
+    [HttpPut()]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> UpdateInterview(InterviewUpdateModel interviewModel)
+    public async Task<IActionResult> UpdateAsync(InterviewUpdateModel interviewModel)
     {
         var interview = _mapper.Map<InterviewDto>(interviewModel);
-        var result = await _iInterviewService.Update(interview);
+        var result = await _iInterviewService.UpdateAsync(interview);
         return _iAutoMapperHttp.Ok(result);
     }
 
-    [HttpDelete("DeleteInterview/{idInterview}")]
+    [HttpDelete("{interviewId}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> DeleteInterview(Guid idInterview)
+    public async Task<IActionResult> DeleteAsync(Guid interviewId)
     {
-        var result = await _iInterviewService.Delete(idInterview);
+        var result = await _iInterviewService.DeleteAsync(interviewId);
         return _iAutoMapperHttp.NoContent(result);
     }
 }

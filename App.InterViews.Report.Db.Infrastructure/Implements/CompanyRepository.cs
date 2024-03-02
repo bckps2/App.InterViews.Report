@@ -14,7 +14,7 @@ public class CompanyRepository : RepositoryBase<Company>, ICompanyRepository
     {
     }
 
-    public async Task<Result<IEnumerable<Company>, ErrorResult>> GetAllCompaniesByUserAsync(Guid userId)
+    public async Task<Result<IEnumerable<Company>, ErrorResult>> GetAllByUserIdAsync(Guid userId)
     {
         var result = await _set
                             .AsNoTracking()

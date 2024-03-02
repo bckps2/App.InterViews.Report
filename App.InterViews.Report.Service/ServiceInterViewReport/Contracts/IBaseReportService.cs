@@ -5,9 +5,9 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
 public interface IBaseReportService<TOut>
 {
-    Task<Result<IEnumerable<TOut>, ErrorResult>> GetAll();
-    Task<Result<TOut, ErrorResult>> GetById(Guid id);
-    Task<Result<TOut, ErrorResult>> Add(TOut dto);
-    Task<Result<TOut, ErrorResult>> Delete(Guid id);
-    Task<Result<TOut, ErrorResult>> Update(TOut dto);
+    Task<Result<IEnumerable<TOut>, ErrorResult>> GetAllAsync();
+    Task<Result<TOut, ErrorResult>> GetByIdAsync(Guid id);
+    Task<Result<TOut, ErrorResult>> AddAsync(TOut dto);
+    Task<Result<TOut, ErrorResult>> DeleteAsync(Guid id);
+    Task<Result<TOut, ErrorResult>> UpdateAsync(TOut dto);
 }

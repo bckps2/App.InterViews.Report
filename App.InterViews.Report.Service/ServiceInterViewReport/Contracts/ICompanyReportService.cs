@@ -6,7 +6,7 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 
 public interface ICompanyReportService : IBaseReportService<CompanyDto>
 {
-    Task<Result<IEnumerable<CompanyUserDto>, ErrorResult>> GetAllCompanies();
-    Task<Result<CompanyUserDto, ErrorResult>> GetCompanyByIdAsync(Guid companyId);
-    Task<Result<IEnumerable<CompanyDto>, ErrorResult>> GetAllCompaniesByUser(Guid userId);
+    new Task<Result<IEnumerable<CompanyUserDto>, ErrorResult>> GetAllAsync();
+    new Task<Result<CompanyUserDto, ErrorResult>> GetByIdAsync(Guid companyId);
+    Task<Result<IEnumerable<CompanyDto>, ErrorResult>> GetAllByUserId(Guid userId);
 }

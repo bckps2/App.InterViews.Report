@@ -23,29 +23,29 @@ namespace App.InterViews.Report.Controllers
             _interviewerService = interviewerService;
         }
 
-        [HttpPost("AddInterviewer")]
+        [HttpPost()]
         [ProducesResponseType(typeof(InterviewerModel), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> AddInterview(InterviewerModel interviewerModel)
+        public async Task<IActionResult> AddAsync(InterviewerModel interviewerModel)
         {
             var interview = _mapper.Map<InterviewerDto>(interviewerModel);
-            var result = await _interviewerService.Add(interview);
+            var result = await _interviewerService.AddAsync(interview);
             return _iAutoMapperHttp.Created(result);
         }
 
-        [HttpPut("UpdateInterview")]
+        [HttpPut()]
         [ProducesResponseType(typeof(InterviewerModel), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> UpdateInterview(InterviewerUpdateModel interviewModel)
+        public async Task<IActionResult> UpdateAsync(InterviewerUpdateModel interviewModel)
         {
             var interview = _mapper.Map<InterviewerDto>(interviewModel);
-            var result = await _interviewerService.Update(interview);
+            var result = await _interviewerService.UpdateAsync(interview);
             return _iAutoMapperHttp.Ok(result);
         }
 
-        [HttpDelete("DeleteInterview/{interviewerId}")]
+        [HttpDelete("{interviewerId}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> DeleteInterview(Guid interviewerId)
+        public async Task<IActionResult> DeleteAsync(Guid interviewerId)
         {
-            var result = await _interviewerService.Delete(interviewerId);
+            var result = await _interviewerService.DeleteAsync(interviewerId);
             return _iAutoMapperHttp.NoContent(result);
         }
     }

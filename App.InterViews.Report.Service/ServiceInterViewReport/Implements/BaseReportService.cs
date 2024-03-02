@@ -19,7 +19,27 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements
             _iRepository = iRepositoryBase;
         }
 
-        public virtual async Task<Result<TOut, ErrorResult>> Add(TOut dto)
+        public virtual async Task<Result<IEnumerable<TOut>, ErrorResult>> GetAllAsync()
+        {
+            var entities = await _iRepository.GetAllAsync();
+
+            return entities.Map(value =>
+            {
+                return _mapper.Map<IEnumerable<TOut>>(value);
+            });
+        }
+
+        public virtual async Task<Result<TOut, ErrorResult>> GetByIdAsync(Guid id)
+        {
+            var value = await _iRepository.GetByIdAsync(id);
+
+            return value.Map(val =>
+            {
+                return _mapper.Map<TOut>(val);
+            });
+        }
+
+        public virtual async Task<Result<TOut, ErrorResult>> AddAsync(TOut dto)
         {
             var entity = _mapper.Map<Entity>(dto);
             var result = await _iRepository.AddAsync(entity);
@@ -30,7 +50,7 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements
             });
         }
 
-        public virtual async Task<Result<TOut, ErrorResult>> Delete(Guid id)
+        public virtual async Task<Result<TOut, ErrorResult>> DeleteAsync(Guid id)
         {
             var response = await _iRepository.DeleteAsync(id);
 
@@ -40,27 +60,7 @@ namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements
             });
         }
 
-        public virtual async Task<Result<IEnumerable<TOut>, ErrorResult>> GetAll()
-        {
-            var entities = await _iRepository.GetAllAsync();
-
-            return entities.Map(value =>
-            {
-                return _mapper.Map<IEnumerable<TOut>>(value);
-            });
-        }
-
-        public virtual async Task<Result<TOut, ErrorResult>> GetById(Guid id)
-        {
-            var value = await _iRepository.GetByIdAsync(id);
-
-            return value.Map(val =>
-            {
-                return _mapper.Map<TOut>(val);
-            });
-        }
-
-        public virtual async Task<Result<TOut, ErrorResult>> Update(TOut dto)
+        public virtual async Task<Result<TOut, ErrorResult>> UpdateAsync(TOut dto)
         {
             var value = await _iRepository.GetByIdAsync(dto.Id);
 
