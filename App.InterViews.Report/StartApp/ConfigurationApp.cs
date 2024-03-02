@@ -22,14 +22,20 @@ public static class ConfigurationApp
     public static void StartConfiguration(this IServiceCollection services)
     {
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-        services.AddTransient<IValidator<CompanyModel>, CompanyValidator>();
-        services.AddTransient<IValidator<InterviewModel>, InterViewValidator>();
-        services.AddTransient<IValidator<ProcessModel>, ProccesValidator>();
+       
         services.AddScoped<IAutoMapperHttp, AutoMapperHttp>();
         services.InitializeInfrastructure();
         services.InitializeServices();
         ConfgiurationDb(services);
         ConfigurationCors(services);
+        InitializeValidators(services);
+    }
+
+    public static void InitializeValidators(IServiceCollection services)
+    {
+        services.AddTransient<IValidator<CompanyModel>, CompanyValidator>();
+        services.AddTransient<IValidator<InterviewModel>, InterViewValidator>();
+        services.AddTransient<IValidator<ProcessModel>, ProccesValidator>();
     }
 
     public static Logger ConfigurationSerilog()
