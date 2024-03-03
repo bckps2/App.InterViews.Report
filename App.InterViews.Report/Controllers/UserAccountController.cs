@@ -30,7 +30,7 @@ public class UserAccountController
     }
 
     [HttpGet("{userAccountId}")]
-    public async Task<IActionResult> GetByIdAsync([FromQuery] Guid userAccountId)
+    public async Task<IActionResult> GetByIdAsync(Guid userAccountId)
     {
         var result = await _userAccountService.GetByIdAsync(userAccountId);
         return _iAutoMapperHttp.Ok(result);
@@ -55,7 +55,7 @@ public class UserAccountController
     }
     
     [HttpDelete("{userAccountId}")]
-    public async Task<IActionResult> DeleteAsync([FromQuery] Guid userAccountId)
+    public async Task<IActionResult> DeleteAsync(Guid userAccountId)
     {
         var result = await _userAccountService.DeleteAsync(userAccountId);
         return _iAutoMapperHttp.Ok(result);

@@ -42,7 +42,7 @@ public class RoleController
 
     [HttpDelete("{roleId}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> DeleteAsync([FromQuery] Guid roleId)
+    public async Task<IActionResult> DeleteAsync(Guid roleId)
     {
         var result = await _iRoleReportService.DeleteAsync(roleId);
         return _iAutoMapperHttp.NoContent(result);
