@@ -25,7 +25,7 @@ public class CompanyController
 
     [HttpGet("{companyId}")]
     [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetByIdAsync(Guid companyId)
+    public async Task<IActionResult> GetByIdAsync([FromQuery] Guid companyId)
     {
         var result = await _iServiceCompany.GetByIdAsync(companyId);
         return _iAutoMapperHttp.Ok(result);
@@ -33,7 +33,7 @@ public class CompanyController
 
     [HttpGet("{userId}")]
     [ProducesResponseType(typeof(IEnumerable<CompanyDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetAllByUserId(Guid userId)
+    public async Task<IActionResult> GetAllByUserId([FromQuery] Guid userId)
     {
         var result = await _iServiceCompany.GetAllByUserId(userId);
         return _iAutoMapperHttp.Ok(result);
@@ -49,7 +49,7 @@ public class CompanyController
 
     [HttpPost()]
     [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.Created)]
-    public async Task<IActionResult> AddAsync(CompanyModel companyModel)
+    public async Task<IActionResult> AddAsync([FromBody] CompanyModel companyModel)
     {
         var company = _mapper.Map<CompanyDto>(companyModel);
         var result = await _iServiceCompany.AddAsync(company);
@@ -58,7 +58,7 @@ public class CompanyController
 
     [HttpDelete("{idCompany}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> DeleteAsync(Guid idCompany)
+    public async Task<IActionResult> DeleteAsync([FromQuery] Guid idCompany)
     {
         var result = await _iServiceCompany.DeleteAsync(idCompany);
         return _iAutoMapperHttp.NoContent(result);

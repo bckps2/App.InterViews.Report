@@ -33,7 +33,7 @@ public class InterviewController
 
     [HttpGet("processId/{processId}")]
     [ProducesResponseType(typeof(IEnumerable<InterviewInterviewerDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetAllByProcessIdAsync(Guid processId)
+    public async Task<IActionResult> GetAllByProcessIdAsync([FromQuery] Guid processId)
     {
         var result = await _iInterviewService.GetAllByProcessIdAsync(processId);
         return _iAutoMapperHttp.Ok(result);
@@ -41,7 +41,7 @@ public class InterviewController
 
     [HttpGet("{interviewId}")]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetByIdAsync(Guid interviewId)
+    public async Task<IActionResult> GetByIdAsync([FromQuery] Guid interviewId)
     {
         var result = await _iInterviewService.GetByIdAsync(interviewId);
         return _iAutoMapperHttp.Ok(result);
@@ -49,7 +49,7 @@ public class InterviewController
 
     [HttpPost()]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.Created)]
-    public async Task<IActionResult> AddAsync(InterviewModel interviewModel)
+    public async Task<IActionResult> AddAsync([FromBody] InterviewModel interviewModel)
     {
         var interview = _mapper.Map<InterviewDto>(interviewModel);
         var result = await _iInterviewService.AddAsync(interview);
@@ -58,7 +58,7 @@ public class InterviewController
 
     [HttpPut()]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> UpdateAsync(InterviewUpdateModel interviewModel)
+    public async Task<IActionResult> UpdateAsync([FromBody] InterviewUpdateModel interviewModel)
     {
         var interview = _mapper.Map<InterviewDto>(interviewModel);
         var result = await _iInterviewService.UpdateAsync(interview);
@@ -67,7 +67,7 @@ public class InterviewController
 
     [HttpDelete("{interviewId}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> DeleteAsync(Guid interviewId)
+    public async Task<IActionResult> DeleteAsync([FromQuery] Guid interviewId)
     {
         var result = await _iInterviewService.DeleteAsync(interviewId);
         return _iAutoMapperHttp.NoContent(result);

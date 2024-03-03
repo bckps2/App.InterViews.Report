@@ -22,7 +22,7 @@ public static class ConfigurationApp
     public static void StartConfiguration(this IServiceCollection services)
     {
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-       
+        services.AddHttpContextAccessor();
         services.AddScoped<IAutoMapperHttp, AutoMapperHttp>();
         services.InitializeInfrastructure();
         services.InitializeServices();

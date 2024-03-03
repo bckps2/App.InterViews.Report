@@ -25,7 +25,7 @@ public class ProcessController
 
     [HttpGet("{processId}")]
     [ProducesResponseType(typeof(ProcessDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetByIdAsync(Guid processId)
+    public async Task<IActionResult> GetByIdAsync([FromQuery] Guid processId)
     {
         var result = await _iProcessService.GetByIdAsync(processId);
         return _iAutoMapperHttp.Ok(result);
@@ -41,7 +41,7 @@ public class ProcessController
 
     [HttpGet("companyId/{companyId}")]
     [ProducesResponseType(typeof(IEnumerable<ProcessDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetAllByCompanyIdAsync(Guid companyId)
+    public async Task<IActionResult> GetAllByCompanyIdAsync([FromQuery] Guid companyId)
     {
         var result = await _iProcessService.GetAllByCompanyIdAsync(companyId);
         return _iAutoMapperHttp.Ok(result);
@@ -49,7 +49,7 @@ public class ProcessController
 
     [HttpPost()]
     [ProducesResponseType(typeof(ProcessDto), (int)HttpStatusCode.Created)]
-    public async Task<IActionResult> AddAsync(ProcessModel processModel)
+    public async Task<IActionResult> AddAsync([FromBody] ProcessModel processModel)
     {
         var process = _mapper.Map<ProcessDto>(processModel);
         var result = await _iProcessService.AddAsync(process);
@@ -58,7 +58,7 @@ public class ProcessController
 
     [HttpDelete("{processId}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> DeleteAsync(Guid processId)
+    public async Task<IActionResult> DeleteAsync([FromQuery] Guid processId)
     {
         var result = await _iProcessService.DeleteAsync(processId);
         return _iAutoMapperHttp.NoContent(result);

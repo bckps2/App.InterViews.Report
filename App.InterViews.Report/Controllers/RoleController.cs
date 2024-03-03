@@ -8,6 +8,8 @@ using System.Net;
 
 namespace App.InterViews.Report.Controllers;
 
+[Route("api/[controller]")]
+[ApiController]
 public class RoleController
 {
     private readonly IMapper _mapper;
@@ -31,7 +33,7 @@ public class RoleController
 
     [HttpPost()]
     [ProducesResponseType(typeof(RoleDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> AddAsync(RoleModel roleModel)
+    public async Task<IActionResult> AddAsync([FromBody] RoleModel roleModel)
     {
         var role = _mapper.Map<RoleDto>(roleModel);
         var result = await _iRoleReportService.AddAsync(role);
@@ -40,7 +42,7 @@ public class RoleController
 
     [HttpDelete("{roleId}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> DeleteAsync(Guid roleId)
+    public async Task<IActionResult> DeleteAsync([FromQuery] Guid roleId)
     {
         var result = await _iRoleReportService.DeleteAsync(roleId);
         return _iAutoMapperHttp.NoContent(result);
