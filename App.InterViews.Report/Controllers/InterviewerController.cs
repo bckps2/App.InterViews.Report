@@ -43,7 +43,7 @@ namespace App.InterViews.Report.Controllers
 
         [HttpDelete("{interviewerId}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> DeleteAsync([FromQuery] Guid interviewerId)
+        public async Task<IActionResult> DeleteAsync(Guid interviewerId)
         {
             var result = await _interviewerService.DeleteAsync(interviewerId);
             return _iAutoMapperHttp.NoContent(result);

@@ -25,7 +25,7 @@ public class UserController
 
     [HttpGet("{userId}")]
     [ProducesResponseType(typeof(UserCompanyDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetUserById([FromQuery] Guid userId)
+    public async Task<IActionResult> GetUserById(Guid userId)
     {
         var result = await _iuserReportService.GetByIdAsync(userId);
         return _iAutoMapperHttp.Ok(result);
@@ -33,7 +33,7 @@ public class UserController
 
     [HttpGet("CompanyId/{companyId}")]
     [ProducesResponseType(typeof(IEnumerable<UserDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetAllByCompanyIdAsync([FromQuery] Guid companyId)
+    public async Task<IActionResult> GetAllByCompanyIdAsync(Guid companyId)
     {
         var result = await _iuserReportService.GetAllByCompanyIdAsync(companyId);
         return _iAutoMapperHttp.Ok(result);
@@ -67,7 +67,7 @@ public class UserController
 
     [HttpDelete("{userId}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> DeleteAsync([FromQuery] Guid userId)
+    public async Task<IActionResult> DeleteAsync(Guid userId)
     {
         var result = await _iuserReportService.DeleteAsync(userId);
         return _iAutoMapperHttp.NoContent(result);
