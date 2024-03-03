@@ -71,7 +71,10 @@ public class RepositoryBase<TEntry> : IRepositoryBase<TEntry> where TEntry : Bas
     {
         try
         {
-            var result = await _set.Where(expression).ToListAsync();
+            var result = await _set
+                               .AsNoTracking()
+                               .AsSplitQuery()
+                               .Where(expression).ToListAsync();
 
             if (result is null || !result.Any())
             {

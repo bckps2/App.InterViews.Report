@@ -4,12 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace App.InterViews.Report.Db.Infrastructure.EntitiesConfiguration;
 
-public class RoleConfiguration : IEntityTypeConfiguration<Role>
+public class UserInfoConfiguration : IEntityTypeConfiguration<UserInfo>
 {
-    public void Configure(EntityTypeBuilder<Role> builder)
+    public void Configure(EntityTypeBuilder<UserInfo> builder)
     {
-        builder
-            .HasMany(c => c.UsersAccount)
-            .WithOne(u => u.Role);
+       
     }
 }

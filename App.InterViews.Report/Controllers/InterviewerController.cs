@@ -25,7 +25,7 @@ namespace App.InterViews.Report.Controllers
 
         [HttpPost()]
         [ProducesResponseType(typeof(InterviewerModel), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> AddAsync(InterviewerModel interviewerModel)
+        public async Task<IActionResult> AddAsync([FromBody] InterviewerModel interviewerModel)
         {
             var interview = _mapper.Map<InterviewerDto>(interviewerModel);
             var result = await _interviewerService.AddAsync(interview);
@@ -34,7 +34,7 @@ namespace App.InterViews.Report.Controllers
 
         [HttpPut()]
         [ProducesResponseType(typeof(InterviewerModel), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> UpdateAsync(InterviewerUpdateModel interviewModel)
+        public async Task<IActionResult> UpdateAsync([FromBody] InterviewerUpdateModel interviewModel)
         {
             var interview = _mapper.Map<InterviewerDto>(interviewModel);
             var result = await _interviewerService.UpdateAsync(interview);

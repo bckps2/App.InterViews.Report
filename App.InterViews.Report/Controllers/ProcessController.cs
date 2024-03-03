@@ -49,7 +49,7 @@ public class ProcessController
 
     [HttpPost()]
     [ProducesResponseType(typeof(ProcessDto), (int)HttpStatusCode.Created)]
-    public async Task<IActionResult> AddAsync(ProcessModel processModel)
+    public async Task<IActionResult> AddAsync([FromBody] ProcessModel processModel)
     {
         var process = _mapper.Map<ProcessDto>(processModel);
         var result = await _iProcessService.AddAsync(process);

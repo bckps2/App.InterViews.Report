@@ -8,7 +8,7 @@ using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Service.ServiceInterViewReport.Implements;
 
-public class UserReportService : BaseReportService<User, UserDto>, IUserReportService
+public class UserReportService : BaseReportService<UserInfo, UserDto>, IUserReportService
 {
     private readonly IUserRepository _iUserRepository;
     private readonly ICompanyRepository _iCompanyRepository;
@@ -41,7 +41,8 @@ public class UserReportService : BaseReportService<User, UserDto>, IUserReportSe
 
     public async Task<Result<IEnumerable<UserDto>, ErrorResult>> GetAllByCompanyIdAsync(Guid companyId)
     {
-        var results = await _iUserRepository.GetAllByCompanyIdAsync(companyId);
+        var results = await _iUserRepository
+                        .GetEntitiesByFilter(c => c.Id.Equals(c.UserCompanies.FirstOrDefault(uc => uc.CompanyId == companyId).UserId));
 
         return results.Map(val =>
         {
@@ -51,7 +52,7 @@ public class UserReportService : BaseReportService<User, UserDto>, IUserReportSe
 
     public override async Task<Result<UserDto, ErrorResult>> AddAsync(UserDto dto)
     {
-        var user = _mapper.Map<User>(dto);
+        var user = _mapper.Map<UserInfo>(dto);
         var company = await _iCompanyRepository.GetByIdAsync(dto.CompanyId ?? Guid.Empty);
 
         if (company.IsSuccess)

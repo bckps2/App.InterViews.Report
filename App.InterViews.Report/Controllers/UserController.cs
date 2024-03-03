@@ -49,7 +49,7 @@ public class UserController
 
     [HttpPost()]
     [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.Created)]
-    public async Task<IActionResult> AddAsync(UserModel usermodel)
+    public async Task<IActionResult> AddAsync([FromBody] UserModel usermodel)
     {
         var user = _mapper.Map<UserDto>(usermodel);
         var result = await _iuserReportService.AddAsync(user);
@@ -58,7 +58,7 @@ public class UserController
 
     [HttpPut()]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> UpdateAsync(UpdateUserModel userModel)
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateUserModel userModel)
     {
         var user = _mapper.Map<UserDto>(userModel);
         var result = await _iuserReportService.UpdateAsync(user);

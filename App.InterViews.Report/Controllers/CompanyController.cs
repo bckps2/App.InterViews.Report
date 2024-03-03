@@ -49,18 +49,18 @@ public class CompanyController
 
     [HttpPost()]
     [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.Created)]
-    public async Task<IActionResult> AddAsync(CompanyModel companyModel)
+    public async Task<IActionResult> AddAsync([FromBody] CompanyModel companyModel)
     {
         var company = _mapper.Map<CompanyDto>(companyModel);
         var result = await _iServiceCompany.AddAsync(company);
         return _iAutoMapperHttp.Created(result);
     }
 
-    [HttpDelete("{idCompany}")]
+    [HttpDelete("{companyId}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> DeleteAsync(Guid idCompany)
+    public async Task<IActionResult> DeleteAsync([FromQuery] Guid companyId)
     {
-        var result = await _iServiceCompany.DeleteAsync(idCompany);
+        var result = await _iServiceCompany.DeleteAsync(companyId);
         return _iAutoMapperHttp.NoContent(result);
     }
 }

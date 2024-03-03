@@ -8,6 +8,20 @@ branches:
     mode: ContinuousDeployment
     tag: ''
     increment: Minor
+  fix/.*:
+    mode: ContinuousDeployment
+    tag: alpha
+    increment: Patch  # Do not increment for commits on feature branches
+    regex: fix/.*
+    source-branches:    # Define the source branches for feature branches
+      - develop
+  security/.*:
+    mode: ContinuousDeployment
+    tag: alpha
+    increment: Patch  # Do not increment for commits on feature branches
+    regex: security/.*
+    source-branches:    # Define the source branches for feature branches
+      - develop
   feature/.*:
     mode: ContinuousDeployment
     tag: alpha

@@ -49,7 +49,7 @@ public class InterviewController
 
     [HttpPost()]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.Created)]
-    public async Task<IActionResult> AddAsync(InterviewModel interviewModel)
+    public async Task<IActionResult> AddAsync([FromBody] InterviewModel interviewModel)
     {
         var interview = _mapper.Map<InterviewDto>(interviewModel);
         var result = await _iInterviewService.AddAsync(interview);
@@ -58,7 +58,7 @@ public class InterviewController
 
     [HttpPut()]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> UpdateAsync(InterviewUpdateModel interviewModel)
+    public async Task<IActionResult> UpdateAsync([FromBody] InterviewUpdateModel interviewModel)
     {
         var interview = _mapper.Map<InterviewDto>(interviewModel);
         var result = await _iInterviewService.UpdateAsync(interview);

@@ -6,5 +6,5 @@ public class Role : BaseEntity
 {
     public string RoleName { get; set; }
     public RoleType RoleType { get; set; }
-    public List<User> Users { get; set; }
+    public List<UserAccount> UsersAccount { get; set; }
 }
