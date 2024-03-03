@@ -14,6 +14,7 @@ namespace App.InterViews.Report.Service.Ioc
             services.AddScoped(typeof(IUserReportService), typeof(UserReportService));
             services.AddScoped(typeof(IRoleReportService), typeof(RoleReportService));
             services.AddScoped(typeof(IInterviewerService), typeof(InterviewerService));
+            services.AddScoped(typeof(IUserAccountService), typeof(UserAccountService));
         }
     }
 }

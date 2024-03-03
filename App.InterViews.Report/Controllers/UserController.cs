@@ -25,7 +25,7 @@ public class UserController
 
     [HttpGet("{userId}")]
     [ProducesResponseType(typeof(UserCompanyDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetUserById(Guid userId)
+    public async Task<IActionResult> GetUserById([FromQuery] Guid userId)
     {
         var result = await _iuserReportService.GetByIdAsync(userId);
         return _iAutoMapperHttp.Ok(result);
@@ -33,7 +33,7 @@ public class UserController
 
     [HttpGet("CompanyId/{companyId}")]
     [ProducesResponseType(typeof(IEnumerable<UserDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetAllByCompanyIdAsync(Guid companyId)
+    public async Task<IActionResult> GetAllByCompanyIdAsync([FromQuery] Guid companyId)
     {
         var result = await _iuserReportService.GetAllByCompanyIdAsync(companyId);
         return _iAutoMapperHttp.Ok(result);
@@ -49,7 +49,7 @@ public class UserController
 
     [HttpPost()]
     [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.Created)]
-    public async Task<IActionResult> AddAsync(UserModel usermodel)
+    public async Task<IActionResult> AddAsync([FromBody] UserModel usermodel)
     {
         var user = _mapper.Map<UserDto>(usermodel);
         var result = await _iuserReportService.AddAsync(user);
@@ -58,7 +58,7 @@ public class UserController
 
     [HttpPut()]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> UpdateAsync(UpdateUserModel userModel)
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateUserModel userModel)
     {
         var user = _mapper.Map<UserDto>(userModel);
         var result = await _iuserReportService.UpdateAsync(user);
@@ -67,7 +67,7 @@ public class UserController
 
     [HttpDelete("{userId}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> DeleteAsync(Guid userId)
+    public async Task<IActionResult> DeleteAsync([FromQuery] Guid userId)
     {
         var result = await _iuserReportService.DeleteAsync(userId);
         return _iAutoMapperHttp.NoContent(result);
