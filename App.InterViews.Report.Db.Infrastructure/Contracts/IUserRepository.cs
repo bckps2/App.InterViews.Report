@@ -4,7 +4,6 @@ using CSharpFunctionalExtensions;
 
 namespace App.InterViews.Report.Db.Infrastructure.Contracts;
 
-public interface IUserRepository : IRepositoryBase<User>
+public interface IUserRepository : IRepositoryBase<UserInfo>
 {
-    Task<Result<IEnumerable<User>, ErrorResult>> GetAllByCompanyIdAsync(Guid companyId);
 }
