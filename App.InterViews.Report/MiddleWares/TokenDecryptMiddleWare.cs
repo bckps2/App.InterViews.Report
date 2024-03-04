@@ -17,12 +17,14 @@ public class TokenDecryptMiddleWare
     {
         if (context.User.Identity.IsAuthenticated && context.User.HasClaim(c => c.Type == ClaimTypes.Role))
         {
-            var encryptedRole = context.User.FindFirst(ClaimTypes.Role).Value;
-
-            var decryptedRole = Decrypt(encryptedRole);
-
-            var identity = context.User.Identity as ClaimsIdentity;
-            identity!.AddClaim(new Claim(ClaimTypes.Role, decryptedRole));
+            var encryptedRole = context.User.FindFirst(ClaimTypes.Role);
+            
+            if (encryptedRole != null)
+            {
+                var decryptedRole = Decrypt(encryptedRole.Value);
+                var identity = context.User.Identity as ClaimsIdentity;
+                identity!.AddClaim(new Claim(ClaimTypes.Role, decryptedRole));
+            }
         }
 
         await _next(context);
@@ -34,25 +36,18 @@ public class TokenDecryptMiddleWare
         byte[] keySecret = Encoding.ASCII.GetBytes("your_secret_key_hereyour_secret_");
         byte[] iv = Encoding.ASCII.GetBytes("your_secret_key_");
 
-        using (var aesAlg = Aes.Create())
-        {
-            aesAlg.Key = keySecret;
-            aesAlg.Mode = CipherMode.CBC;
-            aesAlg.Padding = PaddingMode.PKCS7;
-            aesAlg.IV = iv;
+        using var aesAlg = Aes.Create();
+        aesAlg.Key = keySecret;
+        aesAlg.Mode = CipherMode.CBC;
+        aesAlg.Padding = PaddingMode.PKCS7;
+        aesAlg.IV = iv;
 
-            var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+        var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
-            using (var msDecrypt = new MemoryStream(encryptedBytes))
-            {
-                using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                {
-                    using (var srDecrypt = new StreamReader(csDecrypt))
-                    {
-                        return srDecrypt.ReadToEnd();
-                    }
-                }
-            }
-        }
+        using var msDecrypt = new MemoryStream(encryptedBytes);
+        using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
+        using var srDecrypt = new StreamReader(csDecrypt);
+
+        return srDecrypt.ReadToEnd();
     }
 }
