@@ -1,8 +1,10 @@
-﻿using App.InterViews.Report.Http;
+﻿using App.InterViews.Report.CrossCutting.Enums;
+using App.InterViews.Report.Http;
 using App.InterViews.Report.Models;
 using App.InterViews.Report.Service.Dtos.Company;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,6 +12,7 @@ namespace App.InterViews.Report.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = "Administrator")]
 public class CompanyController
 {
     private readonly IMapper _mapper;
@@ -23,6 +26,7 @@ public class CompanyController
         _iAutoMapperHttp = iAutoMapperHttp;
     }
 
+    [Authorize(Roles = "Administrator, User")]
     [HttpGet("{companyId}")]
     [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetByIdAsync(Guid companyId)
@@ -31,7 +35,8 @@ public class CompanyController
         return _iAutoMapperHttp.Ok(result);
     }
 
-    [HttpGet("{userId}")]
+    [Authorize(Roles = "Administrator, User")]
+    [HttpGet("user/{userId}")]
     [ProducesResponseType(typeof(IEnumerable<CompanyDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllByUserId(Guid userId)
     {
@@ -39,6 +44,7 @@ public class CompanyController
         return _iAutoMapperHttp.Ok(result);
     }
 
+    [Authorize(Roles = "Administrator")]
     [HttpGet("All")]
     [ProducesResponseType(typeof(IEnumerable<CompanyUserDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllAsync()
@@ -47,6 +53,7 @@ public class CompanyController
         return _iAutoMapperHttp.Ok(result);
     }
 
+    [Authorize(Roles = "Administrator, User")]
     [HttpPost()]
     [ProducesResponseType(typeof(CompanyDto), (int)HttpStatusCode.Created)]
     public async Task<IActionResult> AddAsync([FromBody] CompanyModel companyModel)
@@ -56,6 +63,7 @@ public class CompanyController
         return _iAutoMapperHttp.Created(result);
     }
 
+    [Authorize(Roles = "Administrator")]
     [HttpDelete("{companyId}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteAsync([FromQuery] Guid companyId)

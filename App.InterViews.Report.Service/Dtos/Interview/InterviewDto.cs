@@ -7,7 +7,7 @@ namespace App.InterViews.Report.Service.Dtos.Interview;
 public class InterviewDto : BaseDto
 {
     [Required]
-    public Guid IdProcess { get; set; }
+    public Guid ProcessId { get; set; }
     [Required]
     public InterviewType TypeInterView { get; set; }
     public DateTime DateInterView { get; set; }
