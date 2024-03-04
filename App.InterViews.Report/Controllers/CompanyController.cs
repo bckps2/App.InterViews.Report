@@ -1,5 +1,4 @@
-﻿using App.InterViews.Report.CrossCutting.Enums;
-using App.InterViews.Report.Http;
+﻿using App.InterViews.Report.Http;
 using App.InterViews.Report.Models;
 using App.InterViews.Report.Service.Dtos.Company;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
