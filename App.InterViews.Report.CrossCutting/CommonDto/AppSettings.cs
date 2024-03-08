@@ -1,4 +1,4 @@
-﻿namespace App.InterViews.Report.CrossCutting.Helper;
+﻿namespace App.InterViews.Report.CrossCutting.CommonDto;
 
 public class AppSettings
 {

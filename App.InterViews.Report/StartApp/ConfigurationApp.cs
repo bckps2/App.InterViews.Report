@@ -1,4 +1,4 @@
-﻿using App.InterViews.Report.CrossCutting.Helper;
+﻿using App.InterViews.Report.CrossCutting.CommonDto;
 using App.InterViews.Report.Db.Infrastructure.Context;
 using App.InterViews.Report.Db.Infrastructure.Ioc;
 using App.InterViews.Report.Http;
