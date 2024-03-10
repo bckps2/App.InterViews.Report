@@ -3,6 +3,7 @@ using App.InterViews.Report.Models;
 using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,6 +11,7 @@ namespace App.InterViews.Report.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = "Administrator")]
 public class RoleController
 {
     private readonly IMapper _mapper;

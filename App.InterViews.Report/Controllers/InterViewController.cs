@@ -3,6 +3,7 @@ using App.InterViews.Report.Models.Interview;
 using App.InterViews.Report.Service.Dtos.Interview;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,6 +11,7 @@ namespace App.InterViews.Report.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class InterviewController
 {
     private readonly IMapper _mapper;
@@ -24,6 +26,7 @@ public class InterviewController
     }
 
     [HttpGet("All")]
+    [Authorize(Roles = "Administrator")]
     [ProducesResponseType(typeof(IEnumerable<InterviewInterviewerDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllAsync()
     {
@@ -32,6 +35,7 @@ public class InterviewController
     }
 
     [HttpGet("processId/{processId}")]
+    [Authorize(Roles = "Administrator, User")]
     [ProducesResponseType(typeof(IEnumerable<InterviewInterviewerDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllByProcessIdAsync(Guid processId)
     {
@@ -40,6 +44,7 @@ public class InterviewController
     }
 
     [HttpGet("{interviewId}")]
+    [Authorize(Roles = "Administrator, User")]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetByIdAsync(Guid interviewId)
     {
@@ -48,6 +53,7 @@ public class InterviewController
     }
 
     [HttpPost()]
+    [Authorize(Roles = "Administrator, User")]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.Created)]
     public async Task<IActionResult> AddAsync([FromBody] InterviewModel interviewModel)
     {
@@ -57,6 +63,7 @@ public class InterviewController
     }
 
     [HttpPut()]
+    [Authorize(Roles = "Administrator, User")]
     [ProducesResponseType(typeof(InterviewDto), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> UpdateAsync([FromBody] InterviewUpdateModel interviewModel)
     {
@@ -66,6 +73,7 @@ public class InterviewController
     }
 
     [HttpDelete("{interviewId}")]
+    [Authorize(Roles = "Administrator, User")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteAsync(Guid interviewId)
     {

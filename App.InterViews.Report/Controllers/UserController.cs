@@ -3,6 +3,7 @@ using App.InterViews.Report.Models;
 using App.InterViews.Report.Service.Dtos.User;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,6 +11,7 @@ namespace App.InterViews.Report.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class UserController
 {
     private readonly IMapper _mapper;
@@ -24,6 +26,7 @@ public class UserController
     }
 
     [HttpGet("{userId}")]
+    [Authorize(Roles = "Administrator, User")]
     [ProducesResponseType(typeof(UserCompanyDto), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetUserById(Guid userId)
     {
@@ -32,6 +35,7 @@ public class UserController
     }
 
     [HttpGet("CompanyId/{companyId}")]
+    [Authorize(Roles = "Administrator, User")]
     [ProducesResponseType(typeof(IEnumerable<UserDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllByCompanyIdAsync(Guid companyId)
     {
@@ -40,6 +44,7 @@ public class UserController
     }
 
     [HttpGet("All")]
+    [Authorize(Roles = "Administrator")]
     [ProducesResponseType(typeof(IEnumerable<UserCompanyDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllAsync()
     {
@@ -48,6 +53,7 @@ public class UserController
     }
 
     [HttpPost()]
+    [Authorize(Roles = "Administrator, User")]
     [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.Created)]
     public async Task<IActionResult> AddAsync([FromBody] UserModel usermodel)
     {
@@ -58,6 +64,7 @@ public class UserController
 
     [HttpPut()]
     [ProducesResponseType((int)HttpStatusCode.OK)]
+    [Authorize(Roles = "Administrator, User")]
     public async Task<IActionResult> UpdateAsync([FromBody] UpdateUserModel userModel)
     {
         var user = _mapper.Map<UserDto>(userModel);
@@ -66,6 +73,7 @@ public class UserController
     }
 
     [HttpDelete("{userId}")]
+    [Authorize(Roles = "Administrator, User")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteAsync(Guid userId)
     {

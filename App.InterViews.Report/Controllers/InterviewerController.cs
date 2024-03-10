@@ -3,6 +3,7 @@ using App.InterViews.Report.Models.Interviewer;
 using App.InterViews.Report.Service.Dtos.Interviewer;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,6 +11,7 @@ namespace App.InterViews.Report.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class InterviewerController
     {
         private readonly IMapper _mapper;
@@ -24,6 +26,7 @@ namespace App.InterViews.Report.Controllers
         }
 
         [HttpPost()]
+        [Authorize(Roles = "Administrator, User")]
         [ProducesResponseType(typeof(InterviewerModel), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> AddAsync([FromBody] InterviewerModel interviewerModel)
         {
@@ -33,6 +36,7 @@ namespace App.InterViews.Report.Controllers
         }
 
         [HttpPut()]
+        [Authorize(Roles = "Administrator, User")]
         [ProducesResponseType(typeof(InterviewerModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateAsync([FromBody] InterviewerUpdateModel interviewModel)
         {
@@ -42,6 +46,7 @@ namespace App.InterViews.Report.Controllers
         }
 
         [HttpDelete("{interviewerId}")]
+        [Authorize(Roles = "Administrator, User")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> DeleteAsync(Guid interviewerId)
         {
