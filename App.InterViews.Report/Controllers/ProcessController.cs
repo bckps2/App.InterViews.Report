@@ -3,6 +3,7 @@ using App.InterViews.Report.Models;
 using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,6 +11,7 @@ namespace App.InterViews.Report.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class ProcessController
 {
     private readonly IMapper _mapper;
@@ -24,6 +26,7 @@ public class ProcessController
     }
 
     [HttpGet("{processId}")]
+    [Authorize(Roles = "Administrator, User")]
     [ProducesResponseType(typeof(ProcessDto), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetByIdAsync(Guid processId)
     {
@@ -32,6 +35,7 @@ public class ProcessController
     }
 
     [HttpGet("All")]
+    [Authorize(Roles = "Administrator")]
     [ProducesResponseType(typeof(IEnumerable<ProcessDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllAsync()
     {
@@ -40,6 +44,7 @@ public class ProcessController
     }
 
     [HttpGet("companyId/{companyId}")]
+    [Authorize(Roles = "Administrator, User")]
     [ProducesResponseType(typeof(IEnumerable<ProcessDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllByCompanyIdAsync(Guid companyId)
     {
@@ -48,6 +53,7 @@ public class ProcessController
     }
 
     [HttpPost()]
+    [Authorize(Roles = "Administrator, User")]
     [ProducesResponseType(typeof(ProcessDto), (int)HttpStatusCode.Created)]
     public async Task<IActionResult> AddAsync([FromBody] ProcessModel processModel)
     {
@@ -57,6 +63,7 @@ public class ProcessController
     }
 
     [HttpDelete("{processId}")]
+    [Authorize(Roles = "Administrator, User")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteAsync(Guid processId)
     {

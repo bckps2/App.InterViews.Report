@@ -41,7 +41,7 @@ app.UseRouting();
 
 app.UseMiddleware<TokenDecryptMiddleware>();
 
-app.UseMiddleware<CookieMiddleware>();
+app.UseMiddleware<ValidationSessionMiddleware>();
 
 app.UseAuthorization();
 

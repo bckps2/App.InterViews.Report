@@ -3,6 +3,7 @@ using App.InterViews.Report.Models;
 using App.InterViews.Report.Service.Dtos;
 using App.InterViews.Report.Service.ServiceInterViewReport.Contracts;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.InterViews.Report.Controllers;
@@ -23,6 +24,7 @@ public class UserAccountController
     }
 
     [HttpGet("All")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> GetAllAsync()
     {
         var result = await _userAccountService.GetAllAsync();
@@ -30,6 +32,7 @@ public class UserAccountController
     }
 
     [HttpGet("{userAccountId}")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> GetByIdAsync(Guid userAccountId)
     {
         var result = await _userAccountService.GetByIdAsync(userAccountId);
@@ -37,6 +40,7 @@ public class UserAccountController
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> AddAsync([FromBody] UserAccountModel userAccountModel)
     {
         var userAccount = _mapper.Map<UserAccountDto>(userAccountModel);
@@ -46,6 +50,7 @@ public class UserAccountController
     }
 
     [HttpPut]
+    [Authorize(Roles = "Administrator, User")]
     public async Task<IActionResult> UpdateAsync([FromBody] UserAccountModel userAccountModel)
     {
         var userAccount = _mapper.Map<UserAccountDto>(userAccountModel);
@@ -55,6 +60,7 @@ public class UserAccountController
     }
     
     [HttpDelete("{userAccountId}")]
+    [Authorize(Roles = "Administrator, User")]
     public async Task<IActionResult> DeleteAsync(Guid userAccountId)
     {
         var result = await _userAccountService.DeleteAsync(userAccountId);
